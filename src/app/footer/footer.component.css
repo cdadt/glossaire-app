@@ -1,0 +1,12 @@
+footer{
+  background:orange;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+footer a{
+  color: black;
+  font-weight: 600;
+  transition: all 0.2s;
+}

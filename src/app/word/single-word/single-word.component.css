@@ -1,0 +1,68 @@
+.single-word-page-header{
+  display: flex;
+  justify-content: center;
+  padding: 6em 0 1.5em 0;
+  color: #7e7e7e;
+}
+
+.single-word-definition-header h1{
+  font-size: 1.5em;
+  font-weight:600;
+  padding-left: 0;
+  margin-left : 1rem;
+}
+
+.single-word-definition-header p{
+  color: lightslategray;
+  margin-left : 1rem;
+}
+
+.single-word-last-edit{
+  display: flex;
+  justify-content: flex-end;
+  background: orange;
+  padding:0.5em;
+}
+
+.single-word-definition{
+  padding: 1rem 0.5rem 1rem 0.5rem;
+  background: #eeeeee;
+  line-height: 1.3;
+}
+
+.single-word-know-more{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.single-word-know-more a{
+  color: rgb(0, 86, 179);
+  box-shadow: none;
+  cursor: pointer;
+}
+.single-word-know-more a:hover{
+  color: rgb(0, 86, 179);
+  box-shadow: none;
+}
+
+
+.single-word-know-more i{
+  color: lightslategray;
+}
+
+#single-word-know-more-text{
+  color: lightslategray;
+  border-radius:10px;
+  border:solid 1px rgb(0, 86, 179);
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.single-word-associated-word{
+  margin-left : 1rem;
+}
+
+
+.display-none{
+  display:none;
+}

@@ -1,0 +1,65 @@
+<main class="main-content">
+
+  <!-- Header avec logo -->
+  <header class="authentication-header">
+    <img src="assets/img/logo_v4.png">
+    <p>Connexion</p>
+  </header>
+  <!-- Header avec logo -->
+
+  <!--Formulaire de connexion -->
+  <form (ngSubmit)="onSubmitForm()" [formGroup]="authForm" novalidate>
+
+    <!-- Message d'erreur -->
+    <p class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+    <!-- Message d'erreur -->
+
+    <div class="authentication-form-group">
+      <label>Nom d'utilisateur</label>
+      <input
+        [ngClass]="{ 'valid-control': authForm.controls['username'].valid, 'invalid-control': authForm.controls['username'].invalid && (authForm.controls['username'].dirty || authForm.controls['username'].touched)}"
+        type="text" class="form-control" formControlName="username" #username/>
+      <div
+        *ngIf="authForm.controls['username'].invalid && (authForm.controls['username'].dirty || authForm.controls['username'].touched)"
+        class="authentication-form-alert">
+        Vous devez saisir un nom d'utilisateur
+      </div>
+      <div
+        *ngIf="authForm.controls['username'].valid && (authForm.controls['username'].dirty || authForm.controls['username'].touched)"
+        class="authentication-form-valid">
+        Nom d'utilisateur valide
+      </div>
+    </div>
+    <div class="authentication-form-group">
+      <label>Mot de passe</label>
+      <input
+        [ngClass]="{ 'valid-control': authForm.controls['password'].valid, 'invalid-control': authForm.controls['password'].invalid && (authForm.controls['password'].dirty || authForm.controls['password'].touched)}"
+        type="password" class="form-control" formControlName="password" #password/>
+
+      <div
+        *ngIf="authForm.controls['password'].invalid && (authForm.controls['password'].dirty || authForm.controls['password'].touched)"
+        class="authentication-form-alert">
+        Vous devez saisir un mot de passe d'au moins 6 caractères
+      </div>
+      <div
+        *ngIf="authForm.controls['password'].valid && (authForm.controls['password'].dirty || authForm.controls['password'].touched)"
+        class="authentication-form-valid">
+        Mot de passe valide
+      </div>
+    </div>
+    <div class="authentication-form-group">
+      <a class="authentication-form-fgt-psw disabled" [routerLink]="['']"> Mot de passe oublié ?</a>
+    </div>
+    <div class="authentication-form-submit">
+      <button type="submit"
+              [disabled]="authForm.invalid"
+              class="btn">Connexion
+      </button>
+    </div>
+  </form>
+  <!--Formulaire de connexion -->
+
+  <!-- Bouton page d'accueil -->
+  <a class="authentication-button-home text-center py-3" [routerLink]="['']"> Accueil</a>
+  <!-- Bouton page d'accueil -->
+</main>

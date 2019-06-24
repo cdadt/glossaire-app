@@ -1,0 +1,38 @@
+<app-header></app-header>
+<main class="main-content">
+
+  <!-- Header avec logo -->
+  <header class="list-word-header">
+    <img src="assets/img/hacker-1944688_1280.jpg">
+    <h1>{{ thmTitle }}</h1>
+  </header>
+  <!-- Header avec logo -->
+
+  <!-- Liste des mots -->
+  <section *ngFor="let word of words">
+
+    <!-- Titre -->
+    <header class="list-word-def-header" (click)="onOpenDef(word._id)">
+      <i id="i-{{ word._id }}" class="fas fa-angle-right"></i>
+      <h1>{{ word.title }}</h1>
+    </header>
+    <!-- Titre -->
+
+    <!-- Contenu -->
+    <div class="list-word-def-content none" id="{{ word._id }}">
+      <div class="list-word-def-background">
+        <p>{{ word.definition }}</p>
+        <a [routerLink]="['/definition', word.title]">
+          <i class="fas fa-arrow-alt-circle-right"></i>
+          <span>Consulter</span>
+        </a>
+      </div>
+    </div>
+    <!-- Contenu -->
+
+  </section>
+  <!-- Liste des mots -->
+
+</main>
+
+<app-footer></app-footer>

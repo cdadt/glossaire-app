@@ -1,0 +1,95 @@
+<main class="main-content">
+
+  <section id="home">
+
+    <!-- Message d'info -->
+    <p [@openClose]="isOpenSuccess ? 'open' : 'closed'" id="message-success" class="message message-success">
+      Vous vous êtes abonné(e) avec succès ! <i (click)="onClose()" class="fas fa-times"></i>
+    </p>
+    <p [@openClose]="isOpenError ? 'open' : 'closed'" id="message-error" class="message message-error">
+      Vous n'avez pas pu vous abonner :( <i (click)="onClose()" class="fas fa-times"></i>
+    </p>
+    <!-- Message d'info -->
+
+    <!-- Header avec logo -->
+    <header (click)="onDisplayNone()" class="home-header">
+      <img src="assets/img/logo_v4.png">
+      <p>Bienvenue sur l'application Glossaire</p>
+    </header>
+    <!-- Header avec logo -->
+
+    <!-- Zone de recherche -->
+    <div class="home-search-area">
+      <div class="home-search-center">
+        <input id="home-search" (focusin)="onDisplayResult()" (input)="onSearch();"
+               type="search"
+               placeholder="Rechercher un mot, un thème..."><i class="fas fa-search"></i>
+        <div id="home-search-results" class="home-search-results"
+             [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}">
+          <div *ngFor="let def of words">
+            <a (click)="onDisplayNone()" [routerLink]="['definition/', def.title]">
+              <i class="fas fa-search"></i>{{ def.title }}
+            </a>
+          </div>
+          <div *ngFor="let thm of theme">
+            <a [routerLink]="['theme/', thm.title]" (click)="onDisplayNone()">
+              <i class="fas fa-search"></i>{{ thm.title }} <span class="home-search-theme"> en tant que thème </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Zone de recherche -->
+
+    <!-- Dernières défintions ajoutées -->
+    <section (click)="onDisplayNone()" class="home-last-definition">
+      <header>
+        <h1>Dernière définition</h1>
+      </header>
+      <section class="home-last-definition-content" *ngIf="word">
+        <h1>
+          <a [routerLink]="['definition/', word.title]">
+            {{ word.title }}
+          </a>
+        </h1>
+        <p class="description">
+          {{ word.definition }}
+        </p>
+        <div class="button-action">
+          <a [routerLink]="['definition/', word.title]">Consulter</a>
+        </div>
+      </section>
+      <p *ngIf="word" class="home-last-definition-content-date">{{ word.last_edit | timeago:live }}</p>
+    </section>
+    <!-- Dernières défintions ajoutées -->
+
+    <!-- Connexion -->
+    <div (click)="onDisplayNone()" class="home-connection">
+      <a *ngIf="!isLoggedIn()" [routerLink]="['connexion']" class="btn">Se connecter</a>
+      <a *ngIf="isLoggedIn()" (click)="authService.logout()" class="btn">Déconnexion</a>
+      <a *ngIf="isLoggedIn()" [routerLink]="['dashboard']" class="btn admin">Administration</a>
+    </div>
+    <!-- Connexion -->
+
+    <!-- Notifications -->
+    <section class="home-notification">
+      <header class="home-notification-header">
+        <i class="far fa-bell"></i>
+        <h2>Vous souhaitez être averti de l'arrivée d'une nouvelle définition ?</h2>
+      </header>
+      <div *ngIf="notification" class="custom-control custom-checkbox">
+        <input *ngIf="!isSubscriber" (click)="subscribeToNotifications()" type="checkbox" class="custom-control-input" id="subscription" [checked]="isSubscriber">
+        <a *ngIf="!isSubscriber" (click)="subscribeToNotifications()" class="custom-control-label">S'abonner aux notifications</a>
+        <input *ngIf="isSubscriber" (click)="unsubscribeToNotifications()" type="checkbox" class="custom-control-input" id="unsubscription" [checked]="isSubscriber">
+        <a *ngIf="isSubscriber" (click)="unsubscribeToNotifications()" class="custom-control-label">S'abonner aux notifications</a>
+      </div>
+      <div *ngIf="!notification" class="font-weight-bold text-center">
+        Les notifications ne sont pas disponibles sur ce navigateur.
+      </div>
+    </section>
+    <!-- Notifications -->
+  </section>
+
+</main>
+
+<app-footer></app-footer>

@@ -1,0 +1,78 @@
+<header id="header-menu">
+  <div id="header-menu-logo">
+    <a routerLink=""><i class="fas fa-book-open"></i></a>
+  </div>
+  <nav>
+    <ul class="header-menu">
+      <li>
+        <input id="header-menu-search" (click)="onDisplayMenuNone(); onDisplayResult()" (input)="onSearch();" placeholder="RGPD, ANSSI..."
+               type="search">
+        <i class="fas fa-search"></i>
+      </li>
+      <li>
+        <a (click)="onDisplayMenu(); onDisplayNone()"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+
+
+    <div class="header-menu-search-results"
+         [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}">
+      <div *ngFor="let def of word">
+        <a (click)="onDisplayNone()" [routerLink]="['/definition/', def.title]">
+          <i class="fas fa-search"></i>{{ def.title }}
+        </a>
+      </div>
+      <div *ngFor="let thm of theme">
+        <a [routerLink]="['/theme/', thm.title]" (click)="onDisplayNone()">
+          <i class="fas fa-search"></i>{{ thm.title }} <span class="header-menu-theme"> en tant que thème </span>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <div (click)="onDisplayNone()" id="overlay"
+       [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}"></div>
+
+  <nav [@menuDisplay]="isMenuOpen ? 'open' : 'closed'" id="header-menu-burger" class="header-menu-burger">
+    <ul>
+      <li>
+        <a *ngIf="isLoggedIn()" (click)="authService.logout()" >
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Se déconnecter</span>
+        </a>
+        <a *ngIf="!isLoggedIn()" [routerLink]="['/connexion']" >
+          <i class="fas fa-sign-in-alt"></i>
+          <span>Se connecter</span>
+        </a>
+      </li>
+      <li *ngIf="isLoggedIn()">
+        <a [routerLink]="['/dashboard']">
+          <i class="fas fa-cog"></i>
+          <span>Administration</span>
+        </a>
+      </li>
+      <li class="header-menu-notification">
+        <div>
+          <i class="far fa-bell"></i><span>Notifications</span>
+        </div>
+        <div *ngIf="notification">
+          <a *ngIf="isSubscriber === 'false'" (click)="subscribeToNotifications()" class="header-menu-notification-toggle">
+            <span>S'abonner</span>
+            <i class="fas fa-toggle-off"></i>
+          </a>
+          <a *ngIf="isSubscriber === 'true'" (click)="unsubscribeToNotifications()" class="header-menu-notification-toggle">
+            <span>S'abonner</span>
+            <i class="fas fa-toggle-on"></i>
+          </a>
+          <a *ngIf="isSubscriber === 'loading'" class="header-menu-notification-toggle">
+            <span>S'abonner</span>
+            <i class="fas fa-spinner"></i><i class="fas fa-toggle-off"></i>
+          </a>
+        </div>
+        <span class="header-menu-notification-toggle" *ngIf="!notification">
+          Les notifications ne sont pas disponibles sur ce navigateur.
+        </span>
+      </li>
+    </ul>
+  </nav>
+  <div [@overlayDisplay]="isDisplayOverlayMenu ? 'open' : 'closed'" (click)="onDisplayMenu()" id="overlay-menu"></div>
+</header>

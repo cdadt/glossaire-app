@@ -1,0 +1,101 @@
+<app-header></app-header>
+<main class="main-content">
+  <!-- Message d'info -->
+  <p class="message-success" *ngIf="message == 'saved'">
+    Définition ajoutée ! <i (click)="onClose()" class="fas fa-times"></i>
+  </p>
+  <p class="message-error" *ngIf="message == 'error'">
+    Formulaire invalide !
+    Veuillez vérifier les informations. <i (click)="onClose()" class="fas fa-times"></i>
+  </p>
+  <!-- Message d'info -->
+
+  <!-- Header avec logo -->
+  <header class="register-header">
+    <h1>Ajouter une définition</h1>
+  </header>
+  <!-- Header avec logo -->
+
+  <!--Formulaire d'ajout d'une définition -->
+  <form (ngSubmit)="onSubmitForm()" [formGroup]="wordForm" novalidate>
+
+    <div class="authentication-form-group">
+      <label>Mot</label>
+      <input
+        class="md-form"
+        mdbInput
+        placeholder="CNIL, hachage, RGPD..."
+        [ngClass]="{ 'valid-control': wordForm.controls['word'].valid, 'invalid-control': wordForm.controls['word'].invalid && (wordForm.controls['word'].dirty || wordForm.controls['word'].touched)}"
+        type="text" class="form-control" formControlName="word" #word/>
+      <div
+        *ngIf="wordForm.controls['word'].invalid && (wordForm.controls['word'].dirty || wordForm.controls['word'].touched)"
+        class="authentication-form-alert">
+        <p *ngIf = "wordForm.controls['word'].errors?.required">
+          Vous devez saisir un mot.
+        </p>
+        <p *ngIf = "wordForm.controls['word'].errors?.maxlength">
+          Le mot ne doit pas dépasser 40 caractères.
+        </p>
+      </div>
+      <div
+        *ngIf="wordForm.controls['word'].valid && (wordForm.controls['word'].dirty || wordForm.controls['word'].touched)"
+        class="authentication-form-valid">
+        Mot valide.
+      </div>
+    </div>
+
+    <div class="authentication-form-group">
+      <label>Définition</label>
+      <textarea
+        placeholder="La définition du mot..."
+        [ngClass]="{ 'valid-control': wordForm.controls['definition'].valid, 'invalid-control': wordForm.controls['definition'].invalid && (wordForm.controls['definition'].dirty || wordForm.controls['definition'].touched)}"
+        type="text" class="form-control" formControlName="definition" #definition>
+      </textarea>
+      <div
+        *ngIf="wordForm.controls['definition'].invalid && (wordForm.controls['definition'].dirty || wordForm.controls['definition'].touched)"
+        class="authentication-form-alert">
+        Vous devez saisir une définition.
+      </div>
+      <div
+        *ngIf="wordForm.controls['definition'].valid && (wordForm.controls['definition'].dirty || wordForm.controls['definition'].touched)"
+        class="authentication-form-valid">
+        Définition valide.
+      </div>
+    </div>
+
+    <div class="authentication-form-group">
+      <label>Partie "En savoir plus"</label>
+      <textarea
+        placeholder="Si vous souhaitez en dire plus à propos de ce mot, écrivez le ici..."
+        type="text" class="form-control" formControlName="knowMore" #knowMore>
+      </textarea>
+    </div>
+
+    <div class="authentication-form-group">
+      <label>Thème</label>
+      <select
+        multiple
+        [ngClass]="{ 'valid-control': wordForm.controls['theme'].valid, 'invalid-control': wordForm.controls['theme'].invalid && (wordForm.controls['theme'].dirty || wordForm.controls['theme'].touched)}"
+        class="browser-default custom-select" formControlName="theme" #theme>
+        <option *ngFor="let thm of themes" value="{{ thm._id }}">{{ thm.title }}</option>
+      </select>
+      <div
+        *ngIf="wordForm.controls['theme'].invalid && (wordForm.controls['theme'].dirty || wordForm.controls['theme'].touched)"
+        class="authentication-form-alert">
+        Vous devez choisir un thème.
+      </div>
+    </div>
+
+    <div class="register-form-submit">
+      <button type="submit"
+              [disabled]="wordForm.invalid"
+              class="btn"><i class="fas fa-check"></i>Ajouter
+      </button>
+    </div>
+  </form>
+  <!--Formulaire d'ajout d'une définition -->
+
+  <!-- Bouton page d'accueil -->
+  <app-menu-admin></app-menu-admin>
+  <!-- Bouton page d'accueil -->
+</main>

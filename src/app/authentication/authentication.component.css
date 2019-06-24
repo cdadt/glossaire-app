@@ -1,0 +1,84 @@
+.authentication-header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3em 0 1em 0;
+}
+
+.authentication-header img {
+  width : 60%;
+}
+
+.authentication-header p{
+  margin-top: 2em;
+  color: lightslategray;
+}
+
+.authentication-button-home {
+  position: absolute;
+  z-index:9999;
+  bottom:0;
+  width:100vw;
+  background: #29a255;
+  color: white;
+  box-shadow: inset 0 0 0 100px #2db25d;
+  transition: all 0.3s;
+
+}
+
+.authentication-button-home:hover {
+  text-decoration: none;
+  box-shadow: inset 0 0 0 0 #2db25d;
+}
+
+
+.authentication-form-group {
+  padding: 0.5rem;
+}
+
+.authentication-form-submit {
+  padding-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.authentication-form-submit button{
+  border:solid 1px rgb(0, 86, 179);
+  color: rgb(0, 86, 179);
+  background: rgb(0, 86, 179);
+  box-shadow: inset 0 0 0 100px white;
+  transition: all 0.2s ease-in-out;
+  border-radius: 10px;
+}
+
+
+.authentication-form-submit button:hover{
+  color: white;
+  box-shadow: inset 0 0 0 0 white;
+}
+
+.valid-control{
+  border: solid 1px #2db25d;
+}
+
+.invalid-control{
+  border: solid 1px #ff6949;
+}
+
+.authentication-form-alert{
+  color:#ff6949;
+  font-size:0.7em;
+}
+
+.authentication-form-valid{
+  color:#2db25d;
+  font-size:0.7em;
+}
+
+.authentication-form-fgt-psw {
+  color: rgb(0, 86, 179);
+}
+
+form p {
+  margin : 0 0.5em;
+}
