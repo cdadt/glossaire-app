@@ -33,8 +33,7 @@
         "/word/thm//**",
         "/theme",
         "/theme/**",
-        "/theme/word/**",
-        "/theme/search/**"
+        "/theme/word/**"
       ],
       "cacheConfig": {
         "strategy": "performance",
@@ -45,7 +44,9 @@
     {
       "name": "api-freshness",
       "urls": [
-        "/word"
+        "/word",
+        "/theme/search/**",
+        "/word/search/**"
       ],
       "cacheConfig": {
         "strategy": "freshness",
