@@ -1,32 +1,36 @@
-import {Component, OnInit} from '@angular/core';
-import Word from '../models/word.model';
-import {WordService} from '../../services/word.service';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { SwPush } from '@angular/service-worker';
+import { TimeagoIntl } from 'ngx-timeago';
+import { strings as FrenchStrings } from 'ngx-timeago/language-strings/fr';
+import 'rxjs-compat/add/operator/debounceTime';
+import 'rxjs-compat/add/operator/distinctUntilChanged';
+import { AuthenticationService } from '../../services/authentication.service';
+import { NewsletterService } from '../../services/newsletter.service';
+import { SearchService } from '../../services/search.service';
+import { ThemeService } from '../../services/theme.service';
+import { WordService } from '../../services/word.service';
 import Theme from '../models/theme.model';
-import {ThemeService} from '../../services/theme.service';
-import {AuthenticationService} from '../../services/authentication.service';
-import {SwPush} from '@angular/service-worker';
-import {NewsletterService} from '../../services/newsletter.service';
-import {TimeagoIntl} from 'ngx-timeago';
-import {strings as FrenchStrings} from 'ngx-timeago/language-strings/fr';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import Word from '../models/word.model';
 
 @Component({
   selector: 'app-home',
   animations: [
     trigger('openClose', [
       state('open', style({
-        top: '0',
+        top: '0'
       })),
       state('closed', style({
-        top: '-100%',
+        top: '-100%'
       })),
       transition('open => closed', [
         animate('0.5s')
       ]),
       transition('closed => open', [
         animate('0.5s')
-      ]),
-    ]),
+      ])
+    ])
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -34,12 +38,10 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 export class HomeComponent implements OnInit {
 
   word: Word;
-  private searchValue: string;
-  words: Word[];
-  theme: Theme[];
+  words: Array<Word>;
+  themes: Array<Theme>;
   displayResults: boolean;
   isSubscriber: boolean;
-  private subscription;
   isOpenSuccess: boolean;
   isOpenError: boolean;
   notification: boolean;
@@ -47,11 +49,16 @@ export class HomeComponent implements OnInit {
   readonly VAPID_PUBLIC_KEY = 'BNGmdT-zn-S0tocFwPP9Z6PG3pfouwebPHQ0lpAQg5Z5LLZJ4OdBXz8aN_ct19Bbvi56WeYosu94RCXS34D2NU0';
   live: true;
 
-  constructor(private wordService: WordService,
+  queryField: FormControl = new FormControl ();
+  private subscription: string;
+
+  constructor(
+              private wordService: WordService,
               private themeService: ThemeService,
               private authService: AuthenticationService,
               private swPush: SwPush,
               private newsletterService: NewsletterService,
+              private searchService: SearchService,
               intl: TimeagoIntl
   ) {
     // L'overlay et le résultat de la recherche ne sont pas affichés par défaut
@@ -70,13 +77,49 @@ export class HomeComponent implements OnInit {
    * Fonction appelée à l'initialisation du composant
    * Récupère la dernière définition ajoutée
    */
-  async ngOnInit() {
-    this.wordService.getLastWord().subscribe((data: Word[]) => {
-      this.word = data[0];
-    });
+  async ngOnInit(): Promise<any> {
+    this.word = (await this.wordService.getLastWord()) as Word;
+
+    /** Détecte les changements dans le formulaire de recherche et effectue la recherche sur les mots et les thèmes
+     */
+    this.queryField.valueChanges
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe (async queryField => {
+        // On affiche l'overlay et le résultat
+        this.displayResults = true;
+
+        // On initialise les résultats à null pour qu'il ne garde pas la dernière recherche en mémoire (reste affichée sinon)
+        this.words = null;
+        this.themes = null;
+
+        // ****** Positionne les résultats de la recherche en fonction de l'input ****** //
+        // On récupère le champ de recherche
+        const inputSearch = (document.getElementById('home-search') as HTMLInputElement);
+
+        // On position les résultats en fonction de l'input
+        const inputOffsetLeft = inputSearch.offsetLeft;
+        const heightInputSearch = inputSearch.offsetHeight;
+        const inputOffsetTop = heightInputSearch + inputSearch.offsetTop + 5;
+
+        const divResults = (document.getElementById('home-search-results') as HTMLInputElement);
+        divResults.style.top = inputOffsetTop + 'px';
+        divResults.style.left = inputOffsetLeft + 'px';
+        // ****** Positionne les résultats de la recherche en fonction de l'input ****** //
+
+        // On fait appel au service pour récupérer les mots correspondants à la recherche
+        const dataWord = await this.wordService.getWordsLikeByTitle(queryField) as Array<Word>;
+        let dataSorted = this.searchService.sortSearchTable(dataWord, queryField);
+        this.words = dataSorted.slice(0, 4);
+
+        // On fait appel au service pour récupérer les thèmes correspondants à la recherche
+        const dataTheme = await this.themeService.getThemesLikeByTitle(queryField) as Array<Theme>;
+        dataSorted = this.searchService.sortSearchTable(dataTheme, queryField);
+        this.themes = dataSorted.slice(0, 4);
+      });
 
     // vérifie si le navigateur n'est pas Safari, si c'est le cas, vérifie que le navigateur supporte les
-    // notifications et enfin si le navigateur est inscrit aux notifications
+    // notification et enfin si le navigateur est inscrit aux notification
     if (window.navigator.userAgent.indexOf('Safari') > -1 && window.navigator.userAgent.indexOf('Chrome') === -1) {
       this.notification = false;
     } else {
@@ -91,41 +134,6 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Méthode qui effectue une recherche sur les mots et les thèmes
-   */
-  onSearch() {
-    // On affiche l'overlay et le résultat
-    this.displayResults = true;
-
-    // On initialise les résultats à null pour qu'il ne garde pas la dernière recherche en mémoire (reste affichée sinon)
-    this.words = null;
-    this.theme = null;
-
-    // On récupère la valeur de la recherche
-    const inputSearch = (document.getElementById('home-search') as HTMLInputElement);
-    this.searchValue = inputSearch.value;
-
-    // On position les résultats en fonction de l'input
-    const inputOffsetLeft = inputSearch.offsetLeft;
-    const heightInputSearch = inputSearch.offsetHeight;
-    const inputOffsetTop = heightInputSearch + inputSearch.offsetTop + 5;
-
-    const divResults = (document.getElementById('home-search-results') as HTMLInputElement);
-    divResults.style.top = inputOffsetTop + 'px';
-    divResults.style.left = inputOffsetLeft + 'px';
-
-    // On fait appel au service pour récupérer les mots correspondants à la recherche
-    this.wordService.getWordsLikeByTitle(this.searchValue).subscribe((data: Word[]) => {
-      this.words = data;
-    });
-
-    // On fait appel au service pour récupérer les thèmes correspondants à la recherche
-    this.themeService.getThemesLikeByTitle(this.searchValue).subscribe((data: Theme[]) => {
-      this.theme = data;
-    });
-  }
-
-  /**
    * Méthode permettant d'avertir s'il faut afficher ou non l'overlay  et le résultat de la recherche
    */
   onDisplayNone() {
@@ -136,8 +144,7 @@ export class HomeComponent implements OnInit {
    * Méthode qui permet d'afficher le résulats de la recherche au clic sur la barre de recherche si celle-ci n'est pas vide
    */
   onDisplayResult() {
-    this.searchValue = (document.getElementById('home-search') as HTMLInputElement).value;
-    if (this.searchValue !== null && this.searchValue !== '') {
+    if (this.queryField.value !== null && this.queryField.value !== '') {
       this.displayResults = true;
     }
   }
@@ -149,7 +156,6 @@ export class HomeComponent implements OnInit {
     console.log(err);
     this.isOpenError = true;
   }
-
 
   /**
    * Méthode permettant de savoir si l'utilisateur est connecté ou non
@@ -181,7 +187,7 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Méthode appelée lorsque l'utilisateur clique sur le bouton "S'abonner aux notifications"
+   * Méthode appelée lorsque l'utilisateur clique sur le bouton "S'abonner aux notification"
    * Demande au service web push d'inscrire la personne aux notification en générant une subscription "sub"
    */
   subscribeToNotifications() {
@@ -196,7 +202,7 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Méthode permettant de désinscrire le naviagteur aux notifications. Puis on utilise la fonction unsubscriptionSuccessful
+   * Méthode permettant de désinscrire le naviagteur aux notification. Puis on utilise la fonction unsubscriptionSuccessful
    * pour supprimer l'entrée concernant l'abonnement dans la Base de Données
    */
   async unsubscribeToNotifications() {
@@ -206,10 +212,6 @@ export class HomeComponent implements OnInit {
       pushSubscription => pushSubscription.unsubscribe()).then(
       success => this.unsubscriptionSuccessful()
     );
-
-    // this.swPush.unsubscribe()
-    //   .then(success => this.unsubscriptionSuccessful(),
-    //     err => console.log(err));
   }
 
   /**

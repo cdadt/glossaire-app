@@ -23,21 +23,24 @@ export class ThemeService {
    * Récupère un theme par son id
    */
   getThemeById(id) {
-    return this.http.get(`${this.uri}/theme/${id}`, );
+    return this.http.get(`${this.uri}/theme/${id}`);
   }
 
   /**
    * Récupère un theme par l'id d'un mot
    */
   getThemeByWordId(id) {
-    return this.http.get(`${this.uri}/theme/word/${id}`, );
+    return this.http.get(`${this.uri}/theme/word/${id}`);
   }
 
   /**
    *
    * @param title Le thème à rechercher
    */
-  getThemesLikeByTitle(title) {
-    return this.http.get(`${this.uri}/theme/search/${title}`, );
+  getThemesLikeByTitle(title): Promise<object> {
+    return this.http.get(`${this.uri}/theme/search`, {
+        params: { title }
+      })
+      .toPromise();
   }
 }

@@ -6,8 +6,8 @@ import {HttpClient} from '@angular/common/http';
 @Injectable()
 export class NewsletterService {
 
-  uri = 'https://azaguilla.alwaysdata.net';
-  // uri = 'http://localhost:4000';
+  // uri = 'https://azaguilla.alwaysdata.net';
+  uri = 'http://localhost:2223';
   constructor(private http: HttpClient) {
 
   }
@@ -17,7 +17,7 @@ export class NewsletterService {
    * @param sub L'abonnement push au format json
    */
   addPushSubscriber(sub: any) {
-    return this.http.post<any>(`${this.uri}/api/notifications`, sub);
+    return this.http.post<any>(`${this.uri}/notifications/subscribers`, sub);
   }
 
   /**
@@ -28,7 +28,8 @@ export class NewsletterService {
     const sub = {
       endpoint
     };
-    return this.http.post<any>(`${this.uri}/api/notifications/del`, sub);
+    // return this.http.post<any>(`${this.uri}/notifications/subscribers/delete/`, sub);
+    return this.http.delete<any>(`${this.uri}/notifications/subscribers/${sub.endpoint.id}`);
   }
 
   /**
@@ -39,7 +40,7 @@ export class NewsletterService {
       title,
       user
     };
-    return this.http.post<any>(`${this.uri}/api/newsletter`, object);
+    return this.http.post<any>(`${this.uri}/notifications`, object);
   }
 
 }

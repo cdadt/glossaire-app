@@ -12,6 +12,10 @@ import {strings as FrenchStrings} from 'ngx-timeago/language-strings/fr';
 })
 export class SingleWordComponent implements OnInit {
 
+  word: Word;
+  open: boolean;
+  live: true;
+
   constructor(private wordService: WordService,
               private route: ActivatedRoute,
               intl: TimeagoIntl) {
@@ -20,16 +24,10 @@ export class SingleWordComponent implements OnInit {
     intl.changes.next();
   }
 
-  word: Word;
-  open: boolean;
-  live: true;
-
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.wordService.getWordByTitle(params.title).subscribe((data: Word[]) => {
-        this.word = data[0];
-        this.open = false;
-      });
+    this.route.params.subscribe(async params => {
+      this.word = await this.wordService.getWordById(params.id) as Word;
+      this.open = false;
     });
   }
 
@@ -37,10 +35,11 @@ export class SingleWordComponent implements OnInit {
    * Indique si la partie "En savoir plus" est ouverte ou non
    */
   onDisplayKnowMore() {
-    if (this.open === true) {
-      this.open = false;
-    } else {
-      this.open = true;
-    }
+    this.open = this.open ? false : true;
+    // if (this.open === true) {
+    //   this.open = false;
+    // } else {
+    //   this.open = true;
+    // }
   }
 }

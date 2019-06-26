@@ -5,7 +5,9 @@
   <nav>
     <ul class="header-menu">
       <li>
-        <input id="header-menu-search" (click)="onDisplayMenuNone(); onDisplayResult()" (input)="onSearch();" placeholder="RGPD, ANSSI..."
+        <input id="header-menu-search" (click)="onDisplayMenuNone(); onDisplayResult()"
+               [formControl]="queryField"
+               placeholder="RGPD, ANSSI..."
                type="search">
         <i class="fas fa-search"></i>
       </li>

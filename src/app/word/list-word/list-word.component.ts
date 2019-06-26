@@ -11,19 +11,18 @@ import Word from '../../models/word.model';
 export class ListWordComponent implements OnInit {
 
   words: Word[];
-  thmTitle: string;
+  themeId: string;
 
   constructor(private wordService: WordService,
               private route: ActivatedRoute) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     // On récupère et on affiche les données à l'initialisation du composant
-    this.route.params.subscribe(params => {
-      this.thmTitle = params.title;
-      this.wordService.getWordsByThmTitle(params.title).subscribe((data: Word[]) => {
-        this.words = data;
-      });
+    this.route.params.subscribe(async params => {
+      this.themeId = params.id;
+      const data = await this.wordService.getWordsForATheme(params.id);
+      this.words = data as Array<Word>;
     });
   }
 

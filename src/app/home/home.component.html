@@ -21,19 +21,21 @@
     <!-- Zone de recherche -->
     <div class="home-search-area">
       <div class="home-search-center">
-        <input id="home-search" (focusin)="onDisplayResult()" (input)="onSearch();"
+        <input id="home-search"
+               (focusin)="onDisplayResult()"
+               [formControl]="queryField"
                type="search"
                placeholder="Rechercher un mot, un thème..."><i class="fas fa-search"></i>
         <div id="home-search-results" class="home-search-results"
              [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}">
-          <div *ngFor="let def of words">
-            <a (click)="onDisplayNone()" [routerLink]="['definition/', def.title]">
-              <i class="fas fa-search"></i>{{ def.title }}
+          <div *ngFor="let word of words">
+            <a (click)="onDisplayNone()" [routerLink]="['definitions/', word._id]">
+              <i class="fas fa-search"></i>{{ word.title }}
             </a>
           </div>
-          <div *ngFor="let thm of theme">
-            <a [routerLink]="['theme/', thm.title]" (click)="onDisplayNone()">
-              <i class="fas fa-search"></i>{{ thm.title }} <span class="home-search-theme"> en tant que thème </span>
+          <div *ngFor="let theme of themes">
+            <a [routerLink]="['themes/', theme._id]" (click)="onDisplayNone()">
+              <i class="fas fa-search"></i>{{ theme.title }} <span class="home-search-theme"> en tant que thème </span>
             </a>
           </div>
         </div>
@@ -48,7 +50,7 @@
       </header>
       <section class="home-last-definition-content" *ngIf="word">
         <h1>
-          <a [routerLink]="['definition/', word.title]">
+          <a [routerLink]="['definitions/', word._id]">
             {{ word.title }}
           </a>
         </h1>
@@ -56,7 +58,7 @@
           {{ word.definition }}
         </p>
         <div class="button-action">
-          <a [routerLink]="['definition/', word.title]">Consulter</a>
+          <a [routerLink]="['definitions/', word._id]">Consulter</a>
         </div>
       </section>
       <p *ngIf="word" class="home-last-definition-content-date">{{ word.last_edit | timeago:live }}</p>

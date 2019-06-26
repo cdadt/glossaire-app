@@ -1,54 +1,63 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {formatDate} from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '../environments/environment';
+import { SyncService } from './sync.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WordService {
-
-  uri = 'https://azaguilla.alwaysdata.net';
-  // uri = 'http://localhost:4000';
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient,
+              private syncService: SyncService
+  ) {}
 
   /**
    * Récupère la dernière définition ajoutée en passant par le serveur nodejs
    */
-  getLastWord() {
-    return this.http.get(`${this.uri}/word`);
+  getLastWord(): Promise<object> {
+    return this.http.get(`${environment.apiUrl}/words/last`)
+      .toPromise();
   }
 
   /**
-   * Récupère un mot et ses infos par son titre
-   * @param title Le titre de la définition
+   * Récupère un mot et ses infos par son id
+   * @param id L'id de la définition
    */
-  getWordByTitle(title) {
-    return this.http.get(`${this.uri}/word/${title}`, );
+  getWordById(id: String): Promise<object> {
+    return this.http.get(`${environment.apiUrl}/words/${id}`)
+      .toPromise();
   }
-
 
   /**
    * Récupère une liste de mot pour la recherche
    * @param title Le mot à rechercher
    */
-  getWordsLikeByTitle(title) {
-    return this.http.get(`${this.uri}/word/search/${title}`, );
+  getWordsLikeByTitle(title: string): Promise<object> {
+    return this.http.get(`${environment.apiUrl}/words/search`, {
+        params: { title }
+      })
+      .toPromise();
   }
 
   /**
    * Récupère une liste de définitions appartenant à un thème
-   * @param title Le titre du thème
+   * @param id l'id du thème
    */
-  getWordsByThmTitle(title) {
-    return this.http.get(`${this.uri}/word/thm/${title}`, );
+  getWordsForATheme(id: string): Promise<object> {
+    return this.http.get(`${environment.apiUrl}/themes/${id}/words`)
+      .toPromise();
   }
 
   /**
    * Ajoute une définition et ses informations dans la BDD
-   * @param wordInfo La liste des infos du mot
+   * @param word La liste des infos du mot
    */
-  addWord(wordInfo) {
-    this.http.post(`${this.uri}/word/add`, wordInfo).subscribe(res => console.log('Done'));
+  addWord(word: object): void {
+    this.syncService.howToAdd({
+      url: `${environment.apiUrl}/word/add`,
+      params: word
+    });
+    // return this.http.post(`${environment.apiUrl}/words`, word)
+    //   .toPromise();
   }
 }
