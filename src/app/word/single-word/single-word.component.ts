@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {WordService} from '../../../services/word.service';
-import Word from '../../models/word.model';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TimeagoIntl } from 'ngx-timeago';
-import {strings as FrenchStrings} from 'ngx-timeago/language-strings/fr';
+import { strings as FrenchStrings } from 'ngx-timeago/language-strings/fr';
+import { WordService } from '../../../services/word.service';
+import Word from '../../models/word.model';
 
 @Component({
   selector: 'app-single-word',
@@ -24,7 +24,7 @@ export class SingleWordComponent implements OnInit {
     intl.changes.next();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.params.subscribe(async params => {
       this.word = await this.wordService.getWordById(params.id) as Word;
       this.open = false;
@@ -34,12 +34,7 @@ export class SingleWordComponent implements OnInit {
   /**
    * Indique si la partie "En savoir plus" est ouverte ou non
    */
-  onDisplayKnowMore() {
-    this.open = this.open ? false : true;
-    // if (this.open === true) {
-    //   this.open = false;
-    // } else {
-    //   this.open = true;
-    // }
+  onDisplayKnowMore(): void {
+    this.open = !this.open;
   }
 }

@@ -1,49 +1,49 @@
-import {Component, OnInit} from '@angular/core';
-import {WordService} from '../../services/word.service';
-import Word from '../models/word.model';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component, OnInit } from '@angular/core';
+import { SwPush } from '@angular/service-worker';
+import { AuthenticationService } from '../../services/authentication.service';
+import { NewsletterService } from '../../services/newsletter.service';
+import { ThemeService } from '../../services/theme.service';
+import { WordService } from '../../services/word.service';
 import Theme from '../models/theme.model';
-import {ThemeService} from '../../services/theme.service';
-import {AuthenticationService} from '../../services/authentication.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {SwPush} from '@angular/service-worker';
-import {NewsletterService} from '../../services/newsletter.service';
+import Word from '../models/word.model';
 
-import {FormControl} from '@angular/forms';
-import 'rxjs-compat/add/operator/distinctUntilChanged';
+import { FormControl } from '@angular/forms';
 import 'rxjs-compat/add/operator/debounceTime';
-import {SearchService} from '../../services/search.service';
+import 'rxjs-compat/add/operator/distinctUntilChanged';
+import { SearchService } from '../../services/search.service';
 
 @Component({
   selector: 'app-header',
   animations: [
     trigger('overlayDisplay', [
       state('open', style({
-        opacity: '1',
+        opacity: '1'
       })),
       state('closed', style({
-        opacity: '0',
+        opacity: '0'
       })),
       transition('open => closed', [
         animate('0.5s')
       ]),
       transition('closed => open', [
         animate('0.5s')
-      ]),
+      ])
     ]),
     trigger('menuDisplay', [
       state('open', style({
-        left: '30vw',
+        left: '30vw'
       })),
       state('closed', style({
-        left: '-100%',
+        left: '-100%'
       })),
       transition('open => closed', [
         animate('0.3s')
       ]),
       transition('closed => open', [
         animate('0.3s')
-      ]),
-    ]),
+      ])
+    ])
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
@@ -57,19 +57,19 @@ export class HeaderComponent implements OnInit {
   isMenuOpen: boolean;
 
   isSubscriber: string;
-  private subscription;
   notification: boolean;
 
   readonly VAPID_PUBLIC_KEY = 'BNGmdT-zn-S0tocFwPP9Z6PG3pfouwebPHQ0lpAQg5Z5LLZJ4OdBXz8aN_ct19Bbvi56WeYosu94RCXS34D2NU0';
 
   queryField: FormControl = new FormControl ();
+  private subscription;
 
   constructor(private wordService: WordService,
               private themeService: ThemeService,
               private authService: AuthenticationService,
               private swPush: SwPush,
               private newsletterService: NewsletterService,
-              private searchService: SearchService,
+              private searchService: SearchService
               ) {
     // L'overlay et le résultat de la recherche ne sont pas affichés par défaut
     this.displayResults = false;
@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
     this.isMenuOpen = false;
   }
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<any> {
     // Fixe une taille minimum au menu
     const winHeight = window.innerHeight;
     const elem = document.getElementById('header-menu-burger');
@@ -96,18 +96,18 @@ export class HeaderComponent implements OnInit {
         this.displayResults = true;
 
         // On initialise les résultats à null pour qu'il ne garde pas la dernière recherche en mémoire (reste affichée sinon)
-        this.words = null;
-        this.themes = null;
+        this.words = undefined;
+        this.themes = undefined;
 
         // On fait appel au service pour récupérer les mots correspondants à la recherche
         const dataWord = await this.wordService.getWordsLikeByTitle(queryField) as Array<Word>;
         let dataSorted = this.searchService.sortSearchTable(dataWord, queryField);
-        this.words = dataSorted.slice(0, 4);
+        this.words = dataSorted.slice(0, 4) as Array<Word>;
 
         // On fait appel au service pour récupérer les thèmes correspondants à la recherche
         const dataTheme = await this.themeService.getThemesLikeByTitle(queryField) as Array<Theme>;
         dataSorted = this.searchService.sortSearchTable(dataTheme, queryField);
-        this.themes = dataSorted.slice(0, 4);
+        this.themes = dataSorted.slice(0, 4) as Array<Theme>;
       });
 
     // vérifie si le navigateur n'est pas Safari, si c'est le cas, vérifie que le navigateur supporte les

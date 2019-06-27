@@ -52,10 +52,7 @@ section:last-child .list-word-def-header {
   background: #eeeeee;
   padding: 1rem 0.5rem;
 }
-
-.block {
-  max-height: 100em;
-}
+
 
 .list-word-def-content a {
   color: #cd7d00;
@@ -69,8 +66,4 @@ section:last-child .list-word-def-header {
 .list-word-def-content i {
   transition: all 0.2s;
 }
-
-.list-word-def-content a:hover i {
-  margin-right: -0.35em;
-  margin-left: 0.35em;
-}
+

@@ -90,8 +90,8 @@ export class HomeComponent implements OnInit {
         this.displayResults = true;
 
         // On initialise les résultats à null pour qu'il ne garde pas la dernière recherche en mémoire (reste affichée sinon)
-        this.words = null;
-        this.themes = null;
+        this.words = undefined;
+        this.themes = undefined;
 
         // ****** Positionne les résultats de la recherche en fonction de l'input ****** //
         // On récupère le champ de recherche
@@ -110,12 +110,12 @@ export class HomeComponent implements OnInit {
         // On fait appel au service pour récupérer les mots correspondants à la recherche
         const dataWord = await this.wordService.getWordsLikeByTitle(queryField) as Array<Word>;
         let dataSorted = this.searchService.sortSearchTable(dataWord, queryField);
-        this.words = dataSorted.slice(0, 4);
+        this.words = dataSorted.slice(0, 4) as Array<Word>;
 
         // On fait appel au service pour récupérer les thèmes correspondants à la recherche
         const dataTheme = await this.themeService.getThemesLikeByTitle(queryField) as Array<Theme>;
         dataSorted = this.searchService.sortSearchTable(dataTheme, queryField);
-        this.themes = dataSorted.slice(0, 4);
+        this.themes = dataSorted.slice(0, 4) as Array<Theme>;
       });
 
     // vérifie si le navigateur n'est pas Safari, si c'est le cas, vérifie que le navigateur supporte les

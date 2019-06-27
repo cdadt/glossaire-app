@@ -12,16 +12,8 @@
   font-size: 0.8em;
   background: rgba(255, 255, 255, 0.1);
 }
-
-#header-menu input:hover {
-  width: 14em;
-  background: rgba(255, 255, 255, 0.25);
-}
-
-#header-menu input:focus {
-  width: 14em;
-  background: rgba(255, 255, 255, 0.25);
-}
+
+
 
 #header-menu {
   display: flex;

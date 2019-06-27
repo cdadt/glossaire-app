@@ -11,7 +11,7 @@
     <section>
       <header class="single-word-definition-header">
         <h1>{{ word.title }}</h1>
-        <p>Thèmes : <a *ngFor="let theme of word.themes; let isLast=last">{{ theme.title }}{{isLast ? '' : ', '}}</a></p>
+        <p>Thèmes : <a *ngFor="let theme of word.themes; let isLast=last">{{ theme.title }}{{ isLast ? '' : ', ' }}</a></p>
       </header>
       <div class="single-word-last-edit">
         Dernière modification : {{ word.last_edit | timeago:live }}

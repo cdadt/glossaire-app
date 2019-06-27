@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {WordService} from '../../../services/word.service';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { WordService } from '../../../services/word.service';
 import Word from '../../models/word.model';
 
 @Component({
@@ -10,8 +10,9 @@ import Word from '../../models/word.model';
 })
 export class ListWordComponent implements OnInit {
 
-  words: Word[];
+  words: Array<Word>;
   themeId: string;
+  themeTitle: string;
 
   constructor(private wordService: WordService,
               private route: ActivatedRoute) {
@@ -23,7 +24,14 @@ export class ListWordComponent implements OnInit {
       this.themeId = params.id;
       const data = await this.wordService.getWordsForATheme(params.id);
       this.words = data as Array<Word>;
+      this.themeTitle = this.getThemeTitle();
     });
+  }
+
+  getThemeTitle(): string {
+    return this.words[0].themes
+      .find(t => t._id === this.themeId)
+      .title;
   }
 
   /**
