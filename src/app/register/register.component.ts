@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthenticationService, TokenPayload} from '../../services/authentication.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthenticationService, TokenPayload } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -10,14 +10,14 @@ import {Router} from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
-  public authForm: FormGroup;
+  authForm: FormGroup;
   message: string;
   credentials: TokenPayload = {
     username: '',
     email: '',
     password: '',
     firstname: '',
-    lastname: '',
+    lastname: ''
   };
 
   constructor(private formBuilder: FormBuilder,
@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(60)]],
       password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]/), Validators.minLength(8), Validators.maxLength(30)]],
       firstname: [''],
-      lastname: [''],
+      lastname: ['']
     });
   }
 
@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit {
    * Une fois l'utilisateur authentifié on le redirige vers la page dashboard
    * Sinon on affiche l'erreur
    */
-  onSubmitForm() {
+  async onSubmitForm() {
     if (this.authForm.valid) {
       const username = this.authForm.get('username').value;
       const email = this.authForm.get('email').value;
@@ -61,14 +61,13 @@ export class RegisterComponent implements OnInit {
       this.credentials.firstname = firstname;
       this.credentials.lastname = lastname;
 
-      this.authService.register(this.credentials).subscribe(() => {
+      const register = await this.authService.register(this.credentials);
+      if (register) {
         this.message = 'registered';
         this.authForm.reset();
-      }, (err) => {
-        console.error(err);
-      });
-    } else {
-      this.message = 'error';
+      } else {
+        this.message = 'error';
+      }
     }
   }
 

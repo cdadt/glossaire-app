@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthenticationService, TokenPayload} from '../../services/authentication.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthenticationService, TokenPayload } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-authentication',
@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class AuthenticationComponent implements OnInit {
 
-  public authForm: FormGroup;
+  authForm: FormGroup;
   errorMessage: string;
   credentials: TokenPayload = {
     username: '',
@@ -41,17 +41,17 @@ export class AuthenticationComponent implements OnInit {
    * Une fois l'utilisateur authentifié on le redirige vers la page dashboard
    * Sinon on affiche l'erreur
    */
-  onSubmitForm() {
+  async onSubmitForm() {
     const username = this.authForm.get('username').value;
     const password = this.authForm.get('password').value;
     this.credentials.username = username;
     this.credentials.password = password;
 
-    this.authService.login(this.credentials).subscribe(() => {
+    const isAuth = await this.authService.login(this.credentials);
+    if (isAuth) {
       this.router.navigateByUrl('/dashboard');
-    }, (err) => {
-      console.error(err);
+    } else {
       this.errorMessage = 'L\'identifiant ou le mot est incorrect';
-    });
+    }
   }
 }
