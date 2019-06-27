@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ThemeService } from '../../../services/theme.service';
 import { WordService } from '../../../services/word.service';
 import Word from '../../models/word.model';
+import Theme from '../../models/theme.model';
 
 @Component({
   selector: 'app-list-word',
@@ -11,27 +13,18 @@ import Word from '../../models/word.model';
 export class ListWordComponent implements OnInit {
 
   words: Array<Word>;
-  themeId: string;
-  themeTitle: string;
+  theme: Theme = { _id: '', title: '' };
 
   constructor(private wordService: WordService,
+              private themeService: ThemeService,
               private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    // On récupère et on affiche les données à l'initialisation du composant
     this.route.params.subscribe(async params => {
-      this.themeId = params.id;
-      const data = await this.wordService.getWordsForATheme(params.id);
-      this.words = data as Array<Word>;
-      this.themeTitle = this.getThemeTitle();
+      this.words = (await this.wordService.getWordsForATheme(params.id)) as Array<Word>;
+      this.theme = (await this.themeService.getThemeById(params.id)) as Theme;
     });
-  }
-
-  getThemeTitle(): string {
-    return this.words[0].themes
-      .find(t => t._id === this.themeId)
-      .title;
   }
 
   /**

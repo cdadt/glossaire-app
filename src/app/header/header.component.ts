@@ -50,8 +50,10 @@ import { SearchService } from '../../services/search.service';
 })
 
 export class HeaderComponent implements OnInit {
-  words: Array<Word>;
-  themes: Array<Theme>;
+  // words: Array<Word>;
+  // themes: Array<Theme>;
+
+  searchResults: object = { words: [], themes: [] };
   displayResults: boolean;
   isDisplayOverlayMenu: boolean;
   isMenuOpen: boolean;
@@ -85,29 +87,16 @@ export class HeaderComponent implements OnInit {
 
     elem.style.height = `${winHeight - header}px`;
 
-    /** Détecte les changements dans le formulaire de recherche et effectue la recherche sur les mots et les thèmes
+    /**
+     * Détecte les changements dans le formulaire de recherche et effectue la recherche sur les mots et les thèmes
      */
     this.queryField.valueChanges
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe (async queryField => {
-
         // On affiche l'overlay et le résultat
         this.displayResults = true;
-
-        // On initialise les résultats à null pour qu'il ne garde pas la dernière recherche en mémoire (reste affichée sinon)
-        this.words = undefined;
-        this.themes = undefined;
-
-        // On fait appel au service pour récupérer les mots correspondants à la recherche
-        const dataWord = await this.wordService.getWordsLikeByTitle(queryField) as Array<Word>;
-        let dataSorted = this.searchService.sortSearchTable(dataWord, queryField);
-        this.words = dataSorted.slice(0, 4) as Array<Word>;
-
-        // On fait appel au service pour récupérer les thèmes correspondants à la recherche
-        const dataTheme = await this.themeService.getThemesLikeByTitle(queryField) as Array<Theme>;
-        dataSorted = this.searchService.sortSearchTable(dataTheme, queryField);
-        this.themes = dataSorted.slice(0, 4) as Array<Theme>;
+        this.searchResults = await this.searchService.search(queryField);
       });
 
     // vérifie si le navigateur n'est pas Safari, si c'est le cas, vérifie que le navigateur supporte les

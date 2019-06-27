@@ -20,9 +20,9 @@ export class ThemeService {
   /**
    * Récupère un theme par son id
    */
-  getThemeById(id): Promise<object> {
+  getThemeById(id: string): Promise<any> {
     return this.http.get(`${environment.apiUrl}/themes/${id}`)
-      .toPromise();;
+      .toPromise();
   }
 
   /**
@@ -30,7 +30,7 @@ export class ThemeService {
    */
   getThemeByWordId(id): Promise<object> {
     return this.http.get(`${environment.apiUrl}/themes/word/${id}`)
-      .toPromise();;
+      .toPromise();
   }
 
   /**

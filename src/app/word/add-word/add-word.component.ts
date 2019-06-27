@@ -15,16 +15,16 @@ export class AddWordComponent implements OnInit {
 
   wordForm;
   message: string;
-  themes: Theme[];
+  // themes: Theme[];
 
   constructor(private formBuilder: FormBuilder,
               private themeService: ThemeService,
               private wordService: WordService,
               private newsletterService: NewsletterService,
               private authService: AuthenticationService) {
-    this.themeService.getThemes().subscribe((data: Theme[]) => {
-      this.themes = data;
-    });
+    // this.themeService.getThemes().subscribe((data: Theme[]) => {
+      // this.themes = data;
+    // });
   }
 
   ngOnInit() {
@@ -49,11 +49,11 @@ export class AddWordComponent implements OnInit {
 
       // Pour chacun des themes choisis on recherche dans la liste initiale le titre correspondant à l'ID
       const themesObj = [];
-      for (let i = 0; i < themes.length; i++) {
-        themesObj.push(this.themes.find(function(element) {
-          return element._id === themes[i];
-        }));
-      }
+      // for (let i = 0; i < themes.length; i++) {
+      //   themesObj.push(this.themes.find(function(element) {
+      //     return element._id === themes[i];
+      //   }));
+      // }
 
       // On contruit l'objet à envoyer en BDD
       const wordInfo = {

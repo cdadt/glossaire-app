@@ -4,7 +4,7 @@
   <!-- Header avec logo -->
   <header class="list-word-header">
     <img src="assets/img/hacker-1944688_1280.jpg">
-    <h1>{{ themeTitle }}</h1>
+    <h1>{{ theme.title }}</h1>
   </header>
   <!-- Header avec logo -->
 
@@ -22,7 +22,7 @@
     <div class="list-word-def-content none" id="{{ word._id }}">
       <div class="list-word-def-background">
         <p>{{ word.definition }}</p>
-        <a [routerLink]="['/definition', word.title]">
+        <a [routerLink]="['/definitions', word.title]">
           <i class="fas fa-arrow-alt-circle-right"></i>
           <span>Consulter</span>
         </a>

@@ -19,14 +19,14 @@
 
     <div class="header-menu-search-results"
          [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}">
-      <div *ngFor="let def of words">
-        <a (click)="onDisplayNone()" [routerLink]="['/definition/', def.title]">
-          <i class="fas fa-search"></i>{{ def.title }}
+      <div *ngFor="let word of searchResults.words">
+        <a (click)="onDisplayNone()" [routerLink]="['/definitions/', word._id]">
+          <i class="fas fa-search"></i>{{ word.title }}
         </a>
       </div>
-      <div *ngFor="let thm of themes">
-        <a [routerLink]="['/theme/', thm.title]" (click)="onDisplayNone()">
-          <i class="fas fa-search"></i>{{ thm.title }} <span class="header-menu-theme"> en tant que thème </span>
+      <div *ngFor="let theme of searchResults.themes">
+        <a [routerLink]="['/themes/', theme._id]" (click)="onDisplayNone()">
+          <i class="fas fa-search"></i>{{ theme.title }} <span class="header-menu-theme"> en tant que thème </span>
         </a>
       </div>
     </div>
