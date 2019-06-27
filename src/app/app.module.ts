@@ -1,34 +1,34 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home.component';
-import {AppRoutingModule} from './app-routing.module';
-import {FooterComponent} from './footer/footer.component';
-import {HeaderComponent} from './header/header.component';
-import {HttpClientModule} from '@angular/common/http';
-import {WordService} from '../services/word.service';
-import {SingleWordComponent} from './word/single-word/single-word.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {ListWordComponent} from './word/list-word/list-word.component';
-import {ServiceWorkerModule} from '@angular/service-worker';
-import {environment} from '../environments/environment';
-import {AuthenticationComponent} from './authentication/authentication.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {AuthenticationService} from '../services/authentication.service';
-import {RegisterComponent} from './register/register.component';
-import {AuthGuardService} from '../services/auth-guard.service';
-import {MenuAdminComponent} from './menu-admin/menu-admin.component';
-import {MDBRootModule} from 'angular-bootstrap-md';
-import {AddWordComponent} from './word/add-word/add-word.component';
-import {EditWordComponent} from './word/edit-word/edit-word.component';
-import {NewsletterService} from '../services/newsletter.service';
-import {TimeagoModule, TimeagoIntl, TimeagoFormatter, TimeagoCustomFormatter} from 'ngx-timeago';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { MDBRootModule } from 'angular-bootstrap-md';
+import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } from 'ngx-timeago';
 import { ToastrModule } from 'ngx-toastr';
-import { SyncService } from '../services/sync.service';
-import { OnlineOfflineService } from '../services/online-offline.service';
+import { environment } from '../environments/environment';
+import { AuthGuardService } from '../services/auth-guard.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { IndexedDbService } from '../services/indexed-db.service';
+import { NewsletterService } from '../services/newsletter.service';
+import { OnlineOfflineService } from '../services/online-offline.service';
 import { SearchService } from '../services/search.service';
+import { SyncService } from '../services/sync.service';
+import { WordService } from '../services/word.service';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
+import { HomeComponent } from './home/home.component';
+import { MenuAdminComponent } from './menu-admin/menu-admin.component';
+import { RegisterComponent } from './register/register.component';
+import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
+import { AddWordComponent } from './word/add-word/add-word.component';
+import { EditWordComponent } from './word/edit-word/edit-word.component';
+import { SingleWordComponent } from './word/single-word/single-word.component';
 
 export class MyIntl extends TimeagoIntl {
 // do extra stuff here...
@@ -41,13 +41,13 @@ export class MyIntl extends TimeagoIntl {
     FooterComponent,
     HeaderComponent,
     SingleWordComponent,
-    ListWordComponent,
     AuthenticationComponent,
     DashboardComponent,
     RegisterComponent,
     MenuAdminComponent,
     AddWordComponent,
-    EditWordComponent
+    EditWordComponent,
+    ListWordByThemeComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +59,7 @@ export class MyIntl extends TimeagoIntl {
     MDBRootModule,
     TimeagoModule.forRoot({
       intl: { provide: TimeagoIntl, useClass: MyIntl },
-      formatter: { provide: TimeagoFormatter, useClass: TimeagoCustomFormatter },
+      formatter: { provide: TimeagoFormatter, useClass: TimeagoCustomFormatter }
     }),
     BrowserAnimationsModule,
     ToastrModule.forRoot()

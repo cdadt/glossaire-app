@@ -34,7 +34,7 @@
             </a>
           </div>
           <div *ngFor="let theme of searchResults.themes">
-            <a [routerLink]="['themes/', theme._id]" (click)="onDisplayNone()">
+            <a [routerLink]="['themes/', theme._id, 'words']" (click)="onDisplayNone()">
               <i class="fas fa-search"></i>{{ theme.title }} <span class="home-search-theme"> en tant que thème </span>
             </a>
           </div>

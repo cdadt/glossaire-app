@@ -5,8 +5,8 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
 import { AddWordComponent } from './word/add-word/add-word.component';
-import { ListWordComponent } from './word/list-word/list-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
 
 const routes: Routes = [
@@ -19,8 +19,8 @@ const routes: Routes = [
     component: SingleWordComponent
   },
   {
-    path: 'themes/:id',
-    component: ListWordComponent
+    path: 'themes/:id/words',
+    component: ListWordByThemeComponent
   },
   {
     path: 'connexion',

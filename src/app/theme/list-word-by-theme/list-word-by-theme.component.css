@@ -1,0 +1,71 @@
+.main-content {
+    margin-bottom: 2.5em;
+}
+
+.list-word-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4em 0 0 0;
+}
+
+.list-word-header img {
+    width: 100%;
+}
+
+.list-word-header h1 {
+    margin: 1em 0;
+    font-size: 1.5em;
+}
+
+.list-word-def-header {
+    display: flex;
+    align-items: center;
+    background: orange;
+    cursor: pointer;
+    border-bottom: solid 2px #cd7d00;
+}
+
+section:last-child .list-word-def-header {
+    border-bottom: 0;
+}
+
+.list-word-def-header h1 {
+    font-size: 1em;
+    margin: 0;
+    padding: 0.7em;
+}
+
+.list-word-def-header i {
+    color: white;
+    margin-left: 1rem;
+}
+
+.list-word-def-content {
+    padding: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s;
+}
+
+.list-word-def-background {
+    background: #eeeeee;
+    padding: 1rem 0.5rem;
+}
+
+
+
+.list-word-def-content a {
+    color: #cd7d00;
+    padding:1em 0;
+}
+
+.list-word-def-content span {
+    margin-left: 0.75em;
+}
+
+.list-word-def-content i {
+    transition: all 0.2s;
+}
+
+

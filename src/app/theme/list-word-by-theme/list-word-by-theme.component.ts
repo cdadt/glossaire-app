@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ThemeService } from '../../../services/theme.service';
 import { WordService } from '../../../services/word.service';
-import Word from '../../models/word.model';
 import Theme from '../../models/theme.model';
+import Word from '../../models/word.model';
 
 @Component({
-  selector: 'app-list-word',
-  templateUrl: './list-word.component.html',
-  styleUrls: ['./list-word.component.css']
+  selector: 'app-list-word-by-theme',
+  templateUrl: './list-word-by-theme.component.html',
+  styleUrls: ['./list-word-by-theme.component.css']
 })
-export class ListWordComponent implements OnInit {
+export class ListWordByThemeComponent implements OnInit {
 
   words: Array<Word>;
   theme: Theme = { _id: '', title: '' };
