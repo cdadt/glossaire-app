@@ -1,9 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {OnlineOfflineService} from './online-offline.service';
-import {IndexedDbService} from './indexed-db.service';
-import {HttpClient} from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import {AuthenticationService} from "./authentication.service";
+import { IndexedDbService } from './indexed-db.service';
+import { OnlineOfflineService } from './online-offline.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class SyncService {
    * Détermine le type de traitement de la requête selon si l'on est connecté ou non.
    * @param query: la requête à ajouter.
    */
-  public howToAdd(query: any) {
+  howToAdd(query: any): void {
     if (this.isOnline) {
       this.addOnline(query);
     } else {
@@ -39,7 +39,7 @@ export class SyncService {
    * Ajoute la requête dans l'indexedDb pour traitement ultérieur.
    * @param query: la requête à ajouter à l'indexedDb.
    */
-  private addOffline(query: any) {
+  private addOffline(query: any): void {
     this.toastr.warning('La requête sera envoyée ultérieurement', 'Mode hors ligne');
     this.indexedDBService.addToIndexedDb(query);
   }
@@ -58,16 +58,17 @@ export class SyncService {
     this.toastr.success('La requête à bien été envoyée');
   }
 
-  private checkBackOnline() {
-    this.onlineOfflineService.getIsOnline().subscribe(online => {
-      if (online) {
-        this.toastr.success('En ligne', 'Etat de la connexion', {timeOut: 3000});
-        this.isOnline = true;
-        this.indexedDBService.sendStockedQueries();
-      } else {
-        this.toastr.error('Hors ligne', 'Etat de la connexion');
-        this.isOnline = false;
-      }
+  private checkBackOnline(): void {
+    this.onlineOfflineService.getIsOnline()
+        .subscribe(online => {
+          if (online) {
+            this.toastr.success('En ligne', 'Etat de la connexion', {timeOut: 3000});
+            this.isOnline = true;
+            this.indexedDBService.sendStockedQueries();
+          } else {
+            this.toastr.error('Hors ligne', 'Etat de la connexion');
+            this.isOnline = false;
+          }
     });
   }
 

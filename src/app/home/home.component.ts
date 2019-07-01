@@ -38,7 +38,7 @@ import Word from '../models/word.model';
 export class HomeComponent implements OnInit {
 
   word: Word;
-  searchResults: object = { words: [], themes: [] };
+  searchResults: any = { words: [], themes: [] };
   displayResults: boolean;
   isSubscriber: boolean;
   isOpenSuccess: boolean;
@@ -104,6 +104,7 @@ export class HomeComponent implements OnInit {
         // ****** Positionne les résultats de la recherche en fonction de l'input ****** //
 
         this.searchResults = await this.searchService.search(queryField);
+        this.onDisplayResult();
       });
 
     // vérifie si le navigateur n'est pas Safari, si c'est le cas, vérifie que le navigateur supporte les
@@ -134,13 +135,15 @@ export class HomeComponent implements OnInit {
   onDisplayResult(): void {
     if (this.queryField.value !== null && this.queryField.value !== '') {
       this.displayResults = true;
+    } else {
+      this.onDisplayNone();
     }
   }
 
   /**
    * Méthode permettant d'afficher le message d'erreur lors d'une tentative d'abonnement qui aurait échoué
    */
-  displayError(err) {
+  displayError(err): void {
     console.log(err);
     this.isOpenError = true;
   }
@@ -148,14 +151,14 @@ export class HomeComponent implements OnInit {
   /**
    * Méthode permettant de savoir si l'utilisateur est connecté ou non
    */
-  isLoggedIn() {
+  isLoggedIn(): any {
     return this.authService.isLoggedIn();
   }
 
   /**
    * Méthode permettant de fermer la fenêtre d'information "Abonnement effectué" ou "Abonnement rejeté"
    */
-  onClose() {
+  onClose(): void {
     this.isOpenSuccess = false;
     this.isOpenError = false;
   }
@@ -164,7 +167,7 @@ export class HomeComponent implements OnInit {
    * Méthode qui teste si l'abonnement existe ou non. En fonction du résultat, sera affiché un bouton "S'abonner" ou "Se désabonner"
    * @param pushSubscription Objet subscription
    */
-  isSubscribe(pushSubscription) {
+  isSubscribe(pushSubscription): void {
     if (pushSubscription === null) {
       this.isSubscriber = false;
     } else {
@@ -177,7 +180,7 @@ export class HomeComponent implements OnInit {
    * Méthode appelée lorsque l'utilisateur clique sur le bouton "S'abonner aux notification"
    * Demande au service web push d'inscrire la personne aux notification en générant une subscription "sub"
    */
-  subscribeToNotifications() {
+  subscribeToNotifications(): void {
 
     // On inscrit la personne
     this.swPush.requestSubscription({
@@ -192,7 +195,7 @@ export class HomeComponent implements OnInit {
    * Méthode permettant de désinscrire le naviagteur aux notification. Puis on utilise la fonction unsubscriptionSuccessful
    * pour supprimer l'entrée concernant l'abonnement dans la Base de Données
    */
-  async unsubscribeToNotifications() {
+  async unsubscribeToNotifications(): Promise<any> {
 
     // On désinscrit la personne
     await (await navigator.serviceWorker.getRegistration()).pushManager.getSubscription()
@@ -206,7 +209,7 @@ export class HomeComponent implements OnInit {
    * Puis envoie la subscription pour enregistrement dans la Base de données
    * @param sub L'objet subscription
    */
-  subscriptionSuccessful(sub) {
+  subscriptionSuccessful(sub): void {
 
     // On affiche le message de réussite
     this.isOpenSuccess = true;
@@ -215,14 +218,16 @@ export class HomeComponent implements OnInit {
     // se désabonner. Puis on l'inscrit dans la Base de Données
     this.isSubscriber = true;
     this.subscription = sub.endpoint;
-    this.newsletterService.addPushSubscriber(sub).subscribe();
+    this.newsletterService.addPushSubscriber(sub)
+        .subscribe();
   }
 
   /**
    * Méthode permettant de supprimer l'entrée d'une personne abonnée dans la Base de Données
    */
-  unsubscriptionSuccessful() {
+  unsubscriptionSuccessful(): void {
     this.isSubscriber = false;
-    this.newsletterService.deletePushSubscriber(this.subscription).subscribe();
+    this.newsletterService.deletePushSubscriber(this.subscription)
+        .subscribe();
   }
 }

@@ -53,7 +53,7 @@ export class HeaderComponent implements OnInit {
   // words: Array<Word>;
   // themes: Array<Theme>;
 
-  searchResults: object = { words: [], themes: [] };
+  searchResults: any = { words: [], themes: [] };
   displayResults: boolean;
   isDisplayOverlayMenu: boolean;
   isMenuOpen: boolean;
