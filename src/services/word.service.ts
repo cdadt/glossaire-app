@@ -54,7 +54,7 @@ export class WordService {
    */
   addWord(word: object): void {
     this.syncService.howToAdd({
-      url: `${environment.apiUrl}/words/add`,
+      url: `${environment.apiUrl}/words`,
       params: word
     });
     // return this.http.post(`${environment.apiUrl}/words`, word)

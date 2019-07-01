@@ -3,6 +3,7 @@ import {OnlineOfflineService} from './online-offline.service';
 import {IndexedDbService} from './indexed-db.service';
 import {HttpClient} from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import {AuthenticationService} from "./authentication.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class SyncService {
   constructor(private http: HttpClient,
               private readonly onlineOfflineService: OnlineOfflineService,
               private indexedDBService: IndexedDbService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private authService: AuthenticationService) {
     if (this.isOnline) {
       this.indexedDBService.sendStockedQueries();
     }
@@ -47,7 +49,12 @@ export class SyncService {
    * @param query: la requête à envoyer.
    */
   private addOnline(query: any) {
-    this.http.post(query.url, query.params).subscribe();
+    this.http.post(query.url, query.params, {
+      headers:
+          {
+            Authorization: `Bearer ${ this.authService.getToken() }`
+          }
+    }).subscribe();
     this.toastr.success('La requête à bien été envoyée');
   }
 

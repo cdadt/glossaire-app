@@ -104,16 +104,16 @@ export class AuthenticationService {
     }
   }
 
-  private saveToken(token: string): void {
-    localStorage.setItem('glossaire-token', token);
-    this.token = token;
-  }
-
-  private getToken(): string {
+  getToken(): string {
     if (!this.token) {
       this.token = localStorage.getItem('glossaire-token');
     }
 
     return this.token;
+  }
+
+  private saveToken(token: string): void {
+    localStorage.setItem('glossaire-token', token);
+    this.token = token;
   }
 }

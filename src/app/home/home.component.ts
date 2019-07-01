@@ -124,14 +124,14 @@ export class HomeComponent implements OnInit {
   /**
    * Méthode permettant d'avertir s'il faut afficher ou non l'overlay  et le résultat de la recherche
    */
-  onDisplayNone() {
+  onDisplayNone(): void {
     this.displayResults = false;
   }
 
   /**
    * Méthode qui permet d'afficher le résulats de la recherche au clic sur la barre de recherche si celle-ci n'est pas vide
    */
-  onDisplayResult() {
+  onDisplayResult(): void {
     if (this.queryField.value !== null && this.queryField.value !== '') {
       this.displayResults = true;
     }
@@ -195,9 +195,9 @@ export class HomeComponent implements OnInit {
   async unsubscribeToNotifications() {
 
     // On désinscrit la personne
-    await (await navigator.serviceWorker.getRegistration()).pushManager.getSubscription().then(
-      pushSubscription => pushSubscription.unsubscribe()).then(
-      success => this.unsubscriptionSuccessful()
+    await (await navigator.serviceWorker.getRegistration()).pushManager.getSubscription()
+        .then(pushSubscription => pushSubscription.unsubscribe())
+        .then(success => this.unsubscriptionSuccessful()
     );
   }
 

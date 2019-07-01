@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { NewsletterService } from '../../../services/newsletter.service';
+import { ThemeService } from '../../../services/theme.service';
+import { WordService } from '../../../services/word.service';
 import Theme from '../../models/theme.model';
-import {ThemeService} from '../../../services/theme.service';
-import {WordService} from '../../../services/word.service';
-import {NewsletterService} from '../../../services/newsletter.service';
-import {AuthenticationService} from '../../../services/authentication.service';
 
 @Component({
   selector: 'app-add-word',
@@ -15,23 +15,21 @@ export class AddWordComponent implements OnInit {
 
   wordForm;
   message: string;
-  // themes: Theme[];
+  themes: Array<Theme>;
 
   constructor(private formBuilder: FormBuilder,
               private themeService: ThemeService,
               private wordService: WordService,
               private newsletterService: NewsletterService,
               private authService: AuthenticationService) {
-    // this.themeService.getThemes().subscribe((data: Theme[]) => {
-      // this.themes = data;
-    // });
   }
 
-  ngOnInit() {
+  async ngOnInit(): Promise<any> {
     this.initForm();
+    this.themes = await this.themeService.getThemes() as Array<Theme>;
   }
 
-  initForm() {
+  initForm(): void {
     this.wordForm = this.formBuilder.group({
       word: ['', [Validators.required, Validators.maxLength(40)]],
       definition: ['', [Validators.required]],
@@ -40,7 +38,7 @@ export class AddWordComponent implements OnInit {
     });
   }
 
-  onSubmitForm() {
+  onSubmitForm(): void {
     if (this.wordForm.valid) {
       const word = this.wordForm.get('word').value;
       const definition = this.wordForm.get('definition').value;
@@ -49,11 +47,9 @@ export class AddWordComponent implements OnInit {
 
       // Pour chacun des themes choisis on recherche dans la liste initiale le titre correspondant à l'ID
       const themesObj = [];
-      // for (let i = 0; i < themes.length; i++) {
-      //   themesObj.push(this.themes.find(function(element) {
-      //     return element._id === themes[i];
-      //   }));
-      // }
+      for (const theme of themes) {
+        themesObj.push(this.themes.find(element => element._id === theme));
+      }
 
       // On contruit l'objet à envoyer en BDD
       const wordInfo = {
@@ -67,7 +63,8 @@ export class AddWordComponent implements OnInit {
       this.message = 'saved';
       this.wordForm.reset();
       this.wordService.addWord(wordInfo);
-      this.newsletterService.send(word, this.authService.getUserDetails().username).subscribe();
+      this.newsletterService.send(word, this.authService.getUserDetails().username)
+          .subscribe();
     } else {
       this.message = 'error';
     }
@@ -76,7 +73,7 @@ export class AddWordComponent implements OnInit {
   /**
    * Méthode permettant de fermer la fenêtre d'information "Définition créée"
    */
-  onClose() {
+  onClose(): void {
     this.message = 'none';
   }
 
