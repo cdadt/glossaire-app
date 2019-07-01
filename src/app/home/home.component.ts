@@ -38,7 +38,7 @@ import Word from '../models/word.model';
 export class HomeComponent implements OnInit {
 
   word: Word;
-  searchResults: object = { words: [], themes: [] };
+  searchResults: any = { words: [], themes: [] };
   displayResults: boolean;
   isSubscriber: boolean;
   isOpenSuccess: boolean;
