@@ -11,7 +11,7 @@ import { environment } from '../environments/environment';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { IndexedDbService } from '../services/indexed-db.service';
-import { NewsletterService } from '../services/newsletter.service';
+import { NotificationService } from '../services/notification.service';
 import { OnlineOfflineService } from '../services/online-offline.service';
 import { SearchService } from '../services/search.service';
 import { SyncService } from '../services/sync.service';
@@ -68,11 +68,11 @@ export class MyIntl extends TimeagoIntl {
     WordService,
     AuthenticationService,
     AuthGuardService,
-    NewsletterService,
+    NotificationService,
     SyncService,
     OnlineOfflineService,
     IndexedDbService,
-    NewsletterService,
+    NotificationService,
     SearchService
   ],
   bootstrap: [AppComponent]

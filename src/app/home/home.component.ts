@@ -7,7 +7,7 @@ import { strings as FrenchStrings } from 'ngx-timeago/language-strings/fr';
 import 'rxjs-compat/add/operator/debounceTime';
 import 'rxjs-compat/add/operator/distinctUntilChanged';
 import { AuthenticationService } from '../../services/authentication.service';
-import { NewsletterService } from '../../services/newsletter.service';
+import { NotificationService } from '../../services/notification.service';
 import { SearchService } from '../../services/search.service';
 import { ThemeService } from '../../services/theme.service';
 import { WordService } from '../../services/word.service';
@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
               private themeService: ThemeService,
               private authService: AuthenticationService,
               private swPush: SwPush,
-              private newsletterService: NewsletterService,
+              private notificationService: NotificationService,
               private searchService: SearchService,
               intl: TimeagoIntl
   ) {
@@ -102,7 +102,7 @@ export class HomeComponent implements OnInit {
       });
 
     // On vérifie la compatibilité du navigateur aux notifications
-    await this.newsletterService.isBrowserCompatibleToNotif();
+    await this.notificationService.isBrowserCompatibleToNotif();
   }
 
   /**
@@ -143,8 +143,8 @@ export class HomeComponent implements OnInit {
    * Demande au service web push d'inscrire la personne aux notification en générant une subscription "sub"
    */
   subscribeToNotifications(): void {
-    this.newsletterService.subscribeToNotifications();
-    if (this.newsletterService.getErrorWhenSubscribe()) {
+    this.notificationService.subscribeToNotifications();
+    if (this.notificationService.getErrorWhenSubscribe()) {
       this.isOpenError = true;
     } else {
       this.isOpenSuccess = true;
@@ -156,14 +156,13 @@ export class HomeComponent implements OnInit {
    * pour supprimer l'entrée concernant l'abonnement dans la Base de Données
    */
   async unsubscribeToNotifications(): Promise<any> {
-    this.newsletterService.unsubscribeToNotifications();
+    this.notificationService.unsubscribeToNotifications();
   }
   getIsSubscriber(): string {
-    return this.newsletterService.getIsSubscriber();
+    return this.notificationService.getIsSubscriber();
   }
 
   getNotification(): boolean {
-    console.log(this.newsletterService.getNotification());
-    return this.newsletterService.getNotification();
+    return this.notificationService.getNotification();
   }
 }

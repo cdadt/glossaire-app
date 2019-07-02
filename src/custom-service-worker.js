@@ -7,7 +7,7 @@ importScripts("./ngsw-worker.js");
   // il s’agit de la méthode standard pour définir des écouteurs d’événements.
   // use strict est obligatoire pour utiliser self
   self.addEventListener("notificationclick", (event) => {
-    // data.url fait référence au payload contenu dans newsletter.js
+    // data.url fait référence au payload contenu dans notification.js
     if (clients.openWindow && event.notification.data.url) {
       event.waitUntil(clients.openWindow(event.notification.data.url));
     }

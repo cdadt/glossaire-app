@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
 import { AuthenticationService } from '../../services/authentication.service';
-import { NewsletterService } from '../../services/newsletter.service';
+import { NotificationService } from '../../services/notification.service';
 import { ThemeService } from '../../services/theme.service';
 import { WordService } from '../../services/word.service';
 import Theme from '../models/theme.model';
@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit {
               private themeService: ThemeService,
               private authService: AuthenticationService,
               private swPush: SwPush,
-              private newsletterService: NewsletterService,
+              private notificationService: NotificationService,
               private searchService: SearchService
               ) {
     // L'overlay et le résultat de la recherche ne sont pas affichés par défaut
@@ -93,7 +93,7 @@ export class HeaderComponent implements OnInit {
       });
 
     // On vérifie la compatibilité du navigateur aux notifications
-    await this.newsletterService.isBrowserCompatibleToNotif();
+    await this.notificationService.isBrowserCompatibleToNotif();
   }
 
   onDisplayNone() {
@@ -164,7 +164,7 @@ export class HeaderComponent implements OnInit {
    * Demande au service web push d'inscrire la personne aux notification en générant une subscription "sub"
    */
   subscribeToNotifications() {
-    this.newsletterService.subscribeToNotifications();
+    this.notificationService.subscribeToNotifications();
   }
 
   /**
@@ -172,14 +172,14 @@ export class HeaderComponent implements OnInit {
    * pour supprimer l'entrée concernant l'abonnement dans la Base de Données
    */
   async unsubscribeToNotifications() {
-    this.newsletterService.unsubscribeToNotifications();
+    this.notificationService.unsubscribeToNotifications();
   }
 
   getIsSubscriber() {
-    return this.newsletterService.getIsSubscriber();
+    return this.notificationService.getIsSubscriber();
   }
 
   getNotification() {
-    return this.newsletterService.getNotification();
+    return this.notificationService.getNotification();
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../../services/authentication.service';
-import { NewsletterService } from '../../../services/newsletter.service';
+import { NotificationService } from '../../../services/notification.service';
 import { ThemeService } from '../../../services/theme.service';
 import { WordService } from '../../../services/word.service';
 import Theme from '../../models/theme.model';
@@ -20,7 +20,7 @@ export class AddWordComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private themeService: ThemeService,
               private wordService: WordService,
-              private newsletterService: NewsletterService,
+              private notificationService: NotificationService,
               private authService: AuthenticationService) {
   }
 
@@ -63,7 +63,7 @@ export class AddWordComponent implements OnInit {
       this.message = 'saved';
       this.wordForm.reset();
       this.wordService.addWord(wordInfo);
-      this.newsletterService.send(word, this.authService.getUserDetails().username)
+      this.notificationService.send(word, this.authService.getUserDetails().username)
           .subscribe();
     } else {
       this.message = 'error';

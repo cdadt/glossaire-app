@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 import { AuthenticationService } from './authentication.service';
 
 @Injectable()
-export class NewsletterService {
+export class NotificationService {
   readonly VAPID_PUBLIC_KEY = 'BNGmdT-zn-S0tocFwPP9Z6PG3pfouwebPHQ0lpAQg5Z5LLZJ4OdBXz8aN_ct19Bbvi56WeYosu94RCXS34D2NU0';
 
   private isSubscriber: string;
