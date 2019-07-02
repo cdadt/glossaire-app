@@ -12,7 +12,7 @@
     <!-- Message d'info -->
 
     <!-- Header avec logo -->
-    <header (click)="onDisplayNone()" class="home-header">
+    <header (click)="onDisplayResultsNone()" class="home-header">
       <img src="assets/img/logo_v4.png">
       <p>Bienvenue sur l'application Glossaire</p>
     </header>
@@ -29,12 +29,12 @@
         <div id="home-search-results" class="home-search-results"
              [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}">
           <div *ngFor="let word of searchResults.words">
-            <a (click)="onDisplayNone()" [routerLink]="['definitions/', word._id]">
+            <a (click)="onDisplayResultsNone()" [routerLink]="['definitions/', word._id]">
               <i class="fas fa-search"></i>{{ word.title }}
             </a>
           </div>
           <div *ngFor="let theme of searchResults.themes">
-            <a [routerLink]="['themes/', theme._id, 'words']" (click)="onDisplayNone()">
+            <a [routerLink]="['themes/', theme._id, 'words']" (click)="onDisplayResultsNone()">
               <i class="fas fa-search"></i>{{ theme.title }} <span class="home-search-theme"> en tant que thème </span>
             </a>
           </div>
@@ -44,7 +44,7 @@
     <!-- Zone de recherche -->
 
     <!-- Dernières défintions ajoutées -->
-    <section (click)="onDisplayNone()" class="home-last-definition">
+    <section (click)="onDisplayResultsNone()" class="home-last-definition">
       <header>
         <h1>Dernière définition</h1>
       </header>
@@ -66,7 +66,7 @@
     <!-- Dernières défintions ajoutées -->
 
     <!-- Connexion -->
-    <div (click)="onDisplayNone()" class="home-connection">
+    <div (click)="onDisplayResultsNone()" class="home-connection">
       <a *ngIf="!isLoggedIn()" [routerLink]="['connexion']" class="btn">Se connecter</a>
       <a *ngIf="isLoggedIn()" (click)="authService.logout()" class="btn">Déconnexion</a>
       <a *ngIf="isLoggedIn()" [routerLink]="['dashboard']" class="btn admin">Administration</a>
@@ -79,13 +79,14 @@
         <i class="far fa-bell"></i>
         <h2>Vous souhaitez être averti de l'arrivée d'une nouvelle définition ?</h2>
       </header>
-      <div *ngIf="notification" class="custom-control custom-checkbox">
-        <input *ngIf="!isSubscriber" (click)="subscribeToNotifications()" type="checkbox" class="custom-control-input" id="subscription" [checked]="isSubscriber">
-        <a *ngIf="!isSubscriber" (click)="subscribeToNotifications()" class="custom-control-label">S'abonner aux notifications</a>
-        <input *ngIf="isSubscriber" (click)="unsubscribeToNotifications()" type="checkbox" class="custom-control-input" id="unsubscription" [checked]="isSubscriber">
-        <a *ngIf="isSubscriber" (click)="unsubscribeToNotifications()" class="custom-control-label">S'abonner aux notifications</a>
+      <div *ngIf="getNotification()" class="custom-control custom-checkbox">
+        <input *ngIf="getIsSubscriber() === 'false'" (click)="subscribeToNotifications()" type="checkbox" class="custom-control-input" id="subscription" [checked]="getIsSubscriber() === 'true'">
+        <a *ngIf="getIsSubscriber() === 'false'" (click)="subscribeToNotifications()" class="custom-control-label">S'abonner aux notifications</a>
+        <input *ngIf="getIsSubscriber() === 'true'" (click)="unsubscribeToNotifications()" type="checkbox" class="custom-control-input" id="unsubscription" [checked]="getIsSubscriber() === 'true'">
+        <a *ngIf="getIsSubscriber() === 'true'" (click)="unsubscribeToNotifications()" class="custom-control-label">S'abonner aux notifications</a>
+        <i *ngIf="getIsSubscriber() === 'loading'"  class="fas fa-spinner"></i>
       </div>
-      <div *ngIf="!notification" class="font-weight-bold text-center">
+      <div *ngIf="!getNotification()" class="font-weight-bold text-center">
         Les notifications ne sont pas disponibles sur ce navigateur.
       </div>
     </section>

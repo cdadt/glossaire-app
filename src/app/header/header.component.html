@@ -56,21 +56,21 @@
         <div>
           <i class="far fa-bell"></i><span>Notifications</span>
         </div>
-        <div *ngIf="notification">
-          <a *ngIf="isSubscriber === 'false'" (click)="subscribeToNotifications()" class="header-menu-notification-toggle">
+        <div *ngIf="getNotification()">
+          <a *ngIf="getIsSubscriber() === 'false'" (click)="subscribeToNotifications()" class="header-menu-notification-toggle">
             <span>S'abonner</span>
             <i class="fas fa-toggle-off"></i>
           </a>
-          <a *ngIf="isSubscriber === 'true'" (click)="unsubscribeToNotifications()" class="header-menu-notification-toggle">
+          <a *ngIf="getIsSubscriber() === 'true'" (click)="unsubscribeToNotifications()" class="header-menu-notification-toggle">
             <span>S'abonner</span>
             <i class="fas fa-toggle-on"></i>
           </a>
-          <a *ngIf="isSubscriber === 'loading'" class="header-menu-notification-toggle">
+          <a *ngIf="getIsSubscriber() === 'loading'" class="header-menu-notification-toggle">
             <span>S'abonner</span>
             <i class="fas fa-spinner"></i><i class="fas fa-toggle-off"></i>
           </a>
         </div>
-        <span class="header-menu-notification-toggle" *ngIf="!notification">
+        <span class="header-menu-notification-toggle" *ngIf="!getNotification()">
           Les notifications ne sont pas disponibles sur ce navigateur.
         </span>
       </li>
