@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthenticationService, TokenPayload } from '../../services/authentication.service';
+import { TokenPayload } from '../../services/authentication.service';
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-register',
@@ -21,8 +21,7 @@ export class RegisterComponent implements OnInit {
   };
 
   constructor(private formBuilder: FormBuilder,
-              private authService: AuthenticationService,
-              private router: Router) {
+              private userService: UserService) {
   }
 
   ngOnInit() {
@@ -61,7 +60,7 @@ export class RegisterComponent implements OnInit {
       this.credentials.firstname = firstname;
       this.credentials.lastname = lastname;
 
-      const register = await this.authService.register(this.credentials);
+      const register = await this.userService.register(this.credentials);
       if (register) {
         this.message = 'registered';
         this.authForm.reset();

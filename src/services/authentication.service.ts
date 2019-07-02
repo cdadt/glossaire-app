@@ -70,21 +70,6 @@ export class AuthenticationService {
   }
 
   /**
-   * Méthode permettant d'enregistrer un utilisateur
-   * Elle utilise la fonction request pour l'appel au backend et effectuer les actions
-   * @param user l'utilisateur à enregistrer
-   */
-  register(user: TokenPayload): Promise<any> {
-    return this.http.post(`${environment.apiUrl}/users`, user, {
-      headers:
-        {
-          Authorization: `Bearer ${ this.getToken() }`
-        }
-    })
-    .toPromise();
-  }
-
-  /**
    * Méthode permettant de connecter un utilisateur
    * Elle utilise la fonction request pour l'appel au backend et effectuer les actions
    * @param user l'utilisateur à connecter
