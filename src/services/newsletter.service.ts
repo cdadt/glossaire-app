@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 import { AuthenticationService } from './authentication.service';
-import {environment} from "../environments/environment";
 
 @Injectable()
 export class NewsletterService {
@@ -32,11 +32,14 @@ export class NewsletterService {
    * @param endpoint Le endpoint de l'objet subscription
    */
   deletePushSubscriber(endpoint: any) {
-    const sub = {
-      endpoint
-    };
-    // return this.http.post<any>(`${this.uri}/notifications/subscribers/delete/`, sub);
-    return this.http.delete<any>(`${environment.apiUrl}/notifications/subscribers/"${sub.endpoint}"`);
+    /*
+     * Le endpoint étant une url et que seulement la dernière partie nous intéresse, on découpe cette url
+     * en un tableau et on récupère le dernier élément
+     */
+    const endpointArr = endpoint.split('/');
+    const idEndpoint = endpointArr[endpointArr.length - 1];
+
+    return this.http.delete<any>(`${environment.apiUrl}/notifications/subscribers/${idEndpoint}`);
   }
 
   /**
@@ -55,6 +58,7 @@ export class NewsletterService {
    * @param pushSubscription Objet subscription
    */
   isSubscribe(pushSubscription) {
+    console.log(pushSubscription);
     if (pushSubscription === null) {
       this.isSubscriber = 'false';
     } else {
@@ -115,20 +119,18 @@ export class NewsletterService {
    * Méthode qui vérifie la compatibilité des navigateurs pour l'utilisation des notifications
    */
   async isBrowserCompatibleToNotif(): Promise<any> {
-    console.log('testcompatibilité');
     // vérifie si le navigateur n'est pas Safari, si c'est le cas, vérifie que le navigateur supporte les
     // notifications et enfin si le navigateur est inscrit aux notifications
     if (window.navigator.userAgent.indexOf('Safari') > -1 && window.navigator.userAgent.indexOf('Chrome') === -1) {
-      console.log('safari');
       this.notification = false;
     } else {
       if (('Notification' in window)) {
-        console.log('ok');
         this.notification = true;
-        await (await navigator.serviceWorker.getRegistration()).pushManager.getSubscription().then(
-            pushSubscription => this.isSubscribe(pushSubscription)).catch(err => console.log(err));
+        await (await navigator.serviceWorker.getRegistration()).pushManager.getSubscription()
+            .then(
+            pushSubscription => this.isSubscribe(pushSubscription))
+            .catch(err => console.log(err));
       } else {
-        console.log('non');
         this.notification = false;
       }
     }
