@@ -9,8 +9,5 @@ export default class Word {
   }];
   know_more: string;
 
-  constructor() {
-  }
+  constructor() {}
 }
-
-

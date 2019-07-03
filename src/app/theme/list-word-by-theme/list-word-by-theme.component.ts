@@ -31,7 +31,7 @@ export class ListWordByThemeComponent implements OnInit {
    * Effectue des actions d'affichage lorsque l'on clique sur une définition
    * @param id L'id de la définition
    */
-  onOpenDef(id) {
+  onOpenDef(id): void {
 
     // On récupère le contenu et l'icône "flèche"
     const elem = document.getElementById(id);

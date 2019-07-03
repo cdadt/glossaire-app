@@ -24,14 +24,14 @@ export class RegisterComponent implements OnInit {
               private userService: UserService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): any {
     this.initForm();
   }
 
   /**
    * Initialisation du formulaire de connexion avec la méthide réactive
    */
-  initForm() {
+  initForm(): void {
     this.authForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.maxLength(30)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(60)]],
@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
    * Une fois l'utilisateur authentifié on le redirige vers la page dashboard
    * Sinon on affiche l'erreur
    */
-  async onSubmitForm() {
+  async onSubmitForm(): Promise<any> {
     if (this.authForm.valid) {
       const username = this.authForm.get('username').value;
       const email = this.authForm.get('email').value;
@@ -73,14 +73,14 @@ export class RegisterComponent implements OnInit {
   /**
    * Méthode permettant de fermer la fenêtre d'information "Utilisateur créé"
    */
-  onClose() {
+  onClose(): void {
     this.message = 'none';
   }
 
   /**
    * Méthode permettant de réinitialiser le formulaire
    */
-  onNew() {
+  onNew(): void {
     this.message = 'none';
     this.authForm.reset();
   }
