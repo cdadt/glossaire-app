@@ -22,14 +22,14 @@ export class AuthenticationComponent implements OnInit {
               private router: Router) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.initForm();
   }
 
   /**
    * Initialisation du formulaire de connexion avec la méthode réactive
    */
-  initForm() {
+  initForm(): void {
     this.authForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
@@ -41,7 +41,7 @@ export class AuthenticationComponent implements OnInit {
    * Une fois l'utilisateur authentifié on le redirige vers la page dashboard
    * Sinon on affiche l'erreur
    */
-  async onSubmitForm() {
+  async onSubmitForm(): Promise<any> {
     const username = this.authForm.get('username').value;
     const password = this.authForm.get('password').value;
     this.credentials.username = username;

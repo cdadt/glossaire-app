@@ -4,14 +4,12 @@ import { FormControl } from '@angular/forms';
 import { SwPush } from '@angular/service-worker';
 import { TimeagoIntl } from 'ngx-timeago';
 import { strings as FrenchStrings } from 'ngx-timeago/language-strings/fr';
-import 'rxjs-compat/add/operator/debounceTime';
-import 'rxjs-compat/add/operator/distinctUntilChanged';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { AuthenticationService } from '../../services/authentication.service';
 import { NotificationService } from '../../services/notification.service';
 import { SearchService } from '../../services/search.service';
 import { ThemeService } from '../../services/theme.service';
 import { WordService } from '../../services/word.service';
-import Theme from '../models/theme.model';
 import Word from '../models/word.model';
 
 @Component({
@@ -76,10 +74,12 @@ export class HomeComponent implements OnInit {
     /**
      * Détecte les changements dans le formulaire de recherche et effectue la recherche sur les mots et les thèmes
      */
-    this.queryField.valueChanges
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .subscribe (async queryField => {
+    this.queryField.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(query => this.searchService.search(query))
+    )
+        .subscribe (result => {
         // On affiche l'overlay et le résultat
         this.displayResults = true;
 
@@ -93,11 +93,11 @@ export class HomeComponent implements OnInit {
         const inputOffsetTop = heightInputSearch + inputSearch.offsetTop + 5;
 
         const divResults = (document.getElementById('home-search-results') as HTMLInputElement);
-        divResults.style.top = inputOffsetTop + 'px';
-        divResults.style.left = inputOffsetLeft + 'px';
+        divResults.style.top = `${inputOffsetTop}px`;
+        divResults.style.left = `${inputOffsetLeft}px`;
         // ****** Positionne les résultats de la recherche en fonction de l'input ****** //
 
-        this.searchResults = await this.searchService.search(queryField);
+        this.searchResults = result;
         this.onDisplayResult();
       });
 
