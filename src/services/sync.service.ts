@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from './authentication.service';
 import { IndexedDbService } from './indexed-db.service';
+import { OcrService } from './ocr.service';
 import { OnlineOfflineService } from './online-offline.service';
-import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,8 @@ export class SyncService {
               private readonly onlineOfflineService: OnlineOfflineService,
               private indexedDBService: IndexedDbService,
               private toastr: ToastrService,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              private ocrService: OcrService) {
     if (this.isOnline) {
       this.indexedDBService.sendStockedQueries();
     }

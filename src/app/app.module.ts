@@ -29,6 +29,7 @@ import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-b
 import { AddWordComponent } from './word/add-word/add-word.component';
 import { EditWordComponent } from './word/edit-word/edit-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
+import { OcrService } from '../services/ocr.service';
 
 export class MyIntl extends TimeagoIntl {
 // do extra stuff here...
@@ -73,7 +74,8 @@ export class MyIntl extends TimeagoIntl {
     OnlineOfflineService,
     IndexedDbService,
     NotificationService,
-    SearchService
+    SearchService,
+    OcrService
   ],
   bootstrap: [AppComponent]
 })
