@@ -57,7 +57,5 @@ export class WordService {
       url: `${environment.apiUrl}/words`,
       params: word
     });
-    // return this.http.post(`${environment.apiUrl}/words`, word)
-    //   .toPromise();
   }
 }

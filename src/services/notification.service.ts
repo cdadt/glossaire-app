@@ -1,8 +1,9 @@
+import { AuthenticationService } from './authentication.service';
+import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { SwPush } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class NotificationService {
@@ -23,7 +24,7 @@ export class NotificationService {
    * On enregistre le nouvel abonné dans la BDD
    * @param sub L'abonnement push au format json
    */
-  addPushSubscriber(sub: any) {
+  addPushSubscriber(sub: any): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/notifications/subscribers`, sub);
   }
 
@@ -31,7 +32,7 @@ export class NotificationService {
    * Méthode permettant de supprimer une subscription
    * @param endpoint Le endpoint de l'objet subscription
    */
-  deletePushSubscriber(endpoint: any) {
+  deletePushSubscriber(endpoint: any): Observable<any> {
     /*
      * Le endpoint étant une url et que seulement la dernière partie nous intéresse, on découpe cette url
      * en un tableau et on récupère le dernier élément
@@ -45,11 +46,12 @@ export class NotificationService {
   /**
    * On envoie le message à tous les abonnés
    */
-  send(title, user) {
+  send(title, user): Observable<any> {
     const object = {
       title,
       user
     };
+
     return this.http.post<any>(`${environment.apiUrl}/notifications`, object);
   }
 
@@ -57,7 +59,7 @@ export class NotificationService {
    * Méthode qui teste si l'abonnement existe ou non. En fonction du résultat, sera affiché un bouton "S'abonner" ou "Se désabonner"
    * @param pushSubscription Objet subscription
    */
-  isSubscribe(pushSubscription) {
+  isSubscribe(pushSubscription): void {
     console.log(pushSubscription);
     if (pushSubscription === null) {
       this.isSubscriber = 'false';
@@ -70,22 +72,23 @@ export class NotificationService {
   /**
    * Demande au service web push d'inscrire la personne aux notification en générant une subscription "sub"
    */
-  subscribeToNotifications() {
+  subscribeToNotifications(): void {
     this.isSubscriber = 'loading';
     // On inscrit la personne
     this.swPush.requestSubscription({
       serverPublicKey: this.VAPID_PUBLIC_KEY
-    }).then(
-        sub => this.subscriptionSuccessful(sub)
-        , err => this.errorWhenSubscribe = true
-    );
+    })
+        .then(
+          sub => this.subscriptionSuccessful(sub)
+          , err => this.errorWhenSubscribe = true
+        );
   }
 
   /**
    * Méthode permettant de désinscrire le naviagteur aux notifications. Puis on utilise la fonction unsubscriptionSuccessful
    * pour supprimer l'entrée concernant l'abonnement dans la Base de Données
    */
-  async unsubscribeToNotifications() {
+  async unsubscribeToNotifications(): Promise<any> {
     // On désinscrit la personne
     await (await navigator.serviceWorker.getRegistration()).pushManager.getSubscription().then(
         pushSubscription => pushSubscription.unsubscribe()).then(
@@ -98,7 +101,7 @@ export class NotificationService {
    * Puis envoie la subscription pour enregistrement dans la Base de données
    * @param sub L'objet subscription
    */
-  subscriptionSuccessful(sub) {
+  subscriptionSuccessful(sub): void {
     // On indique à la page que la personne s'est abonnée et on lui renseigne le endpoint si jamais la personne souhaite
     // se désabonner. Puis on l'inscrit dans la Base de Données
     this.errorWhenSubscribe = false;
@@ -110,7 +113,7 @@ export class NotificationService {
   /**
    * Méthode permettant de supprimer l'entrée d'une personne abonnée dans la Base de Données
    */
-  unsubscriptionSuccessful() {
+  unsubscriptionSuccessful(): void {
     this.isSubscriber = 'false';
     this.deletePushSubscriber(this.subscription).subscribe();
   }
@@ -136,15 +139,15 @@ export class NotificationService {
     }
   }
 
-  getIsSubscriber() {
+  getIsSubscriber(): any {
     return this.isSubscriber;
   }
 
-  getErrorWhenSubscribe() {
+  getErrorWhenSubscribe(): boolean {
     return this.errorWhenSubscribe;
   }
 
-  getNotification() {
+  getNotification(): boolean {
     return this.notification;
   }
 

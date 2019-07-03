@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import {AuthenticationService} from "./authentication.service";
+import { AuthenticationService } from './authentication.service';
 import { IndexedDbService } from './indexed-db.service';
 import { OnlineOfflineService } from './online-offline.service';
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -48,16 +49,20 @@ export class SyncService {
    * Lance la requête au serveur.
    * @param query: la requête à envoyer.
    */
-  private addOnline(query: any) {
+  private addOnline(query: any): void {
     this.http.post(query.url, query.params, {
       headers:
           {
             Authorization: `Bearer ${ this.authService.getToken() }`
           }
-    }).subscribe();
+    })
+        .subscribe();
     this.toastr.success('La requête à bien été envoyée');
   }
 
+  /**
+   * Méthode qui souscrit au listener du onlineOfflineService pour gérer les changements d'état de la connexion internet.
+   */
   private checkBackOnline(): void {
     this.onlineOfflineService.getIsOnline()
         .subscribe(online => {

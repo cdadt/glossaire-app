@@ -6,8 +6,7 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class ThemeService {
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   /**
    * Récupère tous les thèmes
