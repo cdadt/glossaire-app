@@ -12,6 +12,7 @@ import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { IndexedDbService } from '../services/indexed-db.service';
 import { NotificationService } from '../services/notification.service';
+import { OcrService } from '../services/ocr.service';
 import { OnlineOfflineService } from '../services/online-offline.service';
 import { SearchService } from '../services/search.service';
 import { SyncService } from '../services/sync.service';
@@ -72,7 +73,6 @@ export class MyIntl extends TimeagoIntl {
     SyncService,
     OnlineOfflineService,
     IndexedDbService,
-    NotificationService,
     SearchService
   ],
   bootstrap: [AppComponent]

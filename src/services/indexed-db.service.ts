@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
-import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from './authentication.service';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,10 @@ export class IndexedDbService {
 
   private db: any;
 
-  constructor(private http: HttpClient, private toastr: ToastrService) {
+  constructor(private http: HttpClient,
+              private toastr: ToastrService,
+              private notificationService: NotificationService,
+              private authService: AuthenticationService) {
     this.createDatabase();
   }
 
@@ -21,7 +26,7 @@ export class IndexedDbService {
   addToIndexedDb(query: any): void {
     this.db.queries.add(query)
         .catch(e => {
-          console.log('Erreur: ' + (e.stack || e));
+          console.log(`Erreur: ${(e.stack || e)}`);
     });
   }
 
@@ -39,6 +44,8 @@ export class IndexedDbService {
         this.db.queries.each((query: any) => {
           this.sendQuery(query)
               .then(() => {
+                this.notificationService.send(query.params.title, this.authService.getUserDetails().username)
+                    .subscribe();
                 this.deleteItemFromIndexedDb(query);
           });
         })
@@ -59,7 +66,8 @@ export class IndexedDbService {
    * @param query: la requête à supprimer.
    */
   private deleteItemFromIndexedDb(query: any): void {
-    this.db.queries.delete(query.id).then(() => {
+    this.db.queries.delete(query.id)
+        .then(() => {
       console.log('Requête supprimé de l\'indexedDb');
     });
   }
@@ -80,7 +88,7 @@ export class IndexedDbService {
    * @param query: la requête à envoyer.
    */
   private async sendQuery(query: any): Promise<any> {
-    this.http.post(query.url, query.params)
+    this.http.post(query.url, query.params, query.option)
         .subscribe();
   }
 

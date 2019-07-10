@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
+import { AuthenticationService } from './authentication.service';
 import { SyncService } from './sync.service';
 
 @Injectable({
@@ -8,7 +9,8 @@ import { SyncService } from './sync.service';
 })
 export class WordService {
   constructor(private http: HttpClient,
-              private syncService: SyncService
+              private syncService: SyncService,
+              private authService: AuthenticationService
   ) {}
 
   /**
@@ -55,7 +57,13 @@ export class WordService {
   addWord(word: object): void {
     this.syncService.howToAdd({
       url: `${environment.apiUrl}/words`,
-      params: word
+      params: word,
+      option: {
+        headers:
+            {
+              Authorization: `Bearer ${ this.authService.getToken() }`
+            }
+      }
     });
   }
 }

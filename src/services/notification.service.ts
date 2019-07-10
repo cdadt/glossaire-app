@@ -1,9 +1,9 @@
-import { AuthenticationService } from './authentication.service';
-import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { SwPush } from '@angular/service-worker';
+import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class NotificationService {
@@ -60,7 +60,6 @@ export class NotificationService {
    * @param pushSubscription Objet subscription
    */
   isSubscribe(pushSubscription): void {
-    console.log(pushSubscription);
     if (pushSubscription === null) {
       this.isSubscriber = 'false';
     } else {
@@ -90,8 +89,10 @@ export class NotificationService {
    */
   async unsubscribeToNotifications(): Promise<any> {
     // On désinscrit la personne
-    await (await navigator.serviceWorker.getRegistration()).pushManager.getSubscription().then(
-        pushSubscription => pushSubscription.unsubscribe()).then(
+    await (await navigator.serviceWorker.getRegistration()).pushManager.getSubscription()
+        .then(
+        pushSubscription => pushSubscription.unsubscribe())
+        .then(
         success => this.unsubscriptionSuccessful()
     );
   }
@@ -107,7 +108,8 @@ export class NotificationService {
     this.errorWhenSubscribe = false;
     this.isSubscriber = 'true';
     this.subscription = sub.endpoint;
-    this.addPushSubscriber(sub).subscribe();
+    this.addPushSubscriber(sub)
+        .subscribe();
   }
 
   /**
@@ -115,7 +117,8 @@ export class NotificationService {
    */
   unsubscriptionSuccessful(): void {
     this.isSubscriber = 'false';
-    this.deletePushSubscriber(this.subscription).subscribe();
+    this.deletePushSubscriber(this.subscription)
+        .subscribe();
   }
 
   /**
