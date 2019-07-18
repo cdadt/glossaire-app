@@ -100,11 +100,7 @@
               "src/manifest.json",
               "src/custom-service-worker.js"
             ],
-            "test": {
-              "options": {
-                "codeCoverage": true
-              }
-            }
+            "codeCoverage": true
           }
         },
         "lint": {
