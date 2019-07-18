@@ -22,7 +22,7 @@
     <div class="list-word-def-content none" id="{{ word._id }}">
       <div class="list-word-def-background">
         <p>{{ word.definition }}</p>
-        <a [routerLink]="['/definitions', word.title]">
+        <a [routerLink]="['/definitions', word._id]">
           <i class="fas fa-arrow-alt-circle-right"></i>
           <span>Consulter</span>
         </a>
