@@ -21,6 +21,9 @@ cache:
     - ./node_modules
 
 install:
+  - npm cache clean --force
+  - npm cache verify
+  - rm package-lock.json
   - npm install
 
 script:
