@@ -23,7 +23,7 @@ cache:
 install:
   - npm cache clean --force
   - npm cache verify
-  - rm package-lock.json
+  - rm -rf node_modules && rm ./package-lock.json
   - npm install
 
 script:
