@@ -6,9 +6,12 @@ module.exports = function (config) {
     mime: {
       'text/x-typescript': ['ts','tsx']
     },
-    basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    basePath: '.',
+    files: ['test/**/*.js'],
+    frameworks: ['jasmine', 'mocha', 'chai', '@angular-devkit/build-angular'],
     plugins: [
+      require('karma-mocha'),
+      require('karma-chai'),
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
@@ -23,19 +26,19 @@ module.exports = function (config) {
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
     },
-    browsers: ['HeadlessChrome'],
+    browsers: ['ChromeHeadless'],
     customLaunchers:{
-      ChromeHeadlessCI:{
+      Chrome:{
         base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
+        flags: ['--disable-translate', '--disable-extensions', '--headless', '--disable-gpu', '--remote-debugging-port=9223', '--no-sandbox']
       }
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: true,
-    //browsers: ['Chrome'],
+    autoWatch: false,
+    //browsers: ['ChromeHeadless'],
     singleRun: true,
     restartOnFileChange: false
   });
