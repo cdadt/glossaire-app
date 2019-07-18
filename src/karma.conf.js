@@ -24,7 +24,7 @@ module.exports = function (config) {
     customLaunchers: {
       ChromeHeadlessCI: {
         base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
+        flags: ['--no-sandbox','--headless', '--disable-gpu','--remote-debugging-port=9222']
       }
     },
     reporters: ['progress', 'kjhtml'],
