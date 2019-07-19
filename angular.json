@@ -99,7 +99,8 @@
               "src/assets",
               "src/manifest.json",
               "src/custom-service-worker.js"
-            ]
+            ],
+            "codeCoverage": true
           }
         },
         "lint": {

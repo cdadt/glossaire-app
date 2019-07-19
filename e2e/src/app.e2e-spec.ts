@@ -1,7 +1,7 @@
-import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
+//import { AppPage } from './app.po';
+//import { browser, logging } from 'protractor';
 
-describe('workspace-project App', () => {
+/*describe('workspace-project App', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to Glossaire-CDADT!');
+    expect(page.getTitleText()).toEqual('Dernière définition');
   });
 
   afterEach(async () => {
@@ -20,4 +20,4 @@ describe('workspace-project App', () => {
       level: logging.Level.SEVERE,
     } as logging.Entry));
   });
-});
+});*/
