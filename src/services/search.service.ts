@@ -17,10 +17,12 @@ export class SearchService {
    */
   async search(queryField): Promise<object> {
     const dataWord = await this.wordService.getWordsLikeByTitle(queryField) as Array<Word>;
-    const dataWordsSorted = this.sortSearchTable(dataWord, queryField);
+    const dataWordsSorted = this.sortSearchTable(dataWord, queryField)
+        .slice(0, 4);
 
     const dataTheme = await this.themeService.getThemesLikeByTitle(queryField) as Array<Theme>;
-    const dataThemesSorted = this.sortSearchTable(dataTheme, queryField);
+    const dataThemesSorted = this.sortSearchTable(dataTheme, queryField)
+        .slice(0, 2);
 
     return {
       words: dataWordsSorted as Array<Word>,
