@@ -106,3 +106,23 @@ section.authentication-form-group h1 {
   padding:1rem;
   cursor: pointer;
 }
+
+.add-word-spinner{
+  font-size: 1em;
+  color: orange;
+  vertical-align: center;
+  margin-bottom: 10px;
+}
+
+.add-word-spinner img{
+  width: 2em;
+}
+
+.add-word-read-image {
+  margin-bottom: 10px;
+}
+
+.add-word-read-image-explanation{
+  font-style: italic;
+  font-size: 0.8em;
+}

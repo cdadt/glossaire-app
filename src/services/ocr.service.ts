@@ -1,26 +1,27 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import Tesseract from 'tesseract.js';
+import { Tesseract } from 'tesseract.ts';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OcrService {
 
-    constructor() {
-        this.readImage(undefined);
+    constructor(private http: HttpClient) {
+        // CONSTRUCTOR
     }
 
-    readImage(myImage: any): void {
-        const {TesseractWorker} = Tesseract;
-
-    //     worker
-    //         .recognize('https://tesseract.projectnaptha.com/img/eng_bw.png')
-    //         .progress(p => {
-    //             console.log('progress', p);
+    readImage(image: any): Promise<any> {
+    //     Tesseract
+    //         .recognize(image, 'fra')
+    //         .progress(console.log)
+    //         .then((res: any) => {
+    //             console.log(res.text);
     //         })
-    //         .then(({text}) => {
-    //             console.log(text);
-    //             worker.terminate();
-    //         });
+    //         .catch(console.error);
+
+        return this.http.post<any>(`${environment.apiUrl}/ocr`, image)
+            .toPromise();
     }
 }

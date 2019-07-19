@@ -37,6 +37,10 @@ export class SyncService {
     }
   }
 
+  getIsOnline(): boolean {
+      return this.isOnline;
+  }
+
   /**
    * Ajoute la requête dans l'indexedDb pour traitement ultérieur.
    * @param query: la requête à ajouter à l'indexedDb.

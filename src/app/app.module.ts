@@ -73,7 +73,8 @@ export class MyIntl extends TimeagoIntl {
     SyncService,
     OnlineOfflineService,
     IndexedDbService,
-    SearchService
+    SearchService,
+    OcrService
   ],
   bootstrap: [AppComponent]
 })

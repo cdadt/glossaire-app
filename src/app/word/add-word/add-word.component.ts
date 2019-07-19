@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { OcrService } from '../../../services/ocr.service';
+import { SyncService } from '../../../services/sync.service';
 import { ThemeService } from '../../../services/theme.service';
 import { WordService } from '../../../services/word.service';
 import Theme from '../../models/theme.model';
@@ -14,18 +17,23 @@ export class AddWordComponent implements OnInit {
   wordForm;
   message: string;
   themes: Array<Theme>;
+  readImageLoadingDef: boolean;
+  readImageLoadingKnowMore: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private themeService: ThemeService,
-              private wordService: WordService) {
+              private wordService: WordService,
+              private ocrService: OcrService,
+              private syncService: SyncService,
+              private toastr: ToastrService) {
   }
 
   async ngOnInit(): Promise<any> {
-    this.initForm();
+    this.initWordForm();
     this.themes = await this.themeService.getThemes() as Array<Theme>;
   }
 
-  initForm(): void {
+  initWordForm(): void {
     this.wordForm = this.formBuilder.group({
       word: ['', [Validators.required, Validators.maxLength(40)]],
       definition: ['', [Validators.required]],
@@ -71,4 +79,63 @@ export class AddWordComponent implements OnInit {
     this.message = 'none';
   }
 
+  /**
+   * Méthode permettant de réupérer l'image sélectionnée dans le champ input file et de l'envoyer au service ocr pour
+   * reconnaissance. Le résultat est affiché dans le champ Définition
+   * @param element L'élément input de type file
+   */
+  onImageRecognition(element): void {
+    // On vérifie que la navigation se fait en ligne
+    if (this.syncService.getIsOnline()) {
+
+      // on active le spinner de chargement
+      this.activateLoaders(element);
+
+      // on récupère l'image
+      const image = element.target.files[0];
+
+      const formData = new FormData();
+      formData.append('file', image);
+
+      // On lance la reconnaissance d'image depuis l'ocrservice
+      // Si ça fonctionne, on désactive le spinner et on affiche le résultat dans les champs
+      this.ocrService.readImage(formData)
+          .then(success => {
+            this.displayOcrResults(element, success);
+          });
+    } else {
+      this.toastr.warning('Veuillez attendre de récupérer la connexion avant de réessayer la reconnaissance d\'image',
+          'Vous êtes hors ligne');
+    }
+  }
+
+  /**
+   * Méthode permettabnt d'activer les loaders concernés
+   * @param element L'input sur lequel l'utilisateur a cliqué
+   */
+  activateLoaders(element): void {
+    if (element.target.id === 'inputFileDef') {
+      this.readImageLoadingDef = true;
+    }
+    if (element.target.id === 'inputFileKnowMore') {
+      this.readImageLoadingKnowMore = true;
+    }
+  }
+
+  /**
+   * Méthode permettant d'afficher le résultat de l'ocr dans le champ désiré et de désactivé le spinner
+   * @param element L'input sur lequel l'utilisateur a cliqué
+   * @param response Le résultat de la reconnaissance d'image
+   */
+  displayOcrResults(element, response): void {
+    if (element.target.id === 'inputFileDef') {
+      this.readImageLoadingDef = false;
+      this.wordForm.controls.definition.setValue(response.textResponse);
+    }
+
+    if (element.target.id === 'inputFileKnowMore') {
+      this.readImageLoadingKnowMore = false;
+      this.wordForm.controls.knowMore.setValue(response.textResponse);
+    }
+  }
 }

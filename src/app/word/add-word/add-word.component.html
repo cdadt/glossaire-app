@@ -46,10 +46,28 @@
 
     <div class="authentication-form-group">
       <label>Définition</label>
+      <p class="add-word-read-image-explanation">
+        Il est possible de sélectionner une photo de la définition qui sera lue par le système et dont le contenu sera écrit dans le champ "Définition".
+      </p>
+      <div *ngIf="!readImageLoadingDef" class="add-word-read-image">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputFileDefAddon">Reconnaissance</span>
+          </div>
+          <div class="custom-file">
+            <input (change)="onImageRecognition($event)" type="file" class="custom-file-input" id="inputFileDef"
+                   aria-describedby="inputFileDefAddon">
+            <label class="custom-file-label" for="inputFileDef">Image</label>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="readImageLoadingDef" class="add-word-spinner">
+        <img src="assets/spinner.svg"> Lecture en cours ...
+      </div>
       <textarea
         placeholder="La définition du mot..."
         [ngClass]="{ 'valid-control': wordForm.controls['definition'].valid, 'invalid-control': wordForm.controls['definition'].invalid && (wordForm.controls['definition'].dirty || wordForm.controls['definition'].touched)}"
-        type="text" class="form-control" formControlName="definition" #definition>
+        class="form-control" formControlName="definition" #definition>
       </textarea>
       <div
         *ngIf="wordForm.controls['definition'].invalid && (wordForm.controls['definition'].dirty || wordForm.controls['definition'].touched)"
@@ -65,11 +83,32 @@
 
     <div class="authentication-form-group">
       <label>Partie "En savoir plus"</label>
-      <textarea
-        placeholder="Si vous souhaitez en dire plus à propos de ce mot, écrivez le ici..."
-        type="text" class="form-control" formControlName="knowMore" #knowMore>
-      </textarea>
-    </div>
+
+      <p class="add-word-read-image-explanation">
+        Il est possible de sélectionner une photo du texte qui sera lue par le système et dont le contenu sera écrit dans le champ "En savoir plus".
+      </p>
+
+      <div *ngIf="!readImageLoadingKnowMore" class="add-word-read-image">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputFileKnowMoreAddon">Reconnaissance</span>
+          </div>
+          <div class="custom-file">
+            <input (change)="onImageRecognition($event)" type="file" class="custom-file-input" id="inputFileKnowMore"
+                   aria-describedby="inputFileKnowMoreAddon">
+            <label class="custom-file-label" for="inputFileKnowMore">Image</label>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="readImageLoadingKnowMore" class="add-word-spinner">
+        <img src="assets/spinner.svg"> Lecture en cours ...
+      </div>
+
+        <textarea
+          placeholder="Si vous souhaitez en dire plus à propos de ce mot, écrivez le ici..."
+          type="text" class="form-control" formControlName="knowMore" #knowMore>
+        </textarea>
+      </div>
 
     <div class="authentication-form-group">
       <label>Thème</label>
