@@ -4,6 +4,7 @@ import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
+import { ImportComponent } from './import/import.component';
 import { RegisterComponent } from './register/register.component';
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
 import { AddWordComponent } from './word/add-word/add-word.component';
@@ -39,6 +40,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'import',
+    component: ImportComponent,
     canActivate: [AuthGuardService]
   }
 ];
