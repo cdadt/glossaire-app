@@ -88,21 +88,25 @@ export class AddWordComponent implements OnInit {
     // On vérifie que la navigation se fait en ligne
     if (this.syncService.getIsOnline()) {
 
-      // on active le spinner de chargement
-      this.activateLoaders(element);
-
       // on récupère l'image
       const image = element.target.files[0];
 
-      const formData = new FormData();
-      formData.append('file', image);
+      if (image.type !== 'image/png' && image.type !== 'image/jpeg') {
+        this.toastr.error('Le fichier choisi doit être de type png ou jpg.', 'Erreur du format d\'image');
+      } else {
+        // on active le spinner de chargement
+        this.activateLoaders(element);
 
-      // On lance la reconnaissance d'image depuis l'ocrservice
-      // Si ça fonctionne, on désactive le spinner et on affiche le résultat dans les champs
-      this.ocrService.readImage(formData)
-          .then(success => {
-            this.displayOcrResults(element, success);
-          });
+        const formData = new FormData();
+        formData.append('file', image);
+
+        // On lance la reconnaissance d'image depuis l'ocrservice
+        // Si ça fonctionne, on désactive le spinner et on affiche le résultat dans les champs
+        this.ocrService.readImage(formData)
+            .then(success => {
+              this.displayOcrResults(element, success);
+            });
+      }
     } else {
       this.toastr.warning('Veuillez attendre de récupérer la connexion avant de réessayer la reconnaissance d\'image',
           'Vous êtes hors ligne');

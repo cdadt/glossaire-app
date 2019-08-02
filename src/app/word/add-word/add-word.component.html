@@ -46,16 +46,13 @@
 
     <div class="authentication-form-group">
       <label>Définition</label>
-      <p class="add-word-read-image-explanation">
+      <p class="add-word-read-image-explanation alert alert-primary">
         Il est possible de sélectionner une photo de la définition qui sera lue par le système et dont le contenu sera écrit dans le champ "Définition".
       </p>
       <div *ngIf="!readImageLoadingDef" class="add-word-read-image">
         <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputFileDefAddon">Reconnaissance</span>
-          </div>
           <div class="custom-file">
-            <input (change)="onImageRecognition($event)" type="file" class="custom-file-input" id="inputFileDef"
+            <input (change)="onImageRecognition($event)" type="file" class="custom-file-input" id="inputFileDef" accept="image/jpeg, image/png"
                    aria-describedby="inputFileDefAddon">
             <label class="custom-file-label" for="inputFileDef">Image</label>
           </div>
@@ -84,17 +81,14 @@
     <div class="authentication-form-group">
       <label>Partie "En savoir plus"</label>
 
-      <p class="add-word-read-image-explanation">
+      <p class="add-word-read-image-explanation alert alert-primary">
         Il est possible de sélectionner une photo du texte qui sera lue par le système et dont le contenu sera écrit dans le champ "En savoir plus".
       </p>
 
       <div *ngIf="!readImageLoadingKnowMore" class="add-word-read-image">
         <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputFileKnowMoreAddon">Reconnaissance</span>
-          </div>
           <div class="custom-file">
-            <input (change)="onImageRecognition($event)" type="file" class="custom-file-input" id="inputFileKnowMore"
+            <input (change)="onImageRecognition($event)" type="file" class="custom-file-input" id="inputFileKnowMore" accept="image/jpeg, image/png"
                    aria-describedby="inputFileKnowMoreAddon">
             <label class="custom-file-label" for="inputFileKnowMore">Image</label>
           </div>
