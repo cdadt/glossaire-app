@@ -1,0 +1,96 @@
+.add-theme-header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6rem 0 1em 0;
+}
+
+.add-theme-header h1 {
+  color: lightslategray;
+  margin: 0;
+  font-size: 1em;
+}
+
+
+.add-theme-form-group {
+  padding: 0 0 0.5rem 0;
+}
+
+.add-theme-form-submit {
+  padding-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.add-theme-form-submit button {
+  box-shadow: none;
+  color: white;
+  background: #2db25d;
+  border: solid 1px #2db25d;
+  padding: 0.375em 0.75em;
+  font-size: 1em;
+  margin:0;
+  text-transform: initial;
+}
+
+.valid-control {
+  border: solid 1px #2db25d;
+}
+
+.invalid-control {
+  border: solid 1px #ff6949;
+}
+
+.authentication-form-alert {
+  color: #ff6949;
+  font-size: 0.8em;
+}
+
+.authentication-form-valid {
+  color: #2db25d;
+  font-size: 0.8em;
+}
+
+form {
+  margin: 0.5em;
+  padding: 0.5rem;
+}
+
+section.add-theme-form-group {
+  border-top: solid 2px #ced4da;
+  margin-top: 1em;
+}
+
+section.add-theme-form-group h1 {
+  font-size: 1em;
+  color: lightslategray;
+  padding-top: 1em;
+}
+
+.add-theme-img-preview figure {
+  background: #eeeeee;
+  padding: 0.5em;
+  margin-top: 0.5em;
+}
+
+.add-theme-img-preview img {
+  width: 100%;
+}
+
+.add-theme-img-preview span {
+  color: #ff6949;
+  font-size: 0.8em;
+}
+
+.add-theme-img-preview i {
+  color: #ff6949;
+  font-size: 2em;
+  margin-left: 0.3em;
+}
+
+.add-theme-img-preview div {
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+  justify-content: flex-end;
+}

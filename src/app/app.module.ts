@@ -26,6 +26,7 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { MenuAdminComponent } from './menu-admin/menu-admin.component';
 import { RegisterComponent } from './register/register.component';
+import { AddThemeComponent } from './theme/add-theme/add-theme.component';
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
 import { AddWordComponent } from './word/add-word/add-word.component';
 import { EditWordComponent } from './word/edit-word/edit-word.component';
@@ -48,7 +49,8 @@ export class MyIntl extends TimeagoIntl {
     MenuAdminComponent,
     AddWordComponent,
     EditWordComponent,
-    ListWordByThemeComponent
+    ListWordByThemeComponent,
+    AddThemeComponent
   ],
   imports: [
     BrowserModule,

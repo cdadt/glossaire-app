@@ -1,0 +1,75 @@
+<app-header></app-header>
+<main class="main-content">
+
+  <!-- Header avec logo -->
+  <header class="add-theme-header">
+    <h1>Ajouter un thème</h1>
+  </header>
+  <!-- Header avec logo -->
+
+  <!--Formulaire d'ajout d'un thème -->
+  <form (ngSubmit)="onSubmitForm()" [formGroup]="themeForm" novalidate>
+
+    <div class="add-theme-form-group">
+      <label>Titre du thème</label>
+      <input
+        class="form-control"
+        mdbInput
+        placeholder="Sécurité, Management, Design..."
+        [ngClass]="{ 'valid-control': themeForm.controls['theme'].valid, 'invalid-control': themeForm.controls['theme'].invalid && (themeForm.controls['theme'].dirty || themeForm.controls['theme'].touched)}"
+        type="text" formControlName="theme" #theme/>
+      <div
+              *ngIf="themeForm.controls['theme'].invalid && (themeForm.controls['theme'].dirty || themeForm.controls['theme'].touched)"
+              class="authentication-form-alert">
+        <p *ngIf = "themeForm.controls['theme'].errors?.required">
+          Vous devez saisir un titre pour votre thème.
+        </p>
+        <p *ngIf = "themeForm.controls['theme'].errors?.maxlength">
+          Le titre ne doit pas dépasser 40 caractères.
+        </p>
+      </div>
+    </div>
+
+    <div class="authentication-form-group">
+      <label>Image</label>
+      <div  class="add-word-read-image">
+        <div class="input-group">
+          <div class="custom-file">
+            <input (change)="onInputImageChange($event)" type="file" formControlName="image" #image class="custom-file-input" id="inputFileDef" accept="image/jpeg, image/png"
+                   aria-describedby="inputFileDefAddon">
+            <label class="custom-file-label" for="inputFileDef">{{ imageName }}</label>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="imageUrl" class="add-theme-img-preview">
+        <div (click)="onResetImage()">
+          <span>Supprimer image ({{ imageSize }} Mo)</span>
+          <i class="fas fa-times-circle"></i>
+        </div>
+        <figure>
+          <img [src]="imageUrl">
+        </figure>
+      </div>
+      <div
+         *ngIf="themeForm.controls['image'].invalid && (themeForm.controls['image'].dirty || themeForm.controls['image'].touched)"
+         class="authentication-form-alert">Votre fichier doit être de type png, jpg ou jpeg.</div>
+      <div
+          *ngIf="invalidSize"
+           class="authentication-form-alert">
+        Votre fichier ne doit pas excéder 1 Mo.
+      </div>
+    </div>
+
+    <div class="add-theme-form-submit">
+      <button type="submit"
+              [disabled]="themeForm.invalid || invalidSize"
+              class="btn"><i class="fas fa-check"></i> Ajouter
+      </button>
+    </div>
+  </form>
+  <!--Formulaire d'ajout d'une définition -->
+
+  <!-- Bouton page d'accueil -->
+  <app-menu-admin></app-menu-admin>
+  <!-- Bouton page d'accueil -->
+</main>

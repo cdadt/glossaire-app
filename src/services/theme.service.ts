@@ -1,12 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { environment } from '../environments/environment';
+import { AuthenticationService } from './authentication.service';
+import { SyncService } from './sync.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private syncService: SyncService,
+              private authService: AuthenticationService,
+              private toastr: ToastrService) {}
 
   /**
    * Récupère tous les thèmes
@@ -41,5 +47,34 @@ export class ThemeService {
         params: { title }
       })
       .toPromise();
+  }
+
+  /**
+   * Ajoute un thème et ses informations dans la BDD
+   * @param theme La liste des infos du mot
+   */
+  addTheme(theme: object): void {
+    this.http.post(`${environment.apiUrl}/themes`, theme, { headers:
+      {
+          Authorization: `Bearer ${ this.authService.getToken() }`
+      }})
+          .subscribe(
+              success => {
+                  this.toastr.success('La requête à bien été envoyée');
+              },
+              error => {
+                  let errorMess = error.error;
+
+                  if (typeof errorMess !== 'string') {
+                      errorMess = '';
+                  }
+
+                  if (!this.syncService.getIsOnline()) {
+                      errorMess = 'Vous êtes hors connexion.';
+                  }
+
+                  this.toastr.error(`La requête n\'a pas pu être envoyé. ${errorMess} `);
+              }
+          );
   }
 }

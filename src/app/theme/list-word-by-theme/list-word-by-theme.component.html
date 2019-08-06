@@ -3,7 +3,7 @@
 
   <!-- Header avec logo -->
   <header class="list-word-header">
-    <img src="assets/img/hacker-1944688_1280.jpg">
+    <img *ngIf="imageUrl" [src]="imageUrl">
     <h1>{{ theme.title }}</h1>
   </header>
   <!-- Header avec logo -->

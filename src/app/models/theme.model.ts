@@ -1,6 +1,8 @@
 export default class Theme {
   _id: any;
   title: string;
-
-  constructor() {}
+  img: {
+    data: string,
+    contentType: string
+  };
 }

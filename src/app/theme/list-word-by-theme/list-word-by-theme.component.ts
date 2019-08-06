@@ -13,7 +13,8 @@ import Word from '../../models/word.model';
 export class ListWordByThemeComponent implements OnInit {
 
   words: Array<Word>;
-  theme: Theme = { _id: '', title: '' };
+  theme: Theme;
+  imageUrl: string;
 
   constructor(private wordService: WordService,
               private themeService: ThemeService,
@@ -24,6 +25,11 @@ export class ListWordByThemeComponent implements OnInit {
     this.route.params.subscribe(async params => {
       this.words = (await this.wordService.getWordsForATheme(params.id)) as Array<Word>;
       this.theme = (await this.themeService.getThemeById(params.id)) as Theme;
+
+      this.imageUrl = undefined;
+      if (this.theme.img) {
+        this.imageUrl = `data:${this.theme.img.contentType};base64,${this.theme.img.data}`;
+      }
     });
   }
 
@@ -35,7 +41,7 @@ export class ListWordByThemeComponent implements OnInit {
 
     // On récupère le contenu et l'icône "flèche"
     const elem = document.getElementById(id);
-    const elemi = document.getElementById('i-' + id);
+    const elemi = document.getElementById(`i-${id}`);
 
     // Si le contenu est déjà affiché
     if (elem.className === 'list-word-def-content block') {
