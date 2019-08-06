@@ -10,6 +10,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { environment } from '../environments/environment';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthenticationService } from '../services/authentication.service';
+import { ImportService } from '../services/import.service';
 import { IndexedDbService } from '../services/indexed-db.service';
 import { NotificationService } from '../services/notification.service';
 import { OcrService } from '../services/ocr.service';
@@ -24,6 +25,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
+import { ImportComponent } from './import/import.component';
 import { MenuAdminComponent } from './menu-admin/menu-admin.component';
 import { RegisterComponent } from './register/register.component';
 import { AddThemeComponent } from './theme/add-theme/add-theme.component';
@@ -50,7 +52,9 @@ export class MyIntl extends TimeagoIntl {
     AddWordComponent,
     EditWordComponent,
     ListWordByThemeComponent,
-    AddThemeComponent
+    AddThemeComponent,
+    ListWordByThemeComponent,
+    ImportComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +80,8 @@ export class MyIntl extends TimeagoIntl {
     OnlineOfflineService,
     IndexedDbService,
     SearchService,
-    OcrService
+    OcrService,
+    ImportService
   ],
   bootstrap: [AppComponent]
 })

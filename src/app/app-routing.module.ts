@@ -4,6 +4,7 @@ import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
+import { ImportComponent } from './import/import.component';
 import { RegisterComponent } from './register/register.component';
 import { AddThemeComponent } from './theme/add-theme/add-theme.component';
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
@@ -45,6 +46,11 @@ const routes: Routes = [
   {
     path: 'theme/ajouter',
     component: AddThemeComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'import',
+    component: ImportComponent,
     canActivate: [AuthGuardService]
   }
 ];

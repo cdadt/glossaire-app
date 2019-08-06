@@ -41,6 +41,22 @@ export class WordService {
       .toPromise();
   }
 
+  getWordByExactTitle(title: string): Promise<object> {
+    return this.http.get(`${environment.apiUrl}/words/search-exact`, {
+      params: { title }
+    })
+        .toPromise();
+  }
+
+  async existWordTitle(title: string): Promise<boolean> {
+    const existWord = await this.getWordByExactTitle(title.trim());
+    if (Object.keys(existWord).length > 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   /**
    * Récupère une liste de définitions appartenant à un thème
    * @param id l'id du thème
