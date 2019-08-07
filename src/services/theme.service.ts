@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import Theme from '../app/models/theme.model';
 import { environment } from '../environments/environment';
 import { AuthenticationService } from './authentication.service';
 import { SyncService } from './sync.service';
@@ -9,10 +11,26 @@ import { SyncService } from './sync.service';
   providedIn: 'root'
 })
 export class ThemeService {
+  themes: Array<Theme>;
+  themesSubject = new Subject<Array<Theme>>();
+
   constructor(private http: HttpClient,
               private syncService: SyncService,
               private authService: AuthenticationService,
-              private toastr: ToastrService) {}
+              private toastr: ToastrService) {
+      this.getThemesOnOpen()
+          .then(
+          () => this.emitThemes()
+      );
+  }
+
+  async getThemesOnOpen(): Promise<void> {
+      this.themes = await this.getThemes() as Array<Theme>;
+  }
+
+  emitThemes(): void {
+        this.themesSubject.next(this.themes);
+  }
 
   /**
    * Récupère tous les thèmes
@@ -60,6 +78,43 @@ export class ThemeService {
       }})
           .subscribe(
               success => {
+                  this.getThemesOnOpen()
+                      .then(
+                          () => this.emitThemes()
+                      );
+                  this.toastr.success('La requête à bien été envoyée');
+              },
+              error => {
+                  let errorMess = error.error;
+
+                  if (typeof errorMess !== 'string') {
+                      errorMess = '';
+                  }
+
+                  if (!this.syncService.getIsOnline()) {
+                      errorMess = 'Vous êtes hors connexion.';
+                  }
+
+                  this.toastr.error(`La requête n\'a pas pu être envoyé. ${errorMess} `);
+              }
+          );
+  }
+
+    /**
+     * Méthode permettant de supprimer un thème
+     * @param theme L'id du thème à supprimer
+     */
+  deleteOneTheme(theme): void {
+      this.http.delete(`${environment.apiUrl}/themes`, {
+        headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
+        params : { themeId: theme}
+      })
+          .subscribe(
+              success => {
+                  this.getThemesOnOpen()
+                      .then(
+                      () => this.emitThemes()
+                  );
                   this.toastr.success('La requête à bien été envoyée');
               },
               error => {

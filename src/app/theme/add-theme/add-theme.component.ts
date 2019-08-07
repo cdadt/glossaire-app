@@ -57,7 +57,7 @@ export class AddThemeComponent implements OnInit {
       }
       formData.append('title', theme);
       // On contruit l'objet à envoyer en BDD
-
+console.log('formData title : ', formData.get('title'));
       this.message = 'saved';
       this.themeForm.get('theme')
           .reset();

@@ -33,6 +33,7 @@ import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-b
 import { AddWordComponent } from './word/add-word/add-word.component';
 import { EditWordComponent } from './word/edit-word/edit-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
+import { ManageThemeComponent } from './theme/manage-theme/manage-theme.component';
 
 export class MyIntl extends TimeagoIntl {
 // do extra stuff here...
@@ -54,7 +55,8 @@ export class MyIntl extends TimeagoIntl {
     ListWordByThemeComponent,
     AddThemeComponent,
     ListWordByThemeComponent,
-    ImportComponent
+    ImportComponent,
+    ManageThemeComponent
   ],
   imports: [
     BrowserModule,
