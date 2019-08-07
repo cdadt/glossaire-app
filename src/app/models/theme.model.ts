@@ -5,4 +5,5 @@ export default class Theme {
     data: string,
     contentType: string
   };
+  published: string;
 }

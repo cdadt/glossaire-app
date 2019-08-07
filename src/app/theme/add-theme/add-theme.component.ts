@@ -56,8 +56,9 @@ export class AddThemeComponent implements OnInit {
         formData.append('image', this.image, 'test.png');
       }
       formData.append('title', theme);
+      formData.append('published', 'true');
       // On contruit l'objet à envoyer en BDD
-console.log('formData title : ', formData.get('title'));
+
       this.message = 'saved';
       this.themeForm.get('theme')
           .reset();

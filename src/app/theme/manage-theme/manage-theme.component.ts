@@ -16,6 +16,7 @@ export class ManageThemeComponent implements OnInit {
   constructor(private themeService: ThemeService) { }
 
   async ngOnInit(): Promise<void> {
+    // Permet de mettre à jour automatiquement la page si un thème est supprimé
     this.themesSubscription = this.themeService.themesSubject.subscribe(
       (themes: Array<Theme>) => {
           this.themes = themes;
@@ -24,8 +25,15 @@ export class ManageThemeComponent implements OnInit {
     this.themeService.emitThemes();
   }
 
+    /**
+     * Méthode permettant de supprimer un thème
+     * @param themeId L'id du thème à supprimer
+     */
   onDeleteTheme(themeId): void {
     this.themeService.deleteOneTheme(themeId);
   }
 
+  onPublishedTheme(themeId, themePub): void {
+      this.themeService.publishedOneTheme(themeId, themePub);
+  }
 }

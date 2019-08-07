@@ -24,10 +24,16 @@ export class ThemeService {
       );
   }
 
+    /**
+     * Permet de mettre à jour la liste des thèmes
+     */
   async getThemesOnOpen(): Promise<void> {
       this.themes = await this.getThemes() as Array<Theme>;
   }
 
+    /**
+     * Permet de mettre à jour l'abonnement à la liste des thèmes
+     */
   emitThemes(): void {
         this.themesSubject.next(this.themes);
   }
@@ -115,6 +121,35 @@ export class ThemeService {
                       .then(
                       () => this.emitThemes()
                   );
+                  this.toastr.success('La requête à bien été envoyée');
+              },
+              error => {
+                  let errorMess = error.error;
+
+                  if (typeof errorMess !== 'string') {
+                      errorMess = '';
+                  }
+
+                  if (!this.syncService.getIsOnline()) {
+                      errorMess = 'Vous êtes hors connexion.';
+                  }
+
+                  this.toastr.error(`La requête n\'a pas pu être envoyé. ${errorMess} `);
+              }
+          );
+  }
+
+  publishedOneTheme(themeId, themePub): void {
+      this.http.patch(`${environment.apiUrl}/themes/published`, {
+          headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
+          params : { themeId, themePub }
+      })
+          .subscribe(
+              success => {
+                  this.getThemesOnOpen()
+                      .then(
+                          () => this.emitThemes()
+                      );
                   this.toastr.success('La requête à bien été envoyée');
               },
               error => {
