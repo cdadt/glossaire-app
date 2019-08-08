@@ -6,7 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { ImportComponent } from './import/import.component';
 import { RegisterComponent } from './register/register.component';
-import { AddThemeComponent } from './theme/add-theme/add-theme.component';
+import { AddEditThemeComponent } from './theme/add-edit-theme/add-edit-theme.component';
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
 import { ManageThemeComponent } from './theme/manage-theme/manage-theme.component';
 import { AddWordComponent } from './word/add-word/add-word.component';
@@ -46,7 +46,12 @@ const routes: Routes = [
   },
   {
     path: 'theme/ajouter',
-    component: AddThemeComponent,
+    component: AddEditThemeComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'theme/modifier/:id',
+    component: AddEditThemeComponent,
     canActivate: [AuthGuardService]
   },
   {

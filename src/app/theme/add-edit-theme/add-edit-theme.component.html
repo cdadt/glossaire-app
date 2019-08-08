@@ -3,7 +3,8 @@
 
   <!-- Header avec logo -->
   <header class="add-theme-header">
-    <h1>Ajouter un thème</h1>
+    <h1 *ngIf="themeToEdit">Editer un thème</h1>
+    <h1 *ngIf="!themeToEdit">Ajouter un thème</h1>
   </header>
   <!-- Header avec logo -->
 
@@ -18,9 +19,8 @@
         placeholder="Sécurité, Management, Design..."
         [ngClass]="{ 'valid-control': themeForm.controls['theme'].valid, 'invalid-control': themeForm.controls['theme'].invalid && (themeForm.controls['theme'].dirty || themeForm.controls['theme'].touched)}"
         type="text" formControlName="theme" #theme/>
-      <div
-              *ngIf="themeForm.controls['theme'].invalid && (themeForm.controls['theme'].dirty || themeForm.controls['theme'].touched)"
-              class="authentication-form-alert">
+      <div *ngIf="themeForm.controls['theme'].invalid && (themeForm.controls['theme'].dirty || themeForm.controls['theme'].touched)"
+           class="authentication-form-alert">
         <p *ngIf = "themeForm.controls['theme'].errors?.required">
           Vous devez saisir un titre pour votre thème.
         </p>
@@ -43,7 +43,7 @@
       </div>
       <div *ngIf="imageUrl" class="add-theme-img-preview">
         <div (click)="onResetImage()">
-          <span>Supprimer image ({{ imageSize }} Mo)</span>
+          <span>Supprimer image ({{ imageSize || 0 }} Mo)</span>
           <i class="fas fa-times-circle"></i>
         </div>
         <figure>

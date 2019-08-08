@@ -3,7 +3,8 @@ export default class Theme {
   title: string;
   img: {
     data: string,
-    contentType: string
+    contentType: string,
+    size: string
   };
   published: string;
 }

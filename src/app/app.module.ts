@@ -28,12 +28,12 @@ import { HomeComponent } from './home/home.component';
 import { ImportComponent } from './import/import.component';
 import { MenuAdminComponent } from './menu-admin/menu-admin.component';
 import { RegisterComponent } from './register/register.component';
-import { AddThemeComponent } from './theme/add-theme/add-theme.component';
+import { AddEditThemeComponent } from './theme/add-edit-theme/add-edit-theme.component';
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
+import { ManageThemeComponent } from './theme/manage-theme/manage-theme.component';
 import { AddWordComponent } from './word/add-word/add-word.component';
 import { EditWordComponent } from './word/edit-word/edit-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
-import { ManageThemeComponent } from './theme/manage-theme/manage-theme.component';
 
 export class MyIntl extends TimeagoIntl {
 // do extra stuff here...
@@ -53,7 +53,7 @@ export class MyIntl extends TimeagoIntl {
     AddWordComponent,
     EditWordComponent,
     ListWordByThemeComponent,
-    AddThemeComponent,
+    AddEditThemeComponent,
     ListWordByThemeComponent,
     ImportComponent,
     ManageThemeComponent

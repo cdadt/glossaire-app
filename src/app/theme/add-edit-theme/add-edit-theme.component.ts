@@ -1,29 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ThemeService } from '../../../services/theme.service';
 import Theme from '../../models/theme.model';
 import { imageValidator } from '../../validators/image-validator.directive';
 
 @Component({
   selector: 'app-add-word',
-  templateUrl: './add-theme.component.html',
-  styleUrls: ['./add-theme.component.css']
+  templateUrl: './add-edit-theme.component.html',
+  styleUrls: ['./add-edit-theme.component.css']
 })
-export class AddThemeComponent implements OnInit {
+export class AddEditThemeComponent implements OnInit {
 
   themeForm;
-  message: string;
   themes: Array<Theme>;
-  readImageLoadingDef: boolean;
-  readImageLoadingKnowMore: boolean;
   image: any;
   imageName: string;
   imageUrl: any;
   imageSize: number;
   invalidSize: boolean;
+  themeToEdit: Theme;
 
   constructor(private formBuilder: FormBuilder,
-              private themeService: ThemeService) {
+              private themeService: ThemeService,
+              private route: ActivatedRoute,
+              private toastr: ToastrService) {
     this.imageName = 'Image';
     this.imageSize = 0;
     this.invalidSize = false;
@@ -31,15 +33,25 @@ export class AddThemeComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     this.initThemeForm();
+
+    this.route.params.subscribe(async params => {
+      if (params.id !== undefined) {
+        this.themeToEdit = await this.themeService.getThemeById(params.id) as Theme;
+        this.initThemeForm(this.themeToEdit.title);
+        this.imageUrl = `data:${this.themeToEdit.img.contentType};base64,${this.themeToEdit.img.data}`;
+        this.imageSize = Math.round(parseInt(this.themeToEdit.img.size, 10) / 10000) / 100;
+      }
+    });
+
   }
 
   /**
    * Méthode d'initialisation du formulaire d'ajout de theme
    */
-  initThemeForm(): void {
+  initThemeForm(valueTheme = '', valueImage = ''): void {
     this.themeForm = this.formBuilder.group({
-      theme: ['', [Validators.required, Validators.maxLength(40)]],
-      image: ['', imageValidator()]
+      theme: [valueTheme, [Validators.required, Validators.maxLength(40)]],
+      image: [valueImage, imageValidator()]
     });
   }
 
@@ -52,20 +64,26 @@ export class AddThemeComponent implements OnInit {
       const theme = this.themeForm.get('theme').value;
 
       const formData = new FormData();
-      if (this.image) {
-        formData.append('image', this.image, 'test.png');
+      if (this.imageUrl) {
+        formData.append('image', this.image);
+        formData.append('imageSize', this.image.size);
       }
       formData.append('title', theme);
-      formData.append('published', 'true');
-      // On contruit l'objet à envoyer en BDD
 
-      this.message = 'saved';
-      this.themeForm.get('theme')
-          .reset();
-      this.onResetImage();
-      this.themeService.addTheme(formData);
+      // On réinitialise les champs et on envoie
+      if (this.themeToEdit) {
+        formData.append('_id', this.themeToEdit._id);
+        formData.append('published', this.themeToEdit.published);
+        this.themeService.editOneTheme(formData);
+      } else {
+        formData.append('published', 'true');
+        this.themeForm.get('theme')
+            .reset();
+        this.onResetImage();
+        this.themeService.addTheme(formData);
+      }
     } else {
-      this.message = 'error';
+      this.toastr.error('Le formulaire n\'est pas valide.');
     }
   }
 

@@ -41,7 +41,7 @@
 .manage-theme-item div {
     display: flex;
     justify-content: space-around;
-    padding: 1em;
+    padding: 0.65em 1em;
     background: #eeeeee;
 }
 
@@ -77,5 +77,8 @@
     font-size: 1em;
     text-transform: initial;
     margin: 0.5em 1em;
+}
 
+.no-published {
+    background: #a3a3a3 !important;
 }
