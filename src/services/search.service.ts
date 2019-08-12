@@ -15,12 +15,12 @@ export class SearchService {
    * Méthode permettant de faire une recherche sur les mots et les thèmes
    * @param queryField La recherche effectuée
    */
-  async search(queryField): Promise<object> {
+  async search(queryField): Promise<any> {
     const dataWord = await this.wordService.getWordsLikeByTitle(queryField) as Array<Word>;
     const dataWordsSorted = this.sortSearchTable(dataWord, queryField)
         .slice(0, 4);
 
-    const dataTheme = await this.themeService.getThemesLikeByTitle(queryField) as Array<Theme>;
+    const dataTheme = await this.themeService.getThemesLikeByTitle(queryField, 'true') as Array<Theme>;
     const dataThemesSorted = this.sortSearchTable(dataTheme, queryField)
         .slice(0, 2);
 
@@ -36,9 +36,9 @@ export class SearchService {
    * @param tab Le tableau à trier
    * @param search Le contenu de a recherche
    */
-  sortSearchTable(tab: Array<any> , search: string): Array<object> {
-    const beginTab = [];
-    const elseTab = [];
+  sortSearchTable(tab: Array<any> , search: string): Array<any> {
+    const beginTab = Array();
+    const elseTab = Array();
 
     tab.forEach(value => {
       if (value.title.substr(0, search.length)
@@ -50,5 +50,25 @@ export class SearchService {
     });
 
     return beginTab.concat(elseTab);
+  }
+
+  /**
+   * Méthode permettant de faire une recherche uniquement sur les thèmes
+   * @param queryField La recherche effectuée
+   */
+  async searchThemes(queryField): Promise<Array<Theme>> {
+    const dataTheme = await this.themeService.getThemesLikeByTitle(queryField) as Array<Theme>;
+
+    return this.sortSearchTable(dataTheme, queryField);
+  }
+
+  /**
+   * Méthode permettant de faire une recherche sur les mots et les thèmes
+   * @param queryField La recherche effectuée
+   */
+  async searchWords(queryField): Promise<Array<Word>> {
+    const dataWord = await this.wordService.getWordsLikeByTitle(queryField) as Array<Word>;
+
+    return this.sortSearchTable(dataWord, queryField);
   }
 }

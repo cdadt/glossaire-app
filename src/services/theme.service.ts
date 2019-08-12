@@ -25,7 +25,7 @@ export class ThemeService {
   }
 
     /**
-     * Permet de mettre à jour la liste des thèmes
+     * Permet de mettre à jour la liste complète des thèmes
      */
   async getThemesOnOpen(): Promise<void> {
       this.themes = await this.getThemes() as Array<Theme>;
@@ -62,13 +62,15 @@ export class ThemeService {
       .toPromise();
   }
 
-  /**
-   *
-   * @param title Le thème à rechercher
-   */
-  getThemesLikeByTitle(title: string): Promise<object> {
+    /**
+     *
+     * @param title Le thème à rechercher
+     * @param pubOption L'option de recherche sur le champ publication si besoin, à ajouter :
+     * 'true' (avec publication 'true'), 'false' (avec publication 'false'), laissé à vide (sans le paramètre publication)
+     */
+  getThemesLikeByTitle(title: string, pubOption = ''): Promise<object> {
     return this.http.get(`${environment.apiUrl}/themes/search`, {
-        params: { title }
+        params: { title, pubOption }
       })
       .toPromise();
   }
@@ -90,19 +92,7 @@ export class ThemeService {
                       );
                   this.toastr.success('La requête à bien été envoyée');
               },
-              error => {
-                  let errorMess = error.error;
-
-                  if (typeof errorMess !== 'string') {
-                      errorMess = '';
-                  }
-
-                  if (!this.syncService.getIsOnline()) {
-                      errorMess = 'Vous êtes hors connexion.';
-                  }
-
-                  this.toastr.error(`La requête n\'a pas pu être envoyé. ${errorMess} `);
-              }
+              error => this.errorActions(error)
           );
   }
 
@@ -117,24 +107,12 @@ export class ThemeService {
       })
           .subscribe(
               success => {
-                  this.getThemesOnOpen()
-                      .then(
-                      () => this.emitThemes()
-                  );
+                  const ele = this.themes.find(element => element._id === theme);
+                  const index = this.themes.indexOf(ele);
+                  this.themes.splice(index, 1);
+                  this.emitThemes();
               },
-              error => {
-                  let errorMess = error.error;
-
-                  if (typeof errorMess !== 'string') {
-                      errorMess = '';
-                  }
-
-                  if (!this.syncService.getIsOnline()) {
-                      errorMess = 'Vous êtes hors connexion.';
-                  }
-
-                  this.toastr.error(`La requête n\'a pas pu être envoyé. ${errorMess} `);
-              }
+              error => this.errorActions(error)
           );
   }
 
@@ -150,31 +128,18 @@ export class ThemeService {
       })
           .subscribe(
               success => {
-                  this.getThemesOnOpen()
-                      .then(
-                          () => this.emitThemes()
-                      );
+                  const ele = this.themes.find(element => element._id === themeId);
+                  const index = this.themes.indexOf(ele);
+                  this.themes[index].published = themePub;
+                  this.emitThemes();
               },
-              error => {
-                  let errorMess = error.error;
-
-                  if (typeof errorMess !== 'string') {
-                      errorMess = '';
-                  }
-
-                  if (!this.syncService.getIsOnline()) {
-                      errorMess = 'Vous êtes hors connexion.';
-                  }
-
-                  this.toastr.error(`La requête n\'a pas pu être envoyé. ${errorMess} `);
-              }
+              error => this.errorActions(error)
           );
   }
 
     /**
      * Méthode permettant de publier ou dépublier un thème
      * @param theme Le thème à éditer avec ses informations
-     * @param id L'id du thème à éditer
      */
   editOneTheme(theme): void {
         this.http.put(`${environment.apiUrl}/themes`, theme, {
@@ -188,19 +153,21 @@ export class ThemeService {
                         );
                     this.toastr.success('La requête à bien été envoyée');
                 },
-                error => {
-                    let errorMess = error.error;
-
-                    if (typeof errorMess !== 'string') {
-                        errorMess = '';
-                    }
-
-                    if (!this.syncService.getIsOnline()) {
-                        errorMess = 'Vous êtes hors connexion.';
-                    }
-
-                    this.toastr.error(`La requête n\'a pas pu être envoyé. ${errorMess} `);
-                }
+                error => this.errorActions(error)
             );
+    }
+
+  errorActions(error): void {
+    let errorMess = error.error;
+
+    if (typeof errorMess !== 'string') {
+        errorMess = '';
+    }
+
+    if (!this.syncService.getIsOnline()) {
+        errorMess = 'Vous êtes hors connexion.';
+    }
+
+    this.toastr.error(`La requête n\'a pas pu être envoyé. ${errorMess} `);
     }
 }

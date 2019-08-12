@@ -82,3 +82,30 @@
 .no-published {
     background: #a3a3a3 !important;
 }
+
+form {
+    padding: 0.5em 1em;
+    display: flex;
+}
+
+form input {
+    background: #eeeeee;
+    border: none;
+    border-radius: 3px 0 0 3px;
+    padding: 0.4em;
+    width: 100%;
+}
+
+form button {
+    background: white;
+    border: none;
+    padding: 0.4em 0.6em;
+}
+
+form i {
+    background: #eeeeee;
+    padding: 0.4em;
+    border-radius: 0 3px 3px 0;
+    font-size: 1.2em;
+    color: #7e7e7e;
+}

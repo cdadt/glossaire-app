@@ -7,9 +7,11 @@
   </header>
   <!-- Header avec logo -->
 
-<!--  <form>-->
-<!--    <input type="search">-->
-<!--  </form>-->
+  <form [formGroup]="searchThemeForm" novalidate>
+    <input [formControl]="queryField" formControlName="theme" #theme type="search" placeholder="Sécurité, Conformité...">
+    <i class="fas fa-search"></i>
+    <button (click)="onCancel()">Annuler</button>
+  </form>
 
   <!-- Liste des thèmes -->
   <button class="manage-theme-new" [routerLink]="['/theme/ajouter']">Nouveau <i class="fas fa-plus"></i></button>
