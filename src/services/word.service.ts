@@ -33,10 +33,11 @@ export class WordService {
   /**
    * Récupère une liste de mot pour la recherche
    * @param title Le mot à rechercher
+   * @param pubOption L'option de publication. Aucune si laissé vide
    */
-  getWordsLikeByTitle(title: string): Promise<object> {
+  getWordsLikeByTitle(title: string, pubOption = ''): Promise<object> {
     return this.http.get(`${environment.apiUrl}/words/search`, {
-        params: { title }
+        params: { title, pubOption }
       })
       .toPromise();
   }

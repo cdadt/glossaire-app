@@ -16,7 +16,7 @@ export class SearchService {
    * @param queryField La recherche effectuée
    */
   async search(queryField): Promise<any> {
-    const dataWord = await this.wordService.getWordsLikeByTitle(queryField) as Array<Word>;
+    const dataWord = await this.wordService.getWordsLikeByTitle(queryField, 'true') as Array<Word>;
     const dataWordsSorted = this.sortSearchTable(dataWord, queryField)
         .slice(0, 4);
 

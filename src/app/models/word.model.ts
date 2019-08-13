@@ -6,8 +6,7 @@ export default class Word {
   themes: [{
     _id: any;
     title: string;
+    published: string;
   }];
   know_more: string;
-
-  constructor() {}
 }

@@ -15,6 +15,7 @@ export class SingleWordComponent implements OnInit {
   word: Word;
   open: boolean;
   live: true;
+  publishedOk: boolean;
 
   constructor(private wordService: WordService,
               private route: ActivatedRoute,
@@ -22,13 +23,32 @@ export class SingleWordComponent implements OnInit {
     // Les fichiers de langue pour le module Ilya(Timeago)
     intl.strings = FrenchStrings;
     intl.changes.next();
+    this.publishedOk = false;
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(async params => {
       this.word = await this.wordService.getWordById(params.id) as Word;
+      this.testPublicationState();
       this.open = false;
     });
+  }
+
+  /**
+   * Méthode permettant de vérifier que le mot est bien publié
+   */
+  testPublicationState(): void {
+    if (this.word) {
+      let countPublishedTheme = 0;
+      this.word.themes.forEach(elem => {
+        if (elem.published === 'true') {
+          countPublishedTheme ++;
+        }
+      });
+      if (countPublishedTheme > 0) {
+        this.publishedOk = true;
+      }
+    }
   }
 
   /**
