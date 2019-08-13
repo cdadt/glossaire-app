@@ -168,6 +168,6 @@ export class ThemeService {
         errorMess = 'Vous êtes hors connexion.';
     }
 
-    this.toastr.error(`La requête n\'a pas pu être envoyé. ${errorMess} `);
+    this.toastr.error(`La requête n\'a pas aboutie. ${errorMess} `);
     }
 }
