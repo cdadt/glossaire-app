@@ -40,8 +40,6 @@
     {
       "name": "api-freshness",
       "urls": [
-        "/words",
-        "/themes/published"
       ],
       "cacheConfig": {
         "strategy": "freshness",
