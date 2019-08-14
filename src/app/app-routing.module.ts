@@ -10,6 +10,7 @@ import { AddEditThemeComponent } from './theme/add-edit-theme/add-edit-theme.com
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
 import { ManageThemeComponent } from './theme/manage-theme/manage-theme.component';
 import { AddWordComponent } from './word/add-word/add-word.component';
+import { ManageWordComponent } from './word/manage-word/manage-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
 
 const routes: Routes = [
@@ -37,6 +38,11 @@ const routes: Routes = [
   {
     path: 'mot/ajouter',
     component: AddWordComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'mot/gerer',
+    component: ManageWordComponent,
     canActivate: [AuthGuardService]
   },
   {

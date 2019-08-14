@@ -1,0 +1,30 @@
+<app-header></app-header>
+<main class="main-content">
+
+  <!-- Header avec logo -->
+  <header class="manage-word-header">
+    <h1>Gérer les définitions</h1>
+  </header>
+  <!-- Header avec logo -->
+
+  <form [formGroup]="" novalidate>
+    <input [formControl]="" formControlName="theme" type="search" placeholder="Sécurité, Conformité...">
+    <i class="fas fa-search"></i>
+    <button>Annuler</button>
+  </form>
+
+  <!-- Liste des thèmes -->
+
+  <div class="manage-word-info" >
+      <p>
+        Le mot recherché n'existe pas ?
+      </p>
+      <p class="manage-word-add">Ajoutez-le</p>
+      <button class="manage-word-new" [routerLink]="['/mot/ajouter']">Ajouter une définition <i class="fas fa-plus"></i></button>
+  </div>
+  <!-- Liste des thèmes -->
+
+  <!-- Bouton page d'accueil -->
+  <app-menu-admin></app-menu-admin>
+  <!-- Bouton page d'accueil -->
+</main>
