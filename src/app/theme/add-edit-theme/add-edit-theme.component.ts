@@ -64,7 +64,7 @@ export class AddEditThemeComponent implements OnInit {
       const theme = this.themeForm.get('theme').value;
 
       const formData = new FormData();
-      if (this.imageUrl) {
+      if (this.image) {
         formData.append('image', this.image);
         formData.append('imageSize', this.image.size);
       }
