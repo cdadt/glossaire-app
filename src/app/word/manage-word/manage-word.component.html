@@ -7,11 +7,26 @@
   </header>
   <!-- Header avec logo -->
 
-  <form [formGroup]="" novalidate>
-    <input [formControl]="" formControlName="theme" type="search" placeholder="Sécurité, Conformité...">
+  <form [formGroup]="searchWordForm" novalidate>
+    <input (focusin)="onDisplayResult()"
+           (focusout)="onDisplayResultsNone()"
+           id="home-search"
+           [formControl]="queryField"
+           formControlName="theme"
+           type="search"
+           placeholder="Sécurité, Conformité...">
     <i class="fas fa-search"></i>
     <button>Annuler</button>
   </form>
+
+    <div id="home-search-results" class="home-search-results"
+         [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}">
+        <div *ngFor="let word of words">
+            <a (click)="onDisplayResultsNone()" [routerLink]="['definitions/', word._id]">
+                <i class="fas fa-search"></i>{{ word.title }}
+            </a>
+        </div>
+    </div>
 
   <!-- Liste des thèmes -->
 

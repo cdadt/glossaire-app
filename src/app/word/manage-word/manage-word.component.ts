@@ -14,13 +14,15 @@ import Word from '../../models/word.model';
 export class ManageWordComponent implements OnInit {
 
   words: Array<Word>;
-  themesSubscription: Subscription;
   searchWordForm;
   queryField: FormControl = new FormControl ();
+  displayResults: boolean;
 
   constructor(private wordService: WordService,
               private formBuilder: FormBuilder,
-              private searchService: SearchService) { }
+              private searchService: SearchService) {
+    this.displayResults = false;
+  }
 
   async ngOnInit(): Promise<void> {
     this.initSearchForm();
@@ -35,6 +37,22 @@ export class ManageWordComponent implements OnInit {
     )
         .subscribe (result => {
           this.words = result;
+
+          // ****** Positionne les résultats de la recherche en fonction de l'input ****** //
+          // On récupère le champ de recherche
+          const inputSearch = (document.getElementById('home-search') as HTMLInputElement);
+
+          // On position les résultats en fonction de l'input
+          const inputOffsetLeft = inputSearch.offsetLeft;
+          const heightInputSearch = inputSearch.offsetHeight;
+          const inputOffsetTop = heightInputSearch + inputSearch.offsetTop + 5;
+
+          const divResults = (document.getElementById('home-search-results') as HTMLInputElement);
+          divResults.style.top = `${inputOffsetTop}px`;
+          divResults.style.left = `${inputOffsetLeft}px`;
+          // ****** Positionne les résultats de la recherche en fonction de l'input ****** /
+
+          this.displayResults = this.queryField.value !== null && this.queryField.value !== '';
         });
   }
 
@@ -45,5 +63,21 @@ export class ManageWordComponent implements OnInit {
     this.searchWordForm = this.formBuilder.group({
       word: ['', [Validators.maxLength(40)]]
     });
+  }
+
+  /**
+   * Méthode permettant d'avertir s'il faut afficher ou non l'overlay  et le résultat de la recherche
+   */
+  onDisplayResultsNone(): void {
+    this.displayResults = false;
+  }
+
+  /**
+   * Méthode qui permet d'afficher le résulats de la recherche au clic sur la barre de recherche si celle-ci n'est pas vide
+   */
+  onDisplayResult(): void {
+    if (this.queryField.value !== null && this.queryField.value !== '') {
+      this.displayResults = true;
+    }
   }
 }

@@ -84,7 +84,7 @@ export class HeaderComponent implements OnInit {
         )
       .subscribe (result => {
         // On affiche l'overlay et le résultat
-        this.displayResults = true;
+        this.displayResults = this.queryField.value !== null && this.queryField.value !== '';
         this.searchResults = result;
       });
 

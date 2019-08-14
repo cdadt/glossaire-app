@@ -98,7 +98,7 @@ export class HomeComponent implements OnInit {
         // ****** Positionne les résultats de la recherche en fonction de l'input ****** //
 
         this.searchResults = result;
-        this.onDisplayResult();
+        this.displayResults = this.queryField.value !== null && this.queryField.value !== '';
       });
 
     // On vérifie la compatibilité du navigateur aux notifications

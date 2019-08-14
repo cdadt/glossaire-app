@@ -65,3 +65,46 @@ p {
 .manage-word-add {
     font-weight: bold;
 }
+
+
+
+.home-search-results i {
+    font-size: 1em;
+    padding: 0.4em;
+    margin-right: 0.5em;
+    border: none;
+}
+
+.home-search-results {
+    z-index: 2;
+    position: absolute;
+    top: 15rem;
+    left: 1rem;
+    height: auto;
+    width: 90vw;
+    box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.5);
+}
+
+.home-search-results div {
+    background: white;
+    border: solid 1px #eeeeee;
+    display: flex;
+    transition: all 0.2s;
+}
+
+.home-search-results a {
+    padding: 0.7rem;
+    width: 100%;
+    cursor: pointer;
+    color: lightslategray;
+}
+
+.home-search-results a:hover {
+    text-decoration: none;
+    color: lightslategray;
+}
+
+.home-search-results div:focus,
+.home-search-results div:hover {
+    background: #eeeeee;
+}
