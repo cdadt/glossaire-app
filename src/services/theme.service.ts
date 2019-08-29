@@ -41,8 +41,10 @@ export class ThemeService {
   /**
    * Récupère tous les thèmes
    */
-  getThemes(): Promise<object> {
-    return this.http.get(`${environment.apiUrl}/themes`)
+  getThemes(pubOption = ''): Promise<object> {
+    return this.http.get(`${environment.apiUrl}/themes`, {
+        params: { pubOption }
+    })
       .toPromise();
   }
 

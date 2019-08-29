@@ -58,7 +58,7 @@ export class SyncService {
     this.http.post(query.url, query.params, query.option)
         .subscribe(
             success => {
-              this.notificationService.send(query.params.title, this.authService.getUserDetails().username)
+              this.notificationService.send(JSON.parse(query.params.get('wordInfo')).title, this.authService.getUserDetails().username)
                   .subscribe();
               this.toastr.success('La requête à bien été envoyée');
             },

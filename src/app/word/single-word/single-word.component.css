@@ -62,6 +62,21 @@
   margin-left : 1rem;
 }
 
+.single-word-image {
+  box-shadow: 0 0 5px #7e7e7e;
+  margin: 1rem;
+}
+
+.single-word-image img{
+  width: 100%;
+}
+
+.single-word-image figcaption {
+  background: #eeeeee;
+  padding: 0.5rem;
+  color: #7e7e7e;
+  font-style: italic;
+}
 
 .display-none{
   display:none;

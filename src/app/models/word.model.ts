@@ -8,5 +8,12 @@ export default class Word {
     title: string;
     published: string;
   }];
+  img: {
+    data: string,
+    contentType: string,
+    size: string
+  };
   know_more: string;
+  published: string;
+  legend: string;
 }

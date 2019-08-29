@@ -12,7 +12,7 @@
 }
 
 
-.authentication-form-group {
+.add-word-form-group {
   padding: 0 0 0.5rem 0;
 }
 
@@ -67,12 +67,12 @@ textarea {
   font-weight: 300;
 }
 
-section.authentication-form-group {
+section.add-word-form-group {
   border-top: solid 2px #ced4da;
   margin-top: 1em;
 }
 
-section.authentication-form-group h1 {
+section.add-word-form-group h1 {
   font-size: 1em;
   color: lightslategray;
   padding-top: 1em;
@@ -125,4 +125,52 @@ section.authentication-form-group h1 {
 .add-word-read-image-explanation{
   font-style: italic;
   font-size: 0.8em;
+}
+
+label {
+  font-weight: 600;
+}
+
+label.image {
+  font-weight: normal;
+}
+
+.add-word-img-preview figure {
+  background: #eeeeee;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.add-word-img-preview figcaption {
+  margin-bottom: 1rem;
+}
+
+.add-word-img-preview img {
+  width: 100%;
+}
+
+.add-word-img-preview span {
+  color: #ff6949;
+  font-size: 0.8em;
+}
+
+.add-word-img-preview i {
+  color: #ff6949;
+  font-size: 2em;
+  margin-left: 0.3em;
+}
+
+.add-word-img-preview div {
+  display: flex;
+  align-items: center;
+  margin-top: 1em;
+  justify-content: flex-end;
+}
+
+.under-label {
+  font-weight: normal;
+  color: #7e7e7e;
 }

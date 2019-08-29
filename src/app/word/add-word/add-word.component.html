@@ -19,7 +19,7 @@
   <!--Formulaire d'ajout d'une définition -->
   <form (ngSubmit)="onSubmitForm()" [formGroup]="wordForm" novalidate>
 
-    <div class="authentication-form-group">
+    <div class="add-word-form-group">
       <label>Mot</label>
       <input
         class="md-form"
@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <div class="authentication-form-group">
+    <div class="add-word-form-group">
       <label>Définition</label>
       <p class="add-word-read-image-explanation alert alert-primary">
         Il est possible de sélectionner une photo de la définition qui sera lue par le système et dont le contenu sera écrit dans le champ "Définition".
@@ -54,7 +54,7 @@
           <div class="custom-file">
             <input (change)="onImageRecognition($event)" type="file" class="custom-file-input" id="inputFileDef" accept="image/jpeg, image/png"
                    aria-describedby="inputFileDefAddon">
-            <label class="custom-file-label" for="inputFileDef">Image</label>
+            <label class="custom-file-label image" for="inputFileDef">Image</label>
           </div>
         </div>
       </div>
@@ -78,7 +78,7 @@
       </div>
     </div>
 
-    <div class="authentication-form-group">
+    <div class="add-word-form-group">
       <label>Partie "En savoir plus"</label>
 
       <p class="add-word-read-image-explanation alert alert-primary">
@@ -90,7 +90,7 @@
           <div class="custom-file">
             <input (change)="onImageRecognition($event)" type="file" class="custom-file-input" id="inputFileKnowMore" accept="image/jpeg, image/png"
                    aria-describedby="inputFileKnowMoreAddon">
-            <label class="custom-file-label" for="inputFileKnowMore">Image</label>
+            <label class="custom-file-label image" for="inputFileKnowMore">Image</label>
           </div>
         </div>
       </div>
@@ -98,13 +98,45 @@
         <img src="assets/spinner.svg"> Lecture en cours ...
       </div>
 
+      <textarea
+              placeholder="Si vous souhaitez en dire plus à propos de ce mot, écrivez le ici..."
+              class="form-control" formControlName="knowMore" #knowMore>
+        </textarea>
+    </div>
+
+    <div class="add-word-form-group">
+      <label>Illustration</label>
+
+      <div class="add-word-read-image">
+        <div class="input-group">
+          <div class="custom-file">
+            <input (change)="onInputImageChange($event)" type="file" formControlName="image" #image class="custom-file-input" id="inputImage" accept="image/jpeg, image/png"
+                   aria-describedby="inputFileDefAddon">
+            <label class="custom-file-label image" for="inputImage">{{ imageName }}</label>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="imageUrl" class="add-word-img-preview">
+        <div (click)="onResetImage()">
+          <span>Supprimer image ({{ imageSize || 0 }} Mo)</span>
+          <i class="fas fa-times-circle"></i>
+        </div>
+        <figure>
+          <figcaption>Aperçu de votre image</figcaption>
+          <img [src]="imageUrl">
+        </figure>
+        <label class="under-label">Légende</label>
         <textarea
-          placeholder="Si vous souhaitez en dire plus à propos de ce mot, écrivez le ici..."
-          type="text" class="form-control" formControlName="knowMore" #knowMore>
+            placeholder="Entrez ici la légende de votre image..."
+            class="form-control" formControlName="legend" #legend>
         </textarea>
       </div>
 
-    <div class="authentication-form-group">
+    </div>
+
+
+    <div class="add-word-form-group">
       <label>Thème</label>
       <select
         multiple

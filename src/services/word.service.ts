@@ -69,12 +69,12 @@ export class WordService {
 
   /**
    * Ajoute une définition et ses informations dans la BDD
-   * @param word La liste des infos du mot
+   * @param formData Le formData contenant l'image et les informations du mot
    */
-  addWord(word: object): void {
+  addWord(formData): void {
     this.syncService.howToAdd({
       url: `${environment.apiUrl}/words`,
-      params: word,
+      params: formData,
       option: {
         headers:
             {

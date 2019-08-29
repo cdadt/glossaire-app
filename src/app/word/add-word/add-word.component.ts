@@ -6,6 +6,7 @@ import { SyncService } from '../../../services/sync.service';
 import { ThemeService } from '../../../services/theme.service';
 import { WordService } from '../../../services/word.service';
 import Theme from '../../models/theme.model';
+import { imageValidator } from '../../validators/image-validator.directive';
 
 @Component({
   selector: 'app-add-word',
@@ -19,6 +20,11 @@ export class AddWordComponent implements OnInit {
   themes: Array<Theme>;
   readImageLoadingDef: boolean;
   readImageLoadingKnowMore: boolean;
+  imageName: string;
+  image: any;
+  imageUrl: any;
+  invalidSize: boolean;
+  imageSize: number;
 
   constructor(private formBuilder: FormBuilder,
               private themeService: ThemeService,
@@ -26,11 +32,14 @@ export class AddWordComponent implements OnInit {
               private ocrService: OcrService,
               private syncService: SyncService,
               private toastr: ToastrService) {
+    this.imageName = 'Image';
+    this.imageSize = 0;
+    this.invalidSize = false;
   }
 
   async ngOnInit(): Promise<any> {
     this.initWordForm();
-    this.themes = await this.themeService.getThemes() as Array<Theme>;
+    this.themes = await this.themeService.getThemes('true') as Array<Theme>;
   }
 
   initWordForm(): void {
@@ -38,35 +47,42 @@ export class AddWordComponent implements OnInit {
       word: ['', [Validators.required, Validators.maxLength(40)]],
       definition: ['', [Validators.required]],
       knowMore: [''],
-      theme: ['', [Validators.required]]
+      theme: ['', [Validators.required]],
+      image: ['', imageValidator()],
+      legend: ['']
     });
   }
 
   onSubmitForm(): void {
     if (this.wordForm.valid) {
-      const word = this.wordForm.get('word').value;
-      const definition = this.wordForm.get('definition').value;
-      const knowMore = this.wordForm.get('knowMore').value;
-      const themes = this.wordForm.get('theme').value;
-
       // Pour chacun des themes choisis on recherche dans la liste initiale le titre correspondant à l'ID
       const themesObj = [];
-      for (const theme of themes) {
+      for (const theme of this.wordForm.get('theme').value) {
         themesObj.push(this.themes.find(element => element._id === theme));
       }
 
       // On contruit l'objet à envoyer en BDD
-      const wordInfo = {
-        title: word,
-        definition,
-        know_more: knowMore,
+      const wordInfo =  JSON.stringify({
+        title: this.wordForm.get('word').value,
+        definition: this.wordForm.get('definition').value,
+        know_more: this.wordForm.get('knowMore').value,
         themes: themesObj,
-        last_edit : new Date().getTime()
-      };
+        last_edit : new Date().getTime(),
+        published: 'true',
+        legend: this.wordForm.get('legend').value
+      }, undefined, 2);
 
+      const formData = new FormData();
+      if (this.image) {
+        formData.append('image', this.image);
+        formData.append('imageSize', this.image.size);
+      }
+      formData.append('wordInfo', wordInfo);
+
+      this.onResetImage();
       this.message = 'saved';
       this.wordForm.reset();
-      this.wordService.addWord(wordInfo);
+      this.wordService.addWord(formData);
     } else {
       this.message = 'error';
     }
@@ -141,5 +157,37 @@ export class AddWordComponent implements OnInit {
       this.readImageLoadingKnowMore = false;
       this.wordForm.controls.knowMore.setValue(response.textResponse);
     }
+  }
+
+  /**
+   * Méthode permettant de créer la prévisualisation de l'image et de vérifier la taille du fichier avant l'envoi
+   * @param element Le champ image
+   */
+  onInputImageChange(element): void {
+    this.image = element.target.files[0];
+    this.imageName = this.image.name;
+
+    // On crée l'aperçu de l'image
+    const reader = new FileReader();
+    reader.readAsDataURL(this.image);
+    reader.onload = _event => {
+      this.imageUrl = reader.result;
+    };
+
+    // On vérifie la taille du fichier
+    this.invalidSize = this.image.size > 1000000;
+    this.imageSize = Math.round(this.image.size / 10000) / 100;
+  }
+
+  /**
+   * Méthode permettant de réinitiliser le champ image et la prévisualisation
+   */
+  onResetImage(): void {
+    this.wordForm.get('image')
+        .reset();
+    this.image = undefined;
+    this.imageUrl = undefined;
+    this.imageName = 'Image';
+    this.invalidSize = false;
   }
 }

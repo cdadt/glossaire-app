@@ -16,6 +16,7 @@ export class SingleWordComponent implements OnInit {
   open: boolean;
   live: true;
   publishedOk: boolean;
+  imageUrl: string;
 
   constructor(private wordService: WordService,
               private route: ActivatedRoute,
@@ -29,6 +30,11 @@ export class SingleWordComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(async params => {
       this.word = await this.wordService.getWordById(params.id) as Word;
+      this.imageUrl = undefined;
+      if (this.word.img) {
+        this.imageUrl = `data:${this.word.img.contentType};base64,${this.word.img.data}`;
+      }
+
       this.testPublicationState();
       this.open = false;
     });
