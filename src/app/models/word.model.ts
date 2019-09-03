@@ -14,6 +14,7 @@ export default class Word {
     size: string
   };
   know_more: string;
-  published: string;
+  published: boolean;
   legend: string;
+  validated: boolean;
 }

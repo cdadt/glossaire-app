@@ -19,9 +19,9 @@
       <p class="single-word-definition">
         {{ word.definition }}
       </p>
-      <figure class="single-word-image">
-        <img *ngIf="imageUrl" [src]="imageUrl">
-        <figcaption>{{ word.legend }}</figcaption>
+      <figure *ngIf="imageUrl" class="single-word-image">
+        <img [src]="imageUrl">
+        <figcaption *ngIf="word.legend">{{ word.legend }}</figcaption>
       </figure>
       <div *ngIf="word.know_more" class="single-word-know-more">
         <a (click)="onDisplayKnowMore()" class="btn">En savoir plus <i [ngClass]="{'far fa-circle': open === false, 'fas fa-check-circle': open === true}"></i></a>

@@ -1,3 +1,72 @@
-<p>
-  edit-word works!
-</p>
+<app-header></app-header>
+<main class="main-content">
+
+  <!-- Définition -->
+  <article *ngIf="word">
+
+    <header class="edit-word-page-header">
+      <p>Modifier une définition</p>
+    </header>
+
+    <section class="edit-word-action">
+      <div (click)="onToggleValidateWord()" *ngIf="word.validated"><i class="fas fa-check-square bg-green"></i><span>Invalider</span></div>
+      <div (click)="onToggleValidateWord()" *ngIf="!word.validated"><i class="fas fa-check-square bg-grey"></i><span>Valider</span></div>
+      <div (click)="onTogglePublishWord()" *ngIf="word.published"><i class="fas fa-eye bg-orange"></i><span>Dépublier</span></div>
+      <div (click)="onTogglePublishWord()" *ngIf="!word.published"><i class="fas fa-eye-slash bg-grey"></i><span>Publier</span></div>
+      <div (click)="onDisplayDeleteWindow()"><i class="fas fa-trash-alt bg-red"></i><span>Supprimer</span></div>
+    </section>
+
+    <section>
+      <header class="edit-word-definition-header">
+        <h1>{{ word.title }}</h1>
+        <p>Thèmes : <a [routerLink]="['/themes/', theme._id, 'words']" *ngFor="let theme of word.themes; let isLast=last"><span *ngIf="theme.published === 'true'">{{ theme.title }}{{isLast ? '' : ', ' }}</span></a></p>
+      </header>
+      <div class="edit-word-last-edit">
+        Dernière modification : {{ word.last_edit | timeago:live }}
+      </div>
+      <p class="edit-word-definition">
+        {{ word.definition }}
+      </p>
+      <figure *ngIf="imageUrl" class="edit-word-image">
+        <img [src]="imageUrl">
+        <figcaption>{{ word.legend }}</figcaption>
+      </figure>
+      <div *ngIf="word.know_more" class="edit-word-know-more">
+        <a (click)="onDisplayKnowMore()" class="btn">En savoir plus <i [ngClass]="{'far fa-circle': open === false, 'fas fa-check-circle': open === true}"></i></a>
+      </div>
+      <!--
+      <p class="edit-word-associated-word">
+        Mots associés : mot1, mot2
+      </p>
+      -->
+      <p id="edit-word-know-more-text" *ngIf="word.know_more" [ngClass]="{'display-none': open === false}">
+        {{ word.know_more }}
+      </p>
+    </section>
+
+  </article>
+  <!-- Définition -->
+
+  <!-- Fenêtre de confirmation de suppression -->
+  <div class="overlay" *ngIf="displayDeleteWindow"></div>
+  <section class="edit-word-delete-win" *ngIf="displayDeleteWindow">
+      <header>
+          <h1>Supprimer</h1>
+      </header>
+      <p>Souhaitez-vous supprimer la définition sélectionnée ?</p>
+      <div>
+          <button class="btn delete" (click)="onDeleteWord()">Oui</button>
+          <button class="btn cancel" (click)="onCancelDelete()">Non</button>
+      </div>
+  </section>
+    <!-- Fenêtre de confirmation de suppression -->
+
+  <!-- Mot inconnu -->
+  <p *ngIf="word === undefined">Le mot recherché n'existe pas.</p>
+  <!-- Mot inconnu -->
+
+  <!-- Bouton page d'accueil -->
+  <app-menu-admin></app-menu-admin>
+  <!-- Bouton page d'accueil -->
+
+</main>

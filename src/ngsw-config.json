@@ -28,7 +28,6 @@
     {
       "name": "api-performance",
       "urls": [
-        "/words/5*",
         "/themes/**/words"
       ],
       "cacheConfig": {
@@ -42,6 +41,7 @@
       "urls": [
         "/words/last",
         "/words/search",
+        "/words/5*",
         "/words",
         "/themes/search",
         "/themes/published",
