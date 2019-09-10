@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Subject, Subscription } from 'rxjs';
+import { ImageInfos, ImageService } from '../../../services/image.service';
 import { OcrService } from '../../../services/ocr.service';
 import { SyncService } from '../../../services/sync.service';
 import { ThemeService } from '../../../services/theme.service';
 import { WordService } from '../../../services/word.service';
 import Theme from '../../models/theme.model';
+import Word from '../../models/word.model';
 import { imageValidator } from '../../validators/image-validator.directive';
 
 @Component({
@@ -20,25 +23,28 @@ export class AddWordComponent implements OnInit {
   themes: Array<Theme>;
   readImageLoadingDef: boolean;
   readImageLoadingKnowMore: boolean;
-  imageName: string;
-  image: any;
-  imageUrl: any;
-  invalidSize: boolean;
-  imageSize: number;
+  illustration: any;
+  imageSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private themeService: ThemeService,
               private wordService: WordService,
               private ocrService: OcrService,
               private syncService: SyncService,
-              private toastr: ToastrService) {
-    this.imageName = 'Image';
-    this.imageSize = 0;
-    this.invalidSize = false;
+              private toastr: ToastrService,
+              private imageService: ImageService) {
   }
 
   async ngOnInit(): Promise<any> {
     this.initWordForm();
+
+    this.imageSubscription = this.imageService.imageSubject.subscribe(
+        (image: ImageInfos) => {
+          this.illustration = image;
+        }
+    );
+    this.imageService.emitImage();
+
     this.themes = await this.themeService.getThemes('true') as Array<Theme>;
   }
 
@@ -74,9 +80,10 @@ export class AddWordComponent implements OnInit {
       }, undefined, 2);
 
       const formData = new FormData();
-      if (this.image) {
-        formData.append('image', this.image);
-        formData.append('imageSize', this.image.size);
+
+      if (this.illustration.image) {
+        formData.append('image', this.illustration.image);
+        formData.append('imageSize', this.illustration.image.size);
       }
       formData.append('wordInfo', wordInfo);
 
@@ -165,19 +172,7 @@ export class AddWordComponent implements OnInit {
    * @param element Le champ image
    */
   onInputImageChange(element): void {
-    this.image = element.target.files[0];
-    this.imageName = this.image.name;
-
-    // On crée l'aperçu de l'image
-    const reader = new FileReader();
-    reader.readAsDataURL(this.image);
-    reader.onload = _event => {
-      this.imageUrl = reader.result;
-    };
-
-    // On vérifie la taille du fichier
-    this.invalidSize = this.image.size > 1000000;
-    this.imageSize = Math.round(this.image.size / 10000) / 100;
+    this.imageService.imageChange(element);
   }
 
   /**
@@ -186,9 +181,6 @@ export class AddWordComponent implements OnInit {
   onResetImage(): void {
     this.wordForm.get('image')
         .reset();
-    this.image = undefined;
-    this.imageUrl = undefined;
-    this.imageName = 'Image';
-    this.invalidSize = false;
+    this.imageService.resetImage();
   }
 }

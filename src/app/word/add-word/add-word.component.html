@@ -22,11 +22,11 @@
     <div class="add-word-form-group">
       <label>Mot</label>
       <input
-        class="md-form"
+        class="form-control"
         mdbInput
         placeholder="CNIL, hachage, RGPD..."
         [ngClass]="{ 'valid-control': wordForm.controls['word'].valid, 'invalid-control': wordForm.controls['word'].invalid && (wordForm.controls['word'].dirty || wordForm.controls['word'].touched)}"
-        type="text" class="form-control" formControlName="word" #word/>
+        type="text" formControlName="word" #word/>
       <div
         *ngIf="wordForm.controls['word'].invalid && (wordForm.controls['word'].dirty || wordForm.controls['word'].touched)"
         class="authentication-form-alert">
@@ -112,19 +112,19 @@
           <div class="custom-file">
             <input (change)="onInputImageChange($event)" type="file" formControlName="image" #image class="custom-file-input" id="inputImage" accept="image/jpeg, image/png"
                    aria-describedby="inputFileDefAddon">
-            <label class="custom-file-label image" for="inputImage">{{ imageName }}</label>
+            <label class="custom-file-label image" for="inputImage">{{ illustration.imageName }}</label>
           </div>
         </div>
       </div>
 
-      <div *ngIf="imageUrl" class="add-word-img-preview">
+      <div *ngIf="illustration.imageUrl" class="add-word-img-preview">
         <div (click)="onResetImage()">
-          <span>Supprimer image ({{ imageSize || 0 }} Mo)</span>
+          <span>Supprimer image ({{ illustration.imageSize || 0 }} Mo)</span>
           <i class="fas fa-times-circle"></i>
         </div>
         <figure>
           <figcaption>Aperçu de votre image</figcaption>
-          <img [src]="imageUrl">
+          <img [src]="illustration.imageUrl">
         </figure>
         <label class="under-label">Légende</label>
         <textarea

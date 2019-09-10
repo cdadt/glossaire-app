@@ -44,6 +44,10 @@ export class WordService {
       .toPromise();
   }
 
+  /**
+   * Récupère un mot par son titre
+   * @param title Le mot à rechercher
+   */
   getWordByExactTitle(title: string): Promise<object> {
     return this.http.get(`${environment.apiUrl}/words/search-exact`, {
       params: { title }
@@ -51,6 +55,10 @@ export class WordService {
         .toPromise();
   }
 
+  /**
+   * Retourne un booléen en fonction de la présence ou non d'un mot dont le titre est identique à celui renseigné.
+   * @param title Le titre du mot à vérifier
+   */
   async existWordTitle(title: string): Promise<boolean> {
     const existWord = await this.getWordByExactTitle(title.trim());
 
@@ -109,6 +117,21 @@ export class WordService {
         .toPromise();
   }
 
+  /**
+   * Méthode permettant d'éditer un mot
+   * @param formData Les données des formulaires
+   */
+  editWordElements(formData): Promise<any> {
+    return this.http.put(`${environment.apiUrl}/words/edit`, formData, {
+      headers: { Authorization: `Bearer ${ this.authService.getToken() }` }
+    })
+        .toPromise();
+  }
+
+  /**
+   * Supprime un mot
+   * @param wordId L'id du mot à supprimer
+   */
   deleteOneWord(wordId): void {
     this.http.delete(`${environment.apiUrl}/words`, {
       headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
@@ -122,6 +145,10 @@ export class WordService {
         );
   }
 
+  /**
+   * Méthode permettant d'afficher les erreurs retournées par le backend
+   * @param error Le message d'erreur à afficher
+   */
   errorActions(error): void {
     let errorMess = error.error;
 

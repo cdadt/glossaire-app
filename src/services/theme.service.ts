@@ -140,7 +140,7 @@ export class ThemeService {
   }
 
     /**
-     * Méthode permettant de publier ou dépublier un thème
+     * Méthode permettant de modifier un thème
      * @param theme Le thème à éditer avec ses informations
      */
   editOneTheme(theme): void {
