@@ -11,22 +11,12 @@
   <!-- Message d'info -->
 
   <!-- Header avec logo -->
-  <header class="register-header">
+  <header class="header">
     <h1>Création d'un utilisateur</h1>
   </header>
   <!-- Header avec logo -->
 
-  <!-- Zone d'actions -->
-  <div class="register-header-actions">
-    <input class="form-control" type="search" placeholder="Rechercher">
-    <a class="btn" (click)="onNew()">
-      <i class="fas fa-plus"></i>
-      Nouveau
-    </a>
-  </div>
-  <!-- Zone d'actions -->
-
-  <!--Formulaire de connexion -->
+  <!--Formulaire d'ajout -->
   <form (ngSubmit)="onSubmitForm()" [formGroup]="authForm" novalidate>
 
     <div class="authentication-form-group">
@@ -133,6 +123,13 @@
           <mdb-checkbox [default]="true">Editeur</mdb-checkbox>
           <mdb-checkbox [default]="true">Administrateur</mdb-checkbox>
         </div>
+      </div>
+    </section>
+
+    <section class="authentication-form-group">
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="activateUser" formControlName="activated">
+        <label class="custom-control-label" for="activateUser">Activer l'utilisateur</label>
       </div>
     </section>
 

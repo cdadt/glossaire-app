@@ -22,6 +22,7 @@ export interface TokenPayload {
   password: string;
   firstname?: string;
   lastname?: string;
+  activated?: boolean;
 }
 
 @Injectable({
