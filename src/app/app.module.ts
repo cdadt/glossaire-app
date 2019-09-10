@@ -27,7 +27,7 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { ImportComponent } from './import/import.component';
 import { MenuAdminComponent } from './menu-admin/menu-admin.component';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './user/register/register.component';
 import { AddEditThemeComponent } from './theme/add-edit-theme/add-edit-theme.component';
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
 import { ManageThemeComponent } from './theme/manage-theme/manage-theme.component';
@@ -35,6 +35,8 @@ import { AddWordComponent } from './word/add-word/add-word.component';
 import { EditWordComponent } from './word/edit-word/edit-word.component';
 import { ManageWordComponent } from './word/manage-word/manage-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
+import { LookForUserComponent } from './user/look-for-user/look-for-user.component';
+import { SingleUserComponent } from './user/single-user/single-user.component';
 
 export class MyIntl extends TimeagoIntl {
 // do extra stuff here...
@@ -58,7 +60,9 @@ export class MyIntl extends TimeagoIntl {
     ListWordByThemeComponent,
     ImportComponent,
     ManageThemeComponent,
-    ManageWordComponent
+    ManageWordComponent,
+    LookForUserComponent,
+    SingleUserComponent
   ],
   imports: [
     BrowserModule,

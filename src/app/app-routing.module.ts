@@ -5,13 +5,15 @@ import { AuthenticationComponent } from './authentication/authentication.compone
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { ImportComponent } from './import/import.component';
-import { RegisterComponent } from './register/register.component';
+import { RegisterComponent } from './user/register/register.component';
 import { AddEditThemeComponent } from './theme/add-edit-theme/add-edit-theme.component';
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
 import { ManageThemeComponent } from './theme/manage-theme/manage-theme.component';
 import { AddWordComponent } from './word/add-word/add-word.component';
 import { ManageWordComponent } from './word/manage-word/manage-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
+import {LookForUserComponent} from "./user/look-for-user/look-for-user.component";
+import {SingleUserComponent} from "./user/single-user/single-user.component";
 
 const routes: Routes = [
   {
@@ -33,6 +35,16 @@ const routes: Routes = [
   {
     path: 'utilisateur/ajouter',
     component: RegisterComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'utilisateur/rechercher',
+    component: LookForUserComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'utilisateur/:id',
+    component: SingleUserComponent,
     canActivate: [AuthGuardService]
   },
   {

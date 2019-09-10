@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import Theme from '../app/models/theme.model';
+import User from '../app/models/user.model';
 import Word from '../app/models/word.model';
 import { ThemeService } from './theme.service';
+import { UserService } from './user.service';
 import { WordService } from './word.service';
 
 @Injectable({
@@ -9,7 +11,8 @@ import { WordService } from './word.service';
 })
 export class SearchService {
   constructor(private wordService: WordService,
-              private themeService: ThemeService) { }
+              private themeService: ThemeService,
+              private userService: UserService) { }
 
   /**
    * Méthode permettant de faire une recherche sur les mots et les thèmes
@@ -70,5 +73,14 @@ export class SearchService {
     const dataWord = await this.wordService.getWordsLikeByTitle(queryField) as Array<Word>;
 
     return this.sortSearchTable(dataWord, queryField);
+  }
+
+  /**
+   * Méthode permettant de faire une recherche sur les utilisateurs
+   * @param queryField La recherche effectuée
+   */
+  async searchUsers(queryField): Promise<Array<User>> {
+    return await this.userService.getUserLikeByUsername(queryField) as Array<User>;
+    // return this.sortSearchTable(dataUser, queryField);
   }
 }

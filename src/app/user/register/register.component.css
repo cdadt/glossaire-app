@@ -87,11 +87,7 @@
   width: 50%;
 }
 
-.register-header-actions a {
-  box-shadow: none;
-  color: white;
-  background: #2db25d;
-  border: solid 1px #2db25d;
+.register-header-actions .btn-success {
   padding: 0.375em 0.75em;
   font-size: 1em;
   margin:0;

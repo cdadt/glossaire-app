@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TokenPayload } from '../../services/authentication.service';
-import {UserService} from "../../services/user.service";
+import { TokenPayload } from '../../../services/authentication.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +17,8 @@ export class RegisterComponent implements OnInit {
     email: '',
     password: '',
     firstname: '',
-    lastname: ''
+    lastname: '',
+    activated: false
   };
 
   constructor(private formBuilder: FormBuilder,
@@ -37,7 +38,8 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(60)]],
       password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]/), Validators.minLength(8), Validators.maxLength(30)]],
       firstname: [''],
-      lastname: ['']
+      lastname: [''],
+      activated: [false]
     });
   }
 
@@ -53,17 +55,19 @@ export class RegisterComponent implements OnInit {
       const password = this.authForm.get('password').value;
       const firstname = this.authForm.get('firstname').value;
       const lastname = this.authForm.get('lastname').value;
+      const activated = this.authForm.get('activated').value;
 
       this.credentials.username = username;
       this.credentials.email = email;
       this.credentials.password = password;
       this.credentials.firstname = firstname;
       this.credentials.lastname = lastname;
+      this.credentials.activated = activated;
 
       const register = await this.userService.register(this.credentials);
       if (register) {
-        this.message = 'registered';
         this.authForm.reset();
+        this.message = 'registered';
       } else {
         this.message = 'error';
       }
