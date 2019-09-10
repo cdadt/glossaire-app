@@ -1,12 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { MDBRootModule } from 'angular-bootstrap-md';
 import { TimeagoCustomFormatter, TimeagoFormatter, TimeagoIntl, TimeagoModule } from 'ngx-timeago';
 import { ToastrModule } from 'ngx-toastr';
+import { AutoFocusDirective } from '../directives/auto-focus.directive';
 import { environment } from '../environments/environment';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthenticationService } from '../services/authentication.service';
@@ -61,6 +62,8 @@ export class MyIntl extends TimeagoIntl {
     ImportComponent,
     ManageThemeComponent,
     ManageWordComponent,
+    AutoFocusDirective
+    ManageWordComponent,
     LookForUserComponent,
     SingleUserComponent
   ],
@@ -77,7 +80,8 @@ export class MyIntl extends TimeagoIntl {
       formatter: { provide: TimeagoFormatter, useClass: TimeagoCustomFormatter }
     }),
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    FormsModule
   ],
   providers: [
     WordService,

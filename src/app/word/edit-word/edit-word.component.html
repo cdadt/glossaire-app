@@ -1,3 +1,164 @@
-<p>
-  edit-word works!
-</p>
+<app-header></app-header>
+<main class="main-content">
+
+  <!-- Définition -->
+  <article *ngIf="word">
+
+    <header class="edit-word-page-header">
+      <p>Modifier une définition</p>
+    </header>
+    <p class="edit-word-info">
+      Double-cliquer sur un élément pour le modifier.
+    </p>
+
+    <section class="edit-word-action">
+      <div (click)="onToggleValidateWord()" *ngIf="word.validated"><i class="fas fa-check-square bg-green"></i><span>Invalider</span></div>
+      <div (click)="onToggleValidateWord()" *ngIf="!word.validated"><i class="fas fa-check-square bg-grey"></i><span>Valider</span></div>
+      <div (click)="onTogglePublishWord()" *ngIf="word.published"><i class="fas fa-eye bg-orange"></i><span>Dépublier</span></div>
+      <div (click)="onTogglePublishWord()" *ngIf="!word.published"><i class="fas fa-eye-slash bg-grey"></i><span>Publier</span></div>
+      <div (click)="onDisplayDeleteWindow()"><i class="fas fa-trash-alt bg-red"></i><span>Supprimer</span></div>
+    </section>
+
+    <section class="edit-word-definition-infos">
+      <header class="edit-word-definition-header">
+        <h1 *ngIf="edit !== 'edit-title'" (dblclick)="onEdit('title')"><i class="fas fa-pencil-alt modif-indicator"></i>{{ word.title }}</h1>
+        <input appAutoFocus
+               *ngIf="edit === 'edit-title'"
+               (focusout)="onSave($event, 'title', true)"
+               value="{{ word.title }}"
+               class="form-control"
+               mdbInput>
+
+
+        <div class="themes-list" *ngIf="edit !== 'edit-themes'" (dblclick)="onEdit('themes')" >
+            <i class="fas fa-pencil-alt modif-indicator"></i>Thèmes :
+            <span *ngFor="let theme of word.themes; let isLast=last">
+                    {{ theme.title }}{{isLast ? '' : ', ' }}
+            </span>
+        </div>
+         <form *ngIf="edit === 'edit-themes'" (ngSubmit)="onSubmitThemeForm()" [formGroup]="themeForm" novalidate>
+             <select formControlName="theme" #theme
+                     multiple
+                     class="browser-default custom-select">
+                 <option *ngFor="let thm of themes" value="{{ thm._id }}">{{ thm.title }}</option>
+             </select>
+             <button type="submit" class="btn valid">Valider</button>
+             <button (click)="onCancelEdition()" type="submit" class="btn">Annuler</button>
+        </form>
+      </header>
+
+
+      <div class="edit-word-last-edit">
+        Dernière modification : {{ word.last_edit | timeago:live }}
+      </div>
+      <p *ngIf="edit !== 'edit-definition'" (dblclick)="onEdit('definition')" class="edit-word-definition">
+          <i class="fas fa-pencil-alt modif-indicator"></i>{{ word.definition }}
+      </p>
+      <textarea appAutoFocus
+             *ngIf="edit === 'edit-definition'"
+             (focusout)="onSave($event, 'definition', true)"
+             class="form-control"
+             mdbInput>{{ word.definition }}</textarea>
+        <button class="btn add-element" (click)="onEdit('image')" *ngIf="!illustration.imageUrl && edit !== 'edit-image'">
+            <i class="fas fa-plus"></i> Ajouter une image
+        </button>
+        <div class="img-delete" *ngIf="illustration.imageUrl" (click)="onDeleteImage()">
+            <span>Supprimer l'image ({{ illustration.imageSize || 0 }} Mo)</span>
+            <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="img-edit" (click)="onEdit('image')" *ngIf="illustration.imageUrl && edit !== 'edit-image'">
+            <span>Modifier l'image</span>
+            <i class="fas fa-pen"></i>
+        </div>
+        <form *ngIf="edit === 'edit-image'" (ngSubmit)="onSubmitImageForm()" [formGroup]="imageForm" novalidate>
+            <button type="submit" class="img-valid" [disabled]="imageForm.invalid || illustration.invalidSize">
+                <span>Valider l'image</span>
+                <i class="fas fa-check-circle"></i>
+            </button>
+            <button (click)="onCancelEdition(); onResetImage()" class="img-cancel">
+                <span>Annuler les modifications</span>
+                <i class="fas fa-arrow-alt-circle-left"></i>
+            </button>
+            <div class="edit-word-read-image">
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input (change)="onInputImageChange($event)" type="file" formControlName="image" #image class="custom-file-input" id="inputImage" accept="image/jpeg, image/png"
+                               aria-describedby="inputFileDefAddon">
+                        <label class="custom-file-label image" for="inputImage"> {{ illustration.imageName }}</label>
+                    </div>
+                </div>
+            </div>
+            <div
+                *ngIf="imageForm.controls['image'].invalid && (imageForm.controls['image'].dirty || imageForm.controls['image'].touched)"
+                class="edit-word-form-alert">Votre fichier doit être de type png, jpg ou jpeg.</div>
+            <div
+                *ngIf="illustration.invalidSize"
+                class="edit-word-form-alert">
+                Votre fichier ne doit pas excéder 1 Mo.
+            </div>
+        </form>
+      <div *ngIf="illustration.imageUrl" class="edit-word-img-preview">
+        <figure>
+            <img [src]="illustration.imageUrl">
+            <figcaption (dblclick)="onEdit('legend')" *ngIf="!word.legend && edit !== 'edit-legend' && edit !== 'edit-image'">
+                <i class="fas fa-pencil-alt modif-indicator"></i>Double cliquer pour ajouter une légende
+            </figcaption>
+            <figcaption (dblclick)="onEdit('legend')" *ngIf="word.legend && edit !== 'edit-legend' && edit !== 'edit-image'" >
+                <i class="fas fa-pencil-alt modif-indicator"></i>{{ word.legend }}
+            </figcaption>
+            <textarea appAutoFocus
+                    *ngIf="edit === 'edit-legend'"
+                    (focusout)="onSave($event, 'legend')"
+                    class="form-control"
+                    mdbInput>{{ word.legend || '' }}</textarea>
+        </figure>
+      </div>
+
+
+      <div *ngIf="word.know_more" class="edit-word-know-more">
+        <a (click)="onDisplayKnowMore()" class="btn">En savoir plus <i [ngClass]="{'far fa-circle': open === false, 'fas fa-check-circle': open === true}"></i></a>
+      </div>
+      <button class="btn add-element" (click)="onEdit('know_more')" *ngIf="!word.know_more && edit !== 'edit-know_more'">
+          <i class="fas fa-plus"></i> Ajouter une partie "En savoir plus"
+      </button>
+      <p *ngIf="edit !== 'edit-know_more' && word.know_more" (dblclick)="onEdit('know_more')" id="edit-word-know-more-text" [ngClass]="{'display-none': open === false}">
+        {{ word.know_more }}
+      </p>
+      <textarea appAutoFocus
+                *ngIf="edit === 'edit-know_more'"
+                (focusout)="onSave($event, 'know_more')"
+                class="form-control"
+                mdbInput>{{ word.know_more }}</textarea>
+    </section>
+      <!--
+      <p class="edit-word-associated-word">
+        Mots associés : mot1, mot2
+      </p>
+      -->
+
+  </article>
+  <!-- Définition -->
+
+  <!-- Fenêtre de confirmation de suppression -->
+  <div class="overlay" *ngIf="displayDeleteWindow"></div>
+  <section class="edit-word-delete-win" *ngIf="displayDeleteWindow">
+      <header>
+          <h1>Supprimer</h1>
+      </header>
+      <p>Souhaitez-vous supprimer cette définition ?</p>
+      <div>
+          <button class="btn delete" (click)="onDeleteWord()">Oui</button>
+          <button class="btn cancel" (click)="onCancelDelete()">Non</button>
+      </div>
+  </section>
+    <!-- Fenêtre de confirmation de suppression -->
+
+  <!-- Mot inconnu -->
+  <p *ngIf="word === undefined">Le mot recherché n'existe pas.</p>
+  <!-- Mot inconnu -->
+
+  <!-- Bouton page d'accueil -->
+  <app-menu-admin></app-menu-admin>
+  <!-- Bouton page d'accueil -->
+
+</main>

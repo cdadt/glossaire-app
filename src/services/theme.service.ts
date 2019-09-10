@@ -41,8 +41,10 @@ export class ThemeService {
   /**
    * Récupère tous les thèmes
    */
-  getThemes(): Promise<object> {
-    return this.http.get(`${environment.apiUrl}/themes`)
+  getThemes(pubOption = ''): Promise<object> {
+    return this.http.get(`${environment.apiUrl}/themes`, {
+        params: { pubOption }
+    })
       .toPromise();
   }
 
@@ -138,7 +140,7 @@ export class ThemeService {
   }
 
     /**
-     * Méthode permettant de publier ou dépublier un thème
+     * Méthode permettant de modifier un thème
      * @param theme Le thème à éditer avec ses informations
      */
   editOneTheme(theme): void {

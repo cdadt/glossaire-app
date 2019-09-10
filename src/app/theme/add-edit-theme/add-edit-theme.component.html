@@ -37,24 +37,24 @@
           <div class="custom-file">
             <input (change)="onInputImageChange($event)" type="file" formControlName="image" #image class="custom-file-input" id="inputFileDef" accept="image/jpeg, image/png"
                    aria-describedby="inputFileDefAddon">
-            <label class="custom-file-label" for="inputFileDef">{{ imageName }}</label>
+            <label class="custom-file-label" for="inputFileDef">{{ illustration.imageName }}</label>
           </div>
         </div>
       </div>
-      <div *ngIf="imageUrl" class="add-theme-img-preview">
+      <div *ngIf="illustration.imageUrl" class="add-theme-img-preview">
         <div (click)="onResetImage()">
-          <span>Supprimer image ({{ imageSize || 0 }} Mo)</span>
+          <span>Supprimer image ({{ illustration.imageSize || 0 }} Mo)</span>
           <i class="fas fa-times-circle"></i>
         </div>
         <figure>
-          <img [src]="imageUrl">
+          <img [src]="illustration.imageUrl">
         </figure>
       </div>
       <div
          *ngIf="themeForm.controls['image'].invalid && (themeForm.controls['image'].dirty || themeForm.controls['image'].touched)"
          class="authentication-form-alert">Votre fichier doit être de type png, jpg ou jpeg.</div>
       <div
-          *ngIf="invalidSize"
+          *ngIf="illustration.invalidSize"
            class="authentication-form-alert">
         Votre fichier ne doit pas excéder 1 Mo.
       </div>
@@ -62,7 +62,7 @@
 
     <div class="add-theme-form-submit">
       <button type="submit"
-              [disabled]="themeForm.invalid || invalidSize"
+              [disabled]="themeForm.invalid || illustration.invalidSize"
               class="btn"><i class="fas fa-check"></i> Enregistrer
       </button>
     </div>

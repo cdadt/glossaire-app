@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
+import { ImageInfos, ImageService } from '../../../services/image.service';
 import { ThemeService } from '../../../services/theme.service';
 import Theme from '../../models/theme.model';
 import { imageValidator } from '../../validators/image-validator.directive';
@@ -15,34 +17,38 @@ export class AddEditThemeComponent implements OnInit {
 
   themeForm;
   themes: Array<Theme>;
-  image: any;
-  imageName: string;
-  imageUrl: any;
-  imageSize: number;
-  invalidSize: boolean;
   themeToEdit: Theme;
+  illustration: any;
+  imageSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
               private themeService: ThemeService,
               private route: ActivatedRoute,
-              private toastr: ToastrService) {
-    this.imageName = 'Image';
-    this.imageSize = 0;
-    this.invalidSize = false;
+              private toastr: ToastrService,
+              private imageService: ImageService) {
   }
 
   async ngOnInit(): Promise<any> {
     this.initThemeForm();
+    this.onResetImage();
 
     this.route.params.subscribe(async params => {
+      // Dans le cas d'une édition
       if (params.id !== undefined) {
         this.themeToEdit = await this.themeService.getThemeById(params.id) as Theme;
         this.initThemeForm(this.themeToEdit.title);
-        this.imageUrl = `data:${this.themeToEdit.img.contentType};base64,${this.themeToEdit.img.data}`;
-        this.imageSize = Math.round(parseInt(this.themeToEdit.img.size, 10) / 10000) / 100;
+        this.imageService.image.imageUrl = `data:${this.themeToEdit.img.contentType};base64,${this.themeToEdit.img.data}`;
+        this.imageService.image.imageSize = Math.round(parseInt(this.themeToEdit.img.size, 10) / 10000) / 100;
+        this.imageService.emitImage();
       }
     });
 
+    this.imageSubscription = this.imageService.imageSubject.subscribe(
+        (image: ImageInfos) => {
+          this.illustration = image;
+        }
+    );
+    this.imageService.emitImage();
   }
 
   /**
@@ -60,13 +66,13 @@ export class AddEditThemeComponent implements OnInit {
    * Elle enregistre le contenu du formulaire ou renvoie une erreur si le formulaire est invalide
    */
   onSubmitForm(): void {
-    if (this.themeForm.valid && this.imageSize < 1000000) {
+    if (this.themeForm.valid && this.illustration.imageSize < 1000000) {
       const theme = this.themeForm.get('theme').value;
 
       const formData = new FormData();
-      if (this.image) {
-        formData.append('image', this.image);
-        formData.append('imageSize', this.image.size);
+      if (this.illustration.image) {
+        formData.append('image', this.illustration.image);
+        formData.append('imageSize', this.illustration.image.size);
       }
       formData.append('title', theme);
 
@@ -92,19 +98,7 @@ export class AddEditThemeComponent implements OnInit {
    * @param element Le champ image
    */
   onInputImageChange(element): void {
-    this.image = element.target.files[0];
-    this.imageName = this.image.name;
-
-    // On crée l'aperçu de l'image
-    const reader = new FileReader();
-    reader.readAsDataURL(this.image);
-    reader.onload = _event => {
-      this.imageUrl = reader.result;
-    };
-
-    // On vérifie la taille du fichier
-    this.invalidSize = this.image.size > 1000000;
-    this.imageSize = Math.round(this.image.size / 10000) / 100;
+    this.imageService.imageChange(element);
   }
 
   /**
@@ -113,9 +107,6 @@ export class AddEditThemeComponent implements OnInit {
   onResetImage(): void {
     this.themeForm.get('image')
         .reset();
-    this.image = undefined;
-    this.imageUrl = undefined;
-    this.imageName = 'Image';
-    this.invalidSize = false;
+    this.imageService.resetImage();
   }
 }

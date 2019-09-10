@@ -10,6 +10,7 @@ import { AddEditThemeComponent } from './theme/add-edit-theme/add-edit-theme.com
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
 import { ManageThemeComponent } from './theme/manage-theme/manage-theme.component';
 import { AddWordComponent } from './word/add-word/add-word.component';
+import { EditWordComponent } from './word/edit-word/edit-word.component';
 import { ManageWordComponent } from './word/manage-word/manage-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
 import {LookForUserComponent} from "./user/look-for-user/look-for-user.component";
@@ -23,6 +24,11 @@ const routes: Routes = [
   {
     path: 'definitions/:id',
     component: SingleWordComponent
+  },
+  {
+    path: 'definitions/edition/:id',
+    component: EditWordComponent,
+    canActivate: [AuthGuardService]
   },
   {
     path: 'themes/:id/words',
