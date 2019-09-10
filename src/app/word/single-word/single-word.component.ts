@@ -47,7 +47,7 @@ export class SingleWordComponent implements OnInit {
     if (this.word) {
       let countPublishedTheme = 0;
       this.word.themes.forEach(elem => {
-        if (elem.published === 'true') {
+        if (elem.published) {
           countPublishedTheme ++;
         }
       });

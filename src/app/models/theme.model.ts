@@ -6,5 +6,5 @@ export default class Theme {
     contentType: string,
     size: string
   };
-  published: string;
+  published: boolean;
 }
