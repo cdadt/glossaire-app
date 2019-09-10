@@ -37,6 +37,7 @@ export class AddWordComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     this.initWordForm();
+    this.onResetImage();
 
     this.imageSubscription = this.imageService.imageSubject.subscribe(
         (image: ImageInfos) => {

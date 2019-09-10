@@ -30,15 +30,10 @@ export class AddEditThemeComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     this.initThemeForm();
-
-    this.imageSubscription = this.imageService.imageSubject.subscribe(
-        (image: ImageInfos) => {
-          this.illustration = image;
-        }
-    );
-    this.imageService.emitImage();
+    this.onResetImage();
 
     this.route.params.subscribe(async params => {
+      // Dans le cas d'une édition
       if (params.id !== undefined) {
         this.themeToEdit = await this.themeService.getThemeById(params.id) as Theme;
         this.initThemeForm(this.themeToEdit.title);
@@ -48,6 +43,12 @@ export class AddEditThemeComponent implements OnInit {
       }
     });
 
+    this.imageSubscription = this.imageService.imageSubject.subscribe(
+        (image: ImageInfos) => {
+          this.illustration = image;
+        }
+    );
+    this.imageService.emitImage();
   }
 
   /**
