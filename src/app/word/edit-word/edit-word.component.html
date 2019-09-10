@@ -8,7 +8,7 @@
       <p>Modifier une définition</p>
     </header>
     <p class="edit-word-info">
-      Double-cliquer sur un élément pour le modifier.
+      Double-cliquer sur un élément pour le modifier ou cliquer sur l'icône du crayon.
     </p>
 
     <section class="edit-word-action">
@@ -21,7 +21,7 @@
 
     <section class="edit-word-definition-infos">
       <header class="edit-word-definition-header">
-        <h1 *ngIf="edit !== 'edit-title'" (dblclick)="onEdit('title')"><i class="fas fa-pencil-alt modif-indicator"></i>{{ word.title }}</h1>
+        <h1 *ngIf="edit !== 'edit-title'" (dblclick)="onEdit('title')">{{ word.title }}<i (click)="onEdit('title')" class="fas fa-pencil-alt modif-indicator-right"></i></h1>
         <input appAutoFocus
                *ngIf="edit === 'edit-title'"
                (focusout)="onSave($event, 'title', true)"
@@ -31,10 +31,11 @@
 
 
         <div class="themes-list" *ngIf="edit !== 'edit-themes'" (dblclick)="onEdit('themes')" >
-            <i class="fas fa-pencil-alt modif-indicator"></i>Thèmes :
+            Thèmes :
             <span *ngFor="let theme of word.themes; let isLast=last">
                     {{ theme.title }}{{isLast ? '' : ', ' }}
             </span>
+            <i (click)="onEdit('themes')" class="fas fa-pencil-alt modif-indicator-right"></i>
         </div>
          <form *ngIf="edit === 'edit-themes'" (ngSubmit)="onSubmitThemeForm()" [formGroup]="themeForm" novalidate>
              <select formControlName="theme" #theme
@@ -52,7 +53,7 @@
         Dernière modification : {{ word.last_edit | timeago:live }}
       </div>
       <p *ngIf="edit !== 'edit-definition'" (dblclick)="onEdit('definition')" class="edit-word-definition">
-          <i class="fas fa-pencil-alt modif-indicator"></i>{{ word.definition }}
+          <i (click)="onEdit('definition')" class="fas fa-pencil-alt modif-indicator-left"></i>{{ word.definition }}
       </p>
       <textarea appAutoFocus
              *ngIf="edit === 'edit-definition'"
@@ -101,10 +102,10 @@
         <figure>
             <img [src]="illustration.imageUrl">
             <figcaption (dblclick)="onEdit('legend')" *ngIf="!word.legend && edit !== 'edit-legend' && edit !== 'edit-image'">
-                <i class="fas fa-pencil-alt modif-indicator"></i>Double cliquer pour ajouter une légende
+                <i (click)="onEdit('legend')" class="fas fa-pencil-alt modif-indicator-left"></i>Double cliquer pour ajouter une légende
             </figcaption>
             <figcaption (dblclick)="onEdit('legend')" *ngIf="word.legend && edit !== 'edit-legend' && edit !== 'edit-image'" >
-                <i class="fas fa-pencil-alt modif-indicator"></i>{{ word.legend }}
+                <i (click)="onEdit('legend')" class="fas fa-pencil-alt modif-indicator-left"></i>{{ word.legend }}
             </figcaption>
             <textarea appAutoFocus
                     *ngIf="edit === 'edit-legend'"
@@ -122,7 +123,7 @@
           <i class="fas fa-plus"></i> Ajouter une partie "En savoir plus"
       </button>
       <p *ngIf="edit !== 'edit-know_more' && word.know_more" (dblclick)="onEdit('know_more')" id="edit-word-know-more-text" [ngClass]="{'display-none': open === false}">
-        {{ word.know_more }}
+          <i (click)="onEdit('know_more')" class="fas fa-pencil-alt modif-indicator-left"></i>{{ word.know_more }}
       </p>
       <textarea appAutoFocus
                 *ngIf="edit === 'edit-know_more'"
