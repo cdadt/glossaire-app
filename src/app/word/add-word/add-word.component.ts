@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ImageInfos, ImageService } from '../../../services/image.service';
 import { OcrService } from '../../../services/ocr.service';
 import { SyncService } from '../../../services/sync.service';
 import { ThemeService } from '../../../services/theme.service';
 import { WordService } from '../../../services/word.service';
 import Theme from '../../models/theme.model';
-import Word from '../../models/word.model';
 import { imageValidator } from '../../validators/image-validator.directive';
 
 @Component({
@@ -19,7 +18,6 @@ import { imageValidator } from '../../validators/image-validator.directive';
 export class AddWordComponent implements OnInit {
 
   wordForm;
-  message: string;
   themes: Array<Theme>;
   readImageLoadingDef: boolean;
   readImageLoadingKnowMore: boolean;
@@ -89,19 +87,11 @@ export class AddWordComponent implements OnInit {
       formData.append('wordInfo', wordInfo);
 
       this.onResetImage();
-      this.message = 'saved';
       this.wordForm.reset();
       this.wordService.addWord(formData);
     } else {
-      this.message = 'error';
+      this.toastr.error('Veuillez vérifier les informations renseignées.', 'Le formulaire n\'est pas valide.');
     }
-  }
-
-  /**
-   * Méthode permettant de fermer la fenêtre d'information "Définition créée"
-   */
-  onClose(): void {
-    this.message = 'none';
   }
 
   /**
