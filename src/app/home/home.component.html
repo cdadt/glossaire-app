@@ -44,25 +44,31 @@
     <!-- Zone de recherche -->
 
     <!-- Dernières défintions ajoutées -->
-    <section (click)="onDisplayResultsNone()" class="home-last-definition">
-      <header>
-        <h1>Dernière définition</h1>
-      </header>
-      <section class="home-last-definition-content" *ngIf="word">
-        <h1>
-          <a [routerLink]="['definitions/', word._id]">
-            {{ word.title }}
-          </a>
-        </h1>
-        <p class="description">
-          {{ word.definition }}
-        </p>
-        <div class="button-action">
-          <a [routerLink]="['definitions/', word._id]">Consulter</a>
-        </div>
+    <article class="home-last-definition">
+      <section (click)="onDisplayResultsNone()" class="home-last-definition">
+        <header>
+          <h1>Dernière définition</h1>
+        </header>
+        <section class="home-last-definition-content" *ngIf="word">
+          <h1>
+            <a [routerLink]="['definitions/', word._id]">
+              {{ word.title }}
+            </a>
+          </h1>
+          <p class="description">
+            {{ word.definition }}
+          </p>
+          <div class="button-action">
+            <a [routerLink]="['definitions/', word._id]">Consulter</a>
+          </div>
+        </section>
+        <p *ngIf="word" class="home-last-definition-content-date">{{ word.last_edit | timeago:live }}</p>
       </section>
-      <p *ngIf="word" class="home-last-definition-content-date">{{ word.last_edit | timeago:live }}</p>
-    </section>
+      <figure *ngIf="imageUrl" class="home-image">
+        <img [src]="imageUrl">
+      </figure>
+    </article>
+
     <!-- Dernières défintions ajoutées -->
 
     <!-- Connexion -->
@@ -72,26 +78,25 @@
       <a *ngIf="isLoggedIn()" [routerLink]="['dashboard']" class="btn admin">Administration</a>
     </div>
     <!-- Connexion -->
-
-    <!-- Notifications -->
-    <section class="home-notification">
-      <header class="home-notification-header">
-        <i class="far fa-bell"></i>
-        <h2>Vous souhaitez être averti de l'arrivée d'une nouvelle définition ?</h2>
-      </header>
-      <div *ngIf="getNotification()" class="custom-control custom-checkbox">
-        <input *ngIf="getIsSubscriber() === 'false'" (click)="subscribeToNotifications()" type="checkbox" class="custom-control-input" id="subscription" [checked]="getIsSubscriber() === 'true'">
-        <a *ngIf="getIsSubscriber() === 'false'" (click)="subscribeToNotifications()" class="custom-control-label">S'abonner aux notifications</a>
-        <input *ngIf="getIsSubscriber() === 'true'" (click)="unsubscribeToNotifications()" type="checkbox" class="custom-control-input" id="unsubscription" [checked]="getIsSubscriber() === 'true'">
-        <a *ngIf="getIsSubscriber() === 'true'" (click)="unsubscribeToNotifications()" class="custom-control-label">S'abonner aux notifications</a>
-        <i *ngIf="getIsSubscriber() === 'loading'"  class="fas fa-spinner"></i>
-      </div>
-      <div *ngIf="!getNotification()" class="font-weight-bold text-center">
-        Les notifications ne sont pas disponibles sur ce navigateur.
-      </div>
-    </section>
-    <!-- Notifications -->
   </section>
+  <!-- Notifications -->
+  <section class="home-notification">
+    <header class="home-notification-header">
+      <i class="far fa-bell"></i>
+      <h2>Vous souhaitez être averti de l'arrivée d'une nouvelle définition ?</h2>
+    </header>
+    <div *ngIf="getNotification()" class="custom-control custom-checkbox">
+      <input *ngIf="getIsSubscriber() === 'false'" (click)="subscribeToNotifications()" type="checkbox" class="custom-control-input" id="subscription" [checked]="getIsSubscriber() === 'true'">
+      <a *ngIf="getIsSubscriber() === 'false'" (click)="subscribeToNotifications()" class="custom-control-label">S'abonner aux notifications</a>
+      <input *ngIf="getIsSubscriber() === 'true'" (click)="unsubscribeToNotifications()" type="checkbox" class="custom-control-input" id="unsubscription" [checked]="getIsSubscriber() === 'true'">
+      <a *ngIf="getIsSubscriber() === 'true'" (click)="unsubscribeToNotifications()" class="custom-control-label">S'abonner aux notifications</a>
+      <i *ngIf="getIsSubscriber() === 'loading'"  class="fas fa-spinner"></i>
+    </div>
+    <div *ngIf="!getNotification()" class="font-weight-bold text-center">
+      Les notifications ne sont pas disponibles sur ce navigateur.
+    </div>
+  </section>
+  <!-- Notifications -->
 
 </main>
 

@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
   isOpenError: boolean;
   live: true;
   queryField: FormControl = new FormControl ();
+  imageUrl: any;
 
   constructor(
               private wordService: WordService,
@@ -70,6 +71,10 @@ export class HomeComponent implements OnInit {
    */
   async ngOnInit(): Promise<any> {
     this.word = (await this.wordService.getLastWord()) as Word;
+    this.imageUrl = undefined;
+    if (this.word.img) {
+      this.imageUrl = `data:${this.word.img.contentType};base64,${this.word.img.data}`;
+    }
 
     /**
      * Détecte les changements dans le formulaire de recherche et effectue la recherche sur les mots et les thèmes
