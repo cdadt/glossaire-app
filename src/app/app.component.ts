@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  onActivate(): void {
+    window.scroll(0, 0);
+  }
 }
