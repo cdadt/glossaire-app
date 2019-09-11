@@ -49,6 +49,7 @@
   box-shadow: inset 0 0 0 100px white;
   transition: all 0.2s ease-in-out;
   border-radius: 10px;
+  width: 50%;
 }
 
 
@@ -78,4 +79,47 @@
 .authentication-form-fgt-psw {
   color: rgb(0, 86, 179);
 }
-
+
+/******************************* MEDIA QUERIES *******************************/
+/* start of desktop styles */
+
+@media screen and (min-width: 992px) {
+  /* start of large tablet styles */
+  .main-content {
+    width: 40%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .authentication-button-home {
+    border: solid 1px #29a255;
+    color: white;
+    background: #29a255;
+    transition: all 0.2s;
+    border-radius: 10px;
+    position: relative;
+    width: 50%;
+    align-self: center;
+  }
+
+  .authentication-button-home:hover {
+    color: white;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  /* start of large tablet styles */
+
+}
+
+@media screen and (max-width: 767px) {
+  /* start of medium tablet styles */
+
+}
+
+@media screen and (max-width: 479px) {
+  /* start of phone styles */
+
+}
