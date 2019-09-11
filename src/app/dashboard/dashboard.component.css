@@ -83,3 +83,12 @@
 .disabled {
   background: #a3a3a3;
 }
+
+/******************************* MEDIA QUERIES *******************************/
+
+@media screen and (min-width: 992px) {
+  .dashboard-table {
+    width: 40%;
+    margin: auto;
+  }
+}
