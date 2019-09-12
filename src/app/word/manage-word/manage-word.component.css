@@ -68,14 +68,14 @@ p {
 
 
 
-.home-search-results i {
+.manage-word-search-results i {
     font-size: 1em;
     padding: 0.4em;
     margin-right: 0.5em;
     border: none;
 }
 
-.home-search-results {
+.manage-word-search-results {
     z-index: 2;
     position: absolute;
     top: 15rem;
@@ -85,26 +85,49 @@ p {
     box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.5);
 }
 
-.home-search-results div {
+.manage-word-search-results div {
     background: white;
     border: solid 1px #eeeeee;
     display: flex;
     transition: all 0.2s;
 }
 
-.home-search-results a {
+.manage-word-search-results a {
     padding: 0.7rem;
     width: 100%;
     cursor: pointer;
     color: lightslategray;
 }
 
-.home-search-results a:hover {
+.manage-word-search-results a:hover {
     text-decoration: none;
     color: lightslategray;
 }
 
-.home-search-results div:focus,
-.home-search-results div:hover {
+.manage-word-search-results div:focus,
+.manage-word-search-results div:hover {
     background: #eeeeee;
+}
+
+
+@media screen and (min-width: 991px) {
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    form {
+        width: 40%;
+    }
+
+    .manage-word-info {
+        width: 100%;
+    }
+
+    .manage-word-search-results {
+        width: 40%;
+    }
 }

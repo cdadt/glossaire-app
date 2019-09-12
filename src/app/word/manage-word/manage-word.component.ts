@@ -40,14 +40,14 @@ export class ManageWordComponent implements OnInit {
 
           // ****** Positionne les résultats de la recherche en fonction de l'input ****** //
           // On récupère le champ de recherche
-          const inputSearch = (document.getElementById('home-search') as HTMLInputElement);
+          const inputSearch = (document.getElementById('manage-word-search') as HTMLInputElement);
 
           // On position les résultats en fonction de l'input
           const inputOffsetLeft = inputSearch.offsetLeft;
           const heightInputSearch = inputSearch.offsetHeight;
           const inputOffsetTop = heightInputSearch + inputSearch.offsetTop + 5;
 
-          const divResults = (document.getElementById('home-search-results') as HTMLInputElement);
+          const divResults = (document.getElementById('manage-word-search-results') as HTMLInputElement);
           divResults.style.top = `${inputOffsetTop}px`;
           divResults.style.left = `${inputOffsetLeft}px`;
           // ****** Positionne les résultats de la recherche en fonction de l'input ****** /
@@ -75,9 +75,22 @@ export class ManageWordComponent implements OnInit {
   /**
    * Méthode qui permet d'afficher le résulats de la recherche au clic sur la barre de recherche si celle-ci n'est pas vide
    */
-  onDisplayResult(): void {
+  async onDisplayResult(): Promise<void> {
+      console.log(this.queryField.value);
     if (this.queryField.value !== null && this.queryField.value !== '') {
-      this.displayResults = true;
+        this.displayResults = true;
+        // await this.searchService.search(this.queryField.value)
+        //     .then(success => {
+        //         this.words = success;
+        //         this.displayResults = true;
+        //     });
     }
+  }
+
+  onResetSearch(): void {
+      this.searchWordForm.get('word')
+          .reset();
+      this.queryField.patchValue('');
+      this.onDisplayResultsNone();
   }
 }

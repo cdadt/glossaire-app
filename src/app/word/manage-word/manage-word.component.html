@@ -7,18 +7,18 @@
   </header>
   <!-- Header avec logo -->
 
-  <form [formGroup]="searchWordForm" novalidate>
+  <form [formGroup]="searchWordForm" novalidate autocomplete="off">
     <input (focusin)="onDisplayResult()"
-           id="home-search"
+           id="manage-word-search"
            [formControl]="queryField"
            formControlName="word"
            type="search"
            placeholder="Sécurité, Conformité...">
     <i class="fas fa-search"></i>
-    <button>Annuler</button>
+    <button (click)="onResetSearch()">Annuler</button>
   </form>
 
-    <div id="home-search-results" class="home-search-results"
+    <div id="manage-word-search-results" class="manage-word-search-results"
          [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}">
         <div *ngFor="let word of words">
             <a (click)="onDisplayResultsNone()" [routerLink]="['/definitions/edition', word._id]">
@@ -35,7 +35,7 @@
       <button class="manage-word-new" [routerLink]="['/mot/ajouter']">Ajouter une définition <i class="fas fa-plus"></i></button>
   </div>
 
-  <!-- Bouton page d'accueil -->
-  <app-menu-admin></app-menu-admin>
-  <!-- Bouton page d'accueil -->
 </main>
+<!-- Bouton page d'accueil -->
+<app-menu-admin></app-menu-admin>
+<!-- Bouton page d'accueil -->
