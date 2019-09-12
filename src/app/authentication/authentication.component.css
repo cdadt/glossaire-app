@@ -109,17 +109,16 @@
   }
 }
 
-@media screen and (max-width: 991px) {
-  /* start of large tablet styles */
+/******************************* MEDIA QUERIES *******************************/
 
+@media screen and (min-width: 992px) {
+  form {
+    width: 50%;
+    margin: auto;
+  }
+
+  .authentication-form-submit button {
+    width: 100%;
+  }
 }
 
-@media screen and (max-width: 767px) {
-  /* start of medium tablet styles */
-
-}
-
-@media screen and (max-width: 479px) {
-  /* start of phone styles */
-
-}
