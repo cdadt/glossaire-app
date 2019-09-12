@@ -174,3 +174,12 @@ label.image {
   font-weight: normal;
   color: #7e7e7e;
 }
+
+/******************************* MEDIA QUERIES *******************************/
+
+@media screen and (min-width: 992px) {
+  form {
+    width: 40%;
+    margin: auto;
+  }
+}
