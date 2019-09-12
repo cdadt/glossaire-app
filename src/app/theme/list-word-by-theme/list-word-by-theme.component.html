@@ -3,7 +3,9 @@
 
   <!-- Header avec logo -->
   <header class="list-word-header">
-    <img *ngIf="imageUrl" [src]="imageUrl">
+    <figure id="list-word-image">
+      <img  *ngIf="imageUrl" [src]="imageUrl">
+    </figure>
     <h1 *ngIf="theme">{{ theme.title }}</h1>
   </header>
   <!-- Header avec logo -->

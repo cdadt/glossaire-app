@@ -1,5 +1,5 @@
 .main-content {
-    margin-bottom: 2.5em;
+    padding-bottom: 3em;
 }
 
 .list-word-header {
@@ -77,4 +77,27 @@ section:last-child .list-word-def-header {
 
 .no-list-word {
     font-style: italic;
+}
+
+@media screen and (min-width: 992px) {
+    .main-content {
+        margin: auto;
+        width: 40%;
+    }
+
+}
+
+@media screen and (min-width: 479px) {
+    .list-word-header figure {
+        height:10em;
+        box-shadow: 0 0 5px #aaaaaa;
+        width: 100%;
+        background: #eeeeee no-repeat center;
+        background-size: 100%;
+    }
+
+    .list-word-header img {
+        display: none;
+    }
+
 }

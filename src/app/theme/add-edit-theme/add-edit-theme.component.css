@@ -94,3 +94,22 @@ section.add-theme-form-group h1 {
   margin-top: 1em;
   justify-content: flex-end;
 }
+
+@media screen and (min-width: 992px) {
+  .main-content {
+    margin: auto;
+    width: 30%;
+  }
+
+  .add-theme-img-preview figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+  }
+
+  .add-theme-img-preview img {
+    max-width: 60%;
+  }
+
+}
