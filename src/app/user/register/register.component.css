@@ -148,3 +148,10 @@ section.authentication-form-group h1 {
 div label {
   margin: 0.5em 0 0 0;
 }
+
+@media screen and (min-width: 991px) {
+  .main-content {
+    width: 35%;
+    margin: auto;
+  }
+}

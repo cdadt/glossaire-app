@@ -45,4 +45,10 @@ div label {
     text-transform: initial;
 }
 
+@media screen and (min-width: 991px) {
+    .main-content {
+        width: 35%;
+        margin: auto;
+    }
+}
 
