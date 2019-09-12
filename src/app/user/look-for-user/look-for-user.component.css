@@ -111,3 +111,25 @@ p {
 .user-search-results div:hover {
     background: #eeeeee;
 }
+
+@media screen and (min-width: 991px) {
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    form {
+        width: 40%;
+    }
+
+    .user-info {
+        width: 100%;
+    }
+
+    .user-search-results {
+        width: 40%;
+    }
+}

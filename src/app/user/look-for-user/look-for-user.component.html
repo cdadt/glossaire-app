@@ -7,14 +7,14 @@
   </header>
   <!-- Header avec logo -->
 
-  <form [formGroup]="searchUserForm" novalidate>
+  <form [formGroup]="searchUserForm" novalidate autocomplete="off">
     <input (focusin)="onDisplayResult()"
            id="user-search"
            [formControl]="queryField"
            type="search"
            placeholder="Nom d'utilisateur">
     <i class="fas fa-search"></i>
-    <button>Annuler</button>
+    <button (click)="onResetSearch()">Annuler</button>
   </form>
 
   <div id="user-search-results" class="user-search-results"

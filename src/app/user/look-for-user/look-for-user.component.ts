@@ -80,4 +80,10 @@ export class LookForUserComponent implements OnInit {
     }
   }
 
+  onResetSearch(): void {
+    this.searchUserForm.get('user')
+        .reset();
+    this.queryField.patchValue('');
+    this.onDisplayResultsNone();
+  }
 }
