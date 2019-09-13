@@ -74,6 +74,9 @@ export class HomeComponent implements OnInit {
     this.imageUrl = undefined;
     if (this.word.img) {
       this.imageUrl = `data:${this.word.img.contentType};base64,${this.word.img.data}`;
+      const imgElement = (document.getElementById('home-image') as HTMLInputElement);
+      imgElement.style.backgroundImage = `url('${this.imageUrl}')`;
+      imgElement.style.flex = 1;
     }
 
     /**

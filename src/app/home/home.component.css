@@ -260,17 +260,17 @@ section.home-last-definition h1{
   }
 
   .home-image {
-    flex: 1;
     margin: 0;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    background: #e2e2e2;
+    background-size: cover !important;
+    background: #e2e2e2 no-repeat center center;
   }
 
   .home-image img {
     height: auto;
-    min-width: 100%;
+  }
+
+  .home-search-results {
+    width: 45%;
   }
 }
 

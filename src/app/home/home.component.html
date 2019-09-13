@@ -64,9 +64,11 @@
         </section>
         <p *ngIf="word" class="home-last-definition-content-date">{{ word.last_edit | timeago:live }}</p>
       </section>
-      <figure *ngIf="imageUrl" class="home-image">
-        <img [src]="imageUrl">
-      </figure>
+
+      <div id="home-image" class="home-image">
+      </div>
+
+
     </article>
 
     <!-- Dernières défintions ajoutées -->

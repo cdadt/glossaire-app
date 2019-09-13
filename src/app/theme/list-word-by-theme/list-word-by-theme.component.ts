@@ -30,7 +30,7 @@ export class ListWordByThemeComponent implements OnInit {
       if (this.theme.img) {
         this.imageUrl = `data:${this.theme.img.contentType};base64,${this.theme.img.data}`;
       }
-console.log(window.innerWidth);
+
       const imgElement = (document.getElementById('list-word-image') as HTMLInputElement);
       imgElement.style.backgroundImage = `url('${this.imageUrl}')`;
     });
