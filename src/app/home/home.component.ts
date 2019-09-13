@@ -115,9 +115,13 @@ export class HomeComponent implements OnInit {
   /**
    * Méthode qui permet d'afficher le résulats de la recherche au clic sur la barre de recherche si celle-ci n'est pas vide
    */
-  onDisplayResult(): void {
+  async onDisplayResult(): Promise<void> {
     if (this.queryField.value !== null && this.queryField.value !== '') {
-      this.displayResults = true;
+      await this.searchService.search(this.queryField.value)
+          .then(success => {
+            this.searchResults = success;
+            this.displayResults = true;
+          });
     }
   }
 

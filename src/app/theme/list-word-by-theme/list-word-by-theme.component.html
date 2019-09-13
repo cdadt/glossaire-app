@@ -4,13 +4,13 @@
   <!-- Header avec logo -->
   <header class="list-word-header">
     <img *ngIf="imageUrl" [src]="imageUrl">
-    <h1>{{ theme.title }}</h1>
+    <h1 *ngIf="theme">{{ theme.title }}</h1>
   </header>
   <!-- Header avec logo -->
 
   <!-- Liste des mots -->
+  <p class="no-list-word" *ngIf="words && words[0] === undefined">Il n'y a pas de définition associée à ce thème.</p>
   <section *ngFor="let word of words">
-
     <!-- Titre -->
     <header class="list-word-def-header" (click)="onOpenDef(word._id)">
       <i id="i-{{ word._id }}" class="fas fa-angle-right"></i>

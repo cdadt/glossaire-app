@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { TokenPayload } from '../../../services/authentication.service';
 import { UserService } from '../../../services/user.service';
 
@@ -11,7 +12,6 @@ import { UserService } from '../../../services/user.service';
 export class RegisterComponent implements OnInit {
 
   authForm: FormGroup;
-  message: string;
   credentials: TokenPayload = {
     username: '',
     email: '',
@@ -22,7 +22,8 @@ export class RegisterComponent implements OnInit {
   };
 
   constructor(private formBuilder: FormBuilder,
-              private userService: UserService) {
+              private userService: UserService,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): any {
@@ -64,28 +65,23 @@ export class RegisterComponent implements OnInit {
       this.credentials.lastname = lastname;
       this.credentials.activated = activated;
 
-      const register = await this.userService.register(this.credentials);
-      if (register) {
-        this.authForm.reset();
-        this.message = 'registered';
-      } else {
-        this.message = 'error';
-      }
+      await this.userService.register(this.credentials)
+          .then(success => {
+            this.authForm.reset();
+            this.toastr.success('L\'utilisateur vient d\'être ajouté');
+          },
+              err => {
+            this.userService.errorActions(err);
+              });
+    } else {
+      this.toastr.error('Veuillez vérifier les informations renseignées.', 'Le formulaire n\'est pas valide.');
     }
-  }
-
-  /**
-   * Méthode permettant de fermer la fenêtre d'information "Utilisateur créé"
-   */
-  onClose(): void {
-    this.message = 'none';
   }
 
   /**
    * Méthode permettant de réinitialiser le formulaire
    */
   onNew(): void {
-    this.message = 'none';
     this.authForm.reset();
   }
 

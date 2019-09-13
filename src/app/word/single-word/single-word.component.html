@@ -11,7 +11,7 @@
     <section *ngIf="publishedOk">
       <header class="single-word-definition-header">
         <h1>{{ word.title }}</h1>
-        <p>Thèmes : <a [routerLink]="['/themes/', theme._id, 'words']" *ngFor="let theme of word.themes; let isLast=last"><span *ngIf="theme.published === 'true'">{{ theme.title }}{{isLast ? '' : ', ' }}</span></a></p>
+        <p>Thèmes : <a [routerLink]="['/themes/', theme._id, 'words']" *ngFor="let theme of word.themes; let isLast=last"><span *ngIf="theme.published">{{ theme.title }}{{isLast ? '' : ', ' }}</span></a></p>
       </header>
       <div class="single-word-last-edit">
         Dernière modification : {{ word.last_edit | timeago:live }}

@@ -20,6 +20,7 @@
 .edit-word-definition-header .themes-list {
     color: lightslategray;
     margin-left : 1rem;
+    margin-bottom : 1rem;
 }
 
 .edit-word-definition-header .themes-list div {
@@ -200,6 +201,7 @@ input.form-control {
 
 textarea.form-control {
     width: 100%;
+    height: 15em;
 }
 
 .valid{
@@ -319,7 +321,20 @@ textarea.form-control {
     background: #7e7e7e;
 }
 
-.modif-indicator {
+.modif-indicator-left,
+.modif-indicator-right {
     font-size: 0.7rem;
-    margin-right: 0.7rem;
+    padding: 7px;
+    background: #b1dbff;
+    border-radius: 3px;
+    color: black;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.modif-indicator-left {
+    margin-right: 0.5rem;
+}
+.modif-indicator-right {
+    margin-left: 0.5rem;
 }

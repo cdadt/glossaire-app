@@ -100,10 +100,15 @@ export class HeaderComponent implements OnInit {
    * Méthode permettant d'afficher les résultats de la recherche si une recherche est effectuée
    * si le résultat n'est pas vide
    */
-  onDisplayResult(): void {
+  async onDisplayResult(): Promise<void> {
     const searchValue = (document.getElementById('header-menu-search') as HTMLInputElement).value;
     if (searchValue !== null && searchValue !== '') {
-      this.displayResults = true;
+            await this.searchService.search(searchValue)
+                .then(success => {
+                    this.searchResults = success;
+                    this.displayResults = true;
+        }
+      );
     }
   }
 

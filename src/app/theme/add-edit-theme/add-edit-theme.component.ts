@@ -79,10 +79,10 @@ export class AddEditThemeComponent implements OnInit {
       // On réinitialise les champs et on envoie
       if (this.themeToEdit) {
         formData.append('_id', this.themeToEdit._id);
-        formData.append('published', this.themeToEdit.published);
+        formData.append('published', JSON.stringify(this.themeToEdit.published));
         this.themeService.editOneTheme(formData);
       } else {
-        formData.append('published', 'true');
+        formData.append('published', JSON.stringify(true));
         this.themeForm.get('theme')
             .reset();
         this.onResetImage();
