@@ -1,28 +1,32 @@
 <app-header></app-header>
 <main class="main-content">
 
-  <!-- Définition -->
-  <article *ngIf="word">
+  <header class="single-word-page-header">
+    <p>Consulter une définition</p>
+  </header>
 
-    <header class="single-word-page-header">
-      <p>Consulter une définition</p>
-    </header>
+  <!-- Définition -->
+  <div class="single-word" *ngIf="word">
 
     <section *ngIf="publishedOk">
       <header class="single-word-definition-header">
         <h1>{{ word.title }}</h1>
         <p>Thèmes : <a [routerLink]="['/themes/', theme._id, 'words']" *ngFor="let theme of word.themes; let isLast=last"><span *ngIf="theme.published">{{ theme.title }}{{isLast ? '' : ', ' }}</span></a></p>
       </header>
-      <div class="single-word-last-edit">
-        Dernière modification : {{ word.last_edit | timeago:live }}
+      <div class="single-word-definition-principal">
+        <div class="single-word-definition-side">
+          <div class="single-word-last-edit">
+            Dernière modification : {{ word.last_edit | timeago:live }}
+          </div>
+          <p class="single-word-definition">
+            {{ word.definition }}
+          </p>
+        </div>
+        <figure *ngIf="imageUrl" class="single-word-image">
+          <img [src]="imageUrl">
+          <figcaption *ngIf="word.legend">{{ word.legend }}</figcaption>
+        </figure>
       </div>
-      <p class="single-word-definition">
-        {{ word.definition }}
-      </p>
-      <figure *ngIf="imageUrl" class="single-word-image">
-        <img [src]="imageUrl">
-        <figcaption *ngIf="word.legend">{{ word.legend }}</figcaption>
-      </figure>
       <div *ngIf="word.know_more" class="single-word-know-more">
         <a (click)="onDisplayKnowMore()" class="btn">En savoir plus <i [ngClass]="{'far fa-circle': open === false, 'fas fa-check-circle': open === true}"></i></a>
       </div>
@@ -35,8 +39,7 @@
         {{ word.know_more }}
       </p>
     </section>
-
-  </article>
+  </div>
   <!-- Définition -->
 
   <!-- Mot inconnu -->

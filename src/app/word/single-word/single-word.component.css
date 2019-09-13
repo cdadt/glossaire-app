@@ -81,3 +81,72 @@
 .display-none{
   display:none;
 }
+/******************************* MEDIA QUERIES *******************************/
+/* start of desktop styles */
+
+@media screen and (min-width: 992px) {
+  /* start of large tablet styles */
+  .single-word {
+    width: 70%;
+    margin: auto;
+    display: flex;
+  }
+
+  .single-word section {
+    flex: 1;
+  }
+
+  .single-word-image {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: space-between;
+    align-items: center;
+    background: #eee;
+    overflow: hidden;
+  }
+
+  .single-word-image figcaption {
+    width: 100%;
+  }
+
+  .single-word-image {
+    flex: 1;
+    margin: 0 1em !important;
+  }
+
+  .single-word-definition-principal {
+      display: flex;
+  }
+
+  .single-word-definition-side {
+      flex: 3;
+      order: 1;
+      align-self: flex-end;
+  }
+
+  .single-word-definition {
+      margin-bottom: 0;
+  }
+
+  .single-word-know-more {
+      justify-content: flex-start;
+  }
+
+}
+
+@media screen and (max-width: 991px) {
+  /* start of large tablet styles */
+
+}
+
+@media screen and (max-width: 767px) {
+  /* start of medium tablet styles */
+
+}
+
+@media screen and (max-width: 479px) {
+  /* start of phone styles */
+
+}
