@@ -32,10 +32,7 @@
   justify-content: center;
   flex-direction: column;
 }
-
-.green-button {
-  background: #2db25d;
-}
+
 
 .violet-button {
   background: darkorchid;
@@ -44,10 +41,7 @@
 .red-button{
   background: #ff6949;
 }
-
-.orange-button{
-  background: orange;
-}
+
 
 .blue-button{
   background: dodgerblue;

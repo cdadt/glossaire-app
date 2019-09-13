@@ -38,6 +38,7 @@ import { ManageWordComponent } from './word/manage-word/manage-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
 import { LookForUserComponent } from './user/look-for-user/look-for-user.component';
 import { SingleUserComponent } from './user/single-user/single-user.component';
+import { ValidationWordComponent } from './word/validation-word/validation-word.component';
 
 export class MyIntl extends TimeagoIntl {
 // do extra stuff here...
@@ -62,10 +63,11 @@ export class MyIntl extends TimeagoIntl {
     ImportComponent,
     ManageThemeComponent,
     ManageWordComponent,
-    AutoFocusDirective
+    AutoFocusDirective,
     ManageWordComponent,
     LookForUserComponent,
-    SingleUserComponent
+    SingleUserComponent,
+    ValidationWordComponent
   ],
   imports: [
     BrowserModule,

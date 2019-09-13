@@ -1,0 +1,40 @@
+<app-header></app-header>
+<main class="main-content">
+
+  <header class="header">
+    <p>Liste des définitions en attente de validation</p>
+  </header>
+
+  <section class="manage-word-item" *ngFor="let word of words">
+    <header>
+      <div class="manage-word-header-left">
+        <div (click)="showContent(word._id)">
+          <i class="fas fa-angle-right" id="ar-{{ word._id }}"></i>
+          <i class="fas fa-angle-down" id="ad-{{ word._id }}" hidden></i>
+        </div>
+        <div class="manage-word-header-middle">
+          <h1>{{ word.title }}</h1>
+          <div class="etiquette-container">
+            <span *ngIf="word.validated == false" class="etiquette white">Invalide</span>
+            <span *ngIf="word.validated == true && word.published == false" class="etiquette orange">Dépublié</span>
+          </div>
+        </div>
+      </div>
+      <div class="manage-word-header-right">
+        <i class="fas fa-ellipsis-v" id="mmb-{{ word._id }}" (click)="showManageBtn(word._id)"></i>
+        <div class="manage-word-btn" id="mb-{{ word._id }}" hidden>
+          <button class="manage-word-validate btn-manage-word" (click)="onValidateWord(word)"><i class="fas fa-check"></i></button>
+          <button class="manage-word-edit btn-manage-word" [routerLink]="['/definitions/edition', word._id]"><i class="fas fa-pencil-alt"></i></button>
+          <button class="manage-word-delete btn-manage-word" (click)="onDeleteWord(word)"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+    </header>
+    <div class="manage-word-content" id="c-{{ word._id }}" hidden>
+      {{ word.definition }}
+    </div>
+  </section>
+</main>
+<!-- Bouton page d'accueil -->
+<app-menu-admin></app-menu-admin>
+<!-- Bouton page d'accueil -->
+

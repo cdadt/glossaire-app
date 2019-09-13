@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WordService } from '../../services/word.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,13 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  nbWaintingDef: Number;
 
-  constructor() {
-    // constructor, à remplir pour le nombre de définitions en attente
+  constructor(private wordService: WordService) {
   }
 
   ngOnInit(): void {
-    // ngOnInit, à remplir pour le nombre de définitions en attente
+    this.getNbWaitingDef();
+  }
+
+  private async getNbWaitingDef(): Promise<void> {
+    this.nbWaintingDef = await this.wordService.countWaitingWord() as Number;
   }
 
 }

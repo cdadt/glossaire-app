@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Tesseract } from 'tesseract.ts';
+//import { Tesseract } from 'tesseract.ts';
 import { environment } from '../environments/environment';
 
 @Injectable({
