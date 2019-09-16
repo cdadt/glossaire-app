@@ -21,7 +21,6 @@
     background: orange;
     box-shadow: 5px 5px 5px #929292;
     position: relative;
-    z-index: 10;
     height: 3.25em;
     overflow: hidden;
 }
@@ -108,4 +107,25 @@ form i {
     border-radius: 0 3px 3px 0;
     font-size: 1.2em;
     color: #7e7e7e;
+}
+
+@media screen and (min-width: 992px) {
+    .main-content{
+        margin: auto;
+        width: 60%;
+    }
+
+    .manage-theme-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .manage-theme-item {
+        width: 30%;
+    }
+
+    .manage-theme-image {
+
+    }
 }

@@ -15,21 +15,23 @@
 
   <!-- Liste des thèmes -->
   <button class="manage-theme-new" [routerLink]="['/theme/ajouter']">Nouveau <i class="fas fa-plus"></i></button>
-  <section class="manage-theme-item" *ngFor="let theme of themes">
-    <header [ngClass]="{'no-published': !theme.published}">
-      <img *ngIf="theme.img" [src]="'data:'+theme.img.contentType+';base64,'+theme.img.data">
-      <h1>{{ theme.title }}</h1>
-    </header>
-    <div>
-      <button [routerLink]="['/theme/modifier', theme._id]" class="manage-theme-edit"><i class="fas fa-pencil-alt"></i></button>
-      <button (click)="onPublishedTheme(theme._id, false)" *ngIf="theme.published" class="manage-theme-publication"><i class="fas fa-eye"></i></button>
-      <button (click)="onPublishedTheme(theme._id, true)" *ngIf="!theme.published" class="manage-theme-publication"><i class="fas fa-eye-slash"></i></button>
-      <button class="manage-theme-delete" (click)="onDeleteTheme(theme._id)"><i class="fas fa-trash-alt"></i></button>
-    </div>
-  </section>
+  <div class="manage-theme-list">
+    <section class="manage-theme-item" *ngFor="let theme of themes">
+      <header [ngClass]="{'no-published': !theme.published}">
+        <img *ngIf="theme.img" [src]="'data:'+theme.img.contentType+';base64,'+theme.img.data">
+<!--        <div class="manage-theme-image-{{ theme._id }}"></div>-->
+        <h1>{{ theme.title }}</h1>
+      </header>
+      <div>
+        <button [routerLink]="['/theme/modifier', theme._id]" class="manage-theme-edit"><i class="fas fa-pencil-alt"></i></button>
+        <button (click)="onPublishedTheme(theme._id, false)" *ngIf="theme.published" class="manage-theme-publication"><i class="fas fa-eye"></i></button>
+        <button (click)="onPublishedTheme(theme._id, true)" *ngIf="!theme.published" class="manage-theme-publication"><i class="fas fa-eye-slash"></i></button>
+        <button class="manage-theme-delete" (click)="onDeleteTheme(theme._id)"><i class="fas fa-trash-alt"></i></button>
+      </div>
+    </section>
+  </div>
   <!-- Liste des thèmes -->
-
-  <!-- Bouton page d'accueil -->
-  <app-menu-admin></app-menu-admin>
-  <!-- Bouton page d'accueil -->
 </main>
+<!-- Bouton page d'accueil -->
+<app-menu-admin></app-menu-admin>
+<!-- Bouton page d'accueil -->
