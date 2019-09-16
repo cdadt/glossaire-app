@@ -1,8 +1,10 @@
 .edit-word-page-header{
     display: flex;
     justify-content: center;
-    padding: 6em 0 1.5em 0;
+    padding: 6em 1em 1.5em 1em;
     color: #7e7e7e;
+    flex-direction: column;
+    align-items: center;
 }
 
 .edit-word-page-header p{
@@ -99,7 +101,7 @@
     display: flex;
     justify-content: space-between;
     box-shadow: 0 0 5px #7a7a7a;
-    margin: 1rem;
+    margin: 0 1rem 1rem 1rem;
 }
 
 .edit-word-action div {
@@ -337,4 +339,85 @@ textarea.form-control {
 }
 .modif-indicator-right {
     margin-left: 0.5rem;
+}
+
+@media screen and (min-width: 992px) {
+    /* start of large tablet styles */
+    .edit-word {
+        width: 70%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items:center;
+    }
+
+    .edit-word-action {
+        width: 50%;
+    }
+
+    .edit-word section {
+        flex: 1;
+    }
+
+    .edit-word-img-preview {
+        flex:1;
+    }
+
+    .edit-word-image {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        justify-content: space-between;
+        align-items: center;
+        background: #eee;
+        overflow: hidden;
+    }
+
+    .edit-word-image figcaption {
+        width: 100%;
+    }
+
+    .edit-word-image {
+        flex: 1;
+        margin: 1em 1em 0 1em !important;
+        width: 90%;
+    }
+
+    .edit-word-definition-principal {
+        display: flex;
+        padding: 0.7em;
+    }
+
+    .edit-word-definition-side {
+        flex: 3;
+        order: 1;
+        align-self: flex-end;
+    }
+
+    .edit-word-definition {
+        margin-bottom: 0;
+    }
+
+    .edit-word-definition-infos {
+        width: 100%;
+    }
+
+    .edit-word-know-more {
+        justify-content: flex-start;
+    }
+
+    .edit-word-definition-header {
+        border-bottom: solid 1px #e2e2e2;
+        margin-bottom: 0;
+        padding-bottom: 1rem;
+    }
+
+    .add-element {
+        padding: 1em;
+    }
+
+    .edit-word-delete-win {
+        left: 40%;
+    }
 }
