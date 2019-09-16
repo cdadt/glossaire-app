@@ -179,7 +179,11 @@ label.image {
 
 @media screen and (min-width: 992px) {
   form {
-    width: 40%;
+    width: 30%;
     margin: auto;
+  }
+
+  .add-word-img-preview figure {
+    padding: 1.5em 7em;
   }
 }
