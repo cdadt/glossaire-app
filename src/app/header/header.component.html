@@ -11,11 +11,36 @@
                type="search">
         <i class="fas fa-search"></i>
       </li>
-      <li>
+        <!-- Responsive (desktop) -->
+
+        <li *ngIf="isLoggedIn()" class="header-menu-sm">
+            <a [routerLink]="['/dashboard']">
+                <i class="fas fa-cog"></i>
+                <span>Administration</span>
+            </a>
+        </li>
+        <li class="header-menu-notification-sm header-menu-sm">
+            <div (click)="onDisplayNotificationMenu()">
+                <i class="far fa-bell"></i>
+                <span>Notifications</span>
+            </div>
+        </li>
+        <li class="header-menu-sm">
+            <a *ngIf="isLoggedIn()" (click)="authService.logout()" >
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Déconnexion</span>
+            </a>
+            <a *ngIf="!isLoggedIn()" [routerLink]="['/connexion']" >
+                <i class="fas fa-sign-in-alt"></i>
+                <span>Connexion</span>
+            </a>
+        </li>
+        <!-- Responsive (desktop) -->
+
+      <li class="header-toggle-menu-burger">
         <a (click)="onDisplayMenu(); onDisplayNone()"><i class="fas fa-bars"></i></a>
       </li>
     </ul>
-
 
     <div class="header-menu-search-results"
          [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}">
@@ -34,6 +59,7 @@
   <div (click)="onDisplayNone()" id="overlay"
        [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}"></div>
 
+    <!-- Menu burger -->
   <nav [@menuDisplay]="isMenuOpen ? 'open' : 'closed'" id="header-menu-burger" class="header-menu-burger">
     <ul>
       <li>
@@ -76,5 +102,28 @@
       </li>
     </ul>
   </nav>
+  <!-- Menu burger -->
+
   <div [@overlayDisplay]="isDisplayOverlayMenu ? 'open' : 'closed'" (click)="onDisplayMenu()" id="overlay-menu"></div>
 </header>
+<!-- Display notifications for large devices -->
+<div *ngIf="getNotification() && displayNotificationMenu" class="header-menu-notification-menu">
+    <div>
+        <a *ngIf="getIsSubscriber() === 'false'" (click)="subscribeToNotifications()" class="header-menu-notification-toggle">
+            <span>S'abonner</span>
+            <i class="fas fa-toggle-off"></i>
+        </a>
+        <a *ngIf="getIsSubscriber() === 'true'" (click)="unsubscribeToNotifications()" class="header-menu-notification-toggle">
+            <span>S'abonner</span>
+            <i class="fas fa-toggle-on"></i>
+        </a>
+        <a *ngIf="getIsSubscriber() === 'loading'" class="header-menu-notification-toggle">
+            <span>S'abonner</span>
+            <i class="fas fa-spinner"></i><i class="fas fa-toggle-off"></i>
+        </a>
+    </div>
+    <span class="header-menu-notification-toggle" *ngIf="!getNotification()">
+           Les notifications ne sont pas disponibles sur ce navigateur.
+      </span>
+</div>
+<!-- Display notifications for large devices -->

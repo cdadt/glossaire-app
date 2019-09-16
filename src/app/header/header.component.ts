@@ -52,6 +52,7 @@ export class HeaderComponent implements OnInit {
   isDisplayOverlayMenu: boolean;
   isMenuOpen: boolean;
   queryField: FormControl = new FormControl ();
+  displayNotificationMenu: boolean;
 
   constructor(private wordService: WordService,
               private themeService: ThemeService,
@@ -64,6 +65,7 @@ export class HeaderComponent implements OnInit {
     this.displayResults = false;
     this.isDisplayOverlayMenu = false;
     this.isMenuOpen = false;
+    this.displayNotificationMenu = false;
   }
 
   async ngOnInit(): Promise<any> {
@@ -182,5 +184,12 @@ export class HeaderComponent implements OnInit {
 
   getNotification(): boolean {
     return this.notificationService.getNotification();
+  }
+
+    /**
+     * Méthode permettant de fermer ou d'ouvrir le menu des notifications pour les écrans larges
+     */
+  onDisplayNotificationMenu(): void {
+      this.displayNotificationMenu = !this.displayNotificationMenu;
   }
 }
