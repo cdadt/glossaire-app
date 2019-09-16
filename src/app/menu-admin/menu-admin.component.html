@@ -1,8 +1,8 @@
 <nav class="menu-admin">
   <ul>
-    <li class="menu-admin-button blue-button disabled">
-      <a [routerLink]="['']">
-        6
+    <li class="menu-admin-button blue-button" [ngClass]="{ 'disabled': nbWaintingDef < 1 }">
+      <a [routerLink]="['/mot/valider']">
+        {{ nbWaintingDef }}
         <p>En attente</p>
       </a>
     </li>

@@ -1,0 +1,86 @@
+@media screen  and (min-width: 992px){
+    main {
+        width: 50%;
+        margin: auto;
+    }
+}
+
+.manage-word-item {
+    margin-bottom: 0.5em;
+}
+
+.manage-word-item header {
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #eeeeee;
+    position: relative;
+    height: 3.25em;
+    overflow: hidden;
+    padding-left: 1.5em;
+}
+
+.manage-word-item h1 {
+    font-size: 1em;
+
+    font-weight: 400;
+    margin: 0;
+}
+
+.manage-word-item div {
+    padding-right: 1em;
+}
+
+.manage-word-header-left {
+    display: flex;
+    align-items: center;
+}
+
+.etiquette {
+    font-size: 0.7em;
+    border-radius: 4px;
+    padding: 0.1em 0.5em 0.1em 0.5em;
+}
+
+.manage-word-btn {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.manage-word-content {
+    background: lightgrey;
+    overflow: hidden;
+    padding: 0.5em 1em;
+}
+
+.btn-manage-word {
+    margin: 0.5em;
+}
+
+.manage-word-edit {
+    border: none;
+    background: #00aec2;
+    color: white;
+    padding: 0.25em 0.45em;
+    border-radius: 3px;
+}
+
+.manage-word-validate {
+    border: none;
+    background: green;
+    color: white;
+    padding: 0.25em 0.45em;
+    border-radius: 3px;
+}
+
+.manage-word-delete {
+    border: none;
+    background: red;
+    color: white;
+    padding: 0.25em 0.45em;
+    border-radius: 3px;
+}
+
+.manage-word-delete .fa-times {
+    width: 16px;
+}

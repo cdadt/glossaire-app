@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WordService } from '../../services/word.service';
 
 @Component({
   selector: 'app-menu-admin',
@@ -6,13 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu-admin.component.css']
 })
 export class MenuAdminComponent implements OnInit {
+  nbWaintingDef: Number;
 
-  constructor() {
-    // constructor
+  constructor(private wordService: WordService) {
   }
 
   ngOnInit(): void {
-    // ngOnInit
+    this.getNbWaitingDef();
+  }
+
+  private async getNbWaitingDef(): Promise<void> {
+    this.nbWaintingDef = await this.wordService.countWaitingWord() as Number;
   }
 
 }

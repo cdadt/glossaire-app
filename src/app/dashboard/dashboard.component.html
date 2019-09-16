@@ -1,14 +1,14 @@
 <app-header></app-header>
 <main class="main-content">
 
-  <header class="dashboard-header">
+  <header class="header">
     <p>Administration</p>
   </header>
 
   <div class="dashboard-table">
 
-    <a class="dashboard-button blue-button disabled" [routerLink]="['']">
-      <p class="icon-num">6</p>
+    <a class="dashboard-button blue-button" [ngClass]="{ 'disabled': nbWaintingDef < 1 }" [routerLink]="['/mot/valider']">
+      <p class="icon-num">{{ nbWaintingDef }}</p>
       <h1>Définitions en attente</h1>
     </a>
 

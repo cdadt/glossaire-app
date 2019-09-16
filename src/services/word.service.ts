@@ -9,6 +9,7 @@ import { SyncService } from './sync.service';
   providedIn: 'root'
 })
 export class WordService {
+
   constructor(private http: HttpClient,
               private syncService: SyncService,
               private authService: AuthenticationService,
@@ -161,5 +162,25 @@ export class WordService {
     }
 
     this.toastr.error(`La requête n\'a pas aboutie. ${errorMess} `);
+  }
+
+  /**
+   * Méthode permettant de compter le nombre de définition en attente de validation.
+   */
+  async countWaitingWord(): Promise<object> {
+    return this.http.get(`${environment.apiUrl}/words/count-waiting`, {
+      headers: { Authorization: `Bearer ${ this.authService.getToken() }` }
+    })
+        .toPromise();
+  }
+
+  /**
+   * Méthode permettant de récupérer les définitions en attente de validation.
+   */
+  async getWaitingWords(): Promise<object> {
+    return this.http.get(`${environment.apiUrl}/words/get-waiting`, {
+      headers: { Authorization: `Bearer ${ this.authService.getToken() }` }
+    })
+        .toPromise();
   }
 }
