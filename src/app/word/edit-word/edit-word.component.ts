@@ -10,6 +10,7 @@ import { WordService } from '../../../services/word.service';
 import Theme from '../../models/theme.model';
 import Word from '../../models/word.model';
 import { imageValidator } from '../../validators/image-validator.directive';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-edit-word',
@@ -36,7 +37,8 @@ export class EditWordComponent implements OnInit {
               private router: Router,
               private themeService: ThemeService,
               private formBuilder: FormBuilder,
-              private imageService: ImageService) {
+              private imageService: ImageService,
+              private toastr: ToastrService) {
     // Les fichiers de langue pour le module Ilya(Timeago)
     intl.strings = FrenchStrings;
     intl.changes.next();
@@ -111,10 +113,15 @@ export class EditWordComponent implements OnInit {
      * @param event L'événement capture lors du 'focusout'
      * @param elemToEdit L'élement à éditer (le titre, la définition...)
      * @param required Si cet élement est requis ou non
+     * @param length Taille maximum du texte (0 pour pas de limite)
      */
-  onSave(event, elemToEdit, required = false): void {
+  onSave(event, elemToEdit, required = false, length = 0): void {
       const elemToEditValue = event.target.value;
-      this.updateWord(elemToEdit, elemToEditValue, required);
+      if (elemToEditValue.length <= length && length !== 0) {
+          this.updateWord(elemToEdit, elemToEditValue, required);
+      } else {
+          this.toastr.error(`La taille du champ doit être inférieur à ${length} caractères.`, 'Formulaire non valide');
+      }
   }
 
     /**

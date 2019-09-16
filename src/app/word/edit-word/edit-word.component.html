@@ -22,7 +22,7 @@
                 <h1 *ngIf="edit !== 'edit-title'" (dblclick)="onEdit('title')">{{ word.title }}<i (click)="onEdit('title')" class="fas fa-pencil-alt modif-indicator-right"></i></h1>
                 <input appAutoFocus
                        *ngIf="edit === 'edit-title'"
-                       (focusout)="onSave($event, 'title', true)"
+                       (focusout)="onSave($event, 'title', true, 40)"
                        value="{{ word.title }}"
                        class="form-control"
                        mdbInput>
@@ -54,7 +54,7 @@
                     </p>
                     <textarea appAutoFocus
                               *ngIf="edit === 'edit-definition'"
-                              (focusout)="onSave($event, 'definition', true)"
+                              (focusout)="onSave($event, 'definition', true, 1000)"
                               class="form-control"
                               mdbInput>{{ word.definition }}</textarea>
                 </div>
@@ -109,7 +109,7 @@
                         </figcaption>
                         <textarea appAutoFocus
                                   *ngIf="edit === 'edit-legend'"
-                                  (focusout)="onSave($event, 'legend')"
+                                  (focusout)="onSave($event, 'legend', false, 256)"
                                   class="form-control"
                                   mdbInput>{{ word.legend || '' }}</textarea>
                     </figure>
@@ -131,7 +131,7 @@
             </p>
             <textarea appAutoFocus
                       *ngIf="edit === 'edit-know_more'"
-                      (focusout)="onSave($event, 'know_more')"
+                      (focusout)="onSave($event, 'know_more', false, 1000)"
                       class="form-control"
                       mdbInput>{{ word.know_more }}</textarea>
         </section>

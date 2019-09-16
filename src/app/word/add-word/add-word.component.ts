@@ -50,11 +50,11 @@ export class AddWordComponent implements OnInit {
   initWordForm(): void {
     this.wordForm = this.formBuilder.group({
       word: ['', [Validators.required, Validators.maxLength(40)]],
-      definition: ['', [Validators.required]],
-      knowMore: [''],
+      definition: ['', [Validators.required, Validators.maxLength(1000)]],
+      knowMore: ['', [Validators.maxLength(1000)]],
       theme: ['', [Validators.required]],
       image: ['', imageValidator()],
-      legend: ['']
+      legend: ['', [Validators.maxLength(256)]]
     });
   }
 

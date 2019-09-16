@@ -21,10 +21,10 @@
       <div
         *ngIf="wordForm.controls['word'].invalid && (wordForm.controls['word'].dirty || wordForm.controls['word'].touched)"
         class="authentication-form-alert">
-        <p *ngIf = "wordForm.controls['word'].errors?.required">
+        <p *ngIf = "wordForm.controls['word'].errors.required">
           Vous devez saisir un mot.
         </p>
-        <p *ngIf = "wordForm.controls['word'].errors?.maxlength">
+        <p *ngIf = "wordForm.controls['word'].errors.maxlength">
           Le mot ne doit pas dépasser 40 caractères.
         </p>
       </div>
@@ -60,7 +60,12 @@
       <div
         *ngIf="wordForm.controls['definition'].invalid && (wordForm.controls['definition'].dirty || wordForm.controls['definition'].touched)"
         class="authentication-form-alert">
-        Vous devez saisir une définition.
+        <div *ngIf="wordForm.controls['definition'].errors.maxlength">
+          La définition ne doit pas dépasser 1000 caractères.
+        </div>
+        <div *ngIf="wordForm.controls['definition'].errors.required">
+          Vous devez saisir une définition.
+        </div>
       </div>
       <div
         *ngIf="wordForm.controls['definition'].valid && (wordForm.controls['definition'].dirty || wordForm.controls['definition'].touched)"
@@ -92,7 +97,19 @@
       <textarea
               placeholder="Si vous souhaitez en dire plus à propos de ce mot, écrivez le ici..."
               class="form-control" formControlName="knowMore" #knowMore>
-        </textarea>
+      </textarea>
+      <div
+              *ngIf="wordForm.controls['knowMore'].invalid && (wordForm.controls['knowMore'].dirty || wordForm.controls['knowMore'].touched)"
+              class="authentication-form-alert">
+        <div *ngIf="wordForm.controls['knowMore'].errors.maxlength">
+          La partie "en savoir plus" ne doit pas dépasser 1000 caractères.
+        </div>
+      </div>
+      <div
+        *ngIf="wordForm.controls['knowMore'].valid && (wordForm.controls['knowMore'].dirty || wordForm.controls['knowMore'].touched)"
+        class="authentication-form-valid">
+        Partie "en savoir plus"  valide.
+      </div>
     </div>
 
     <div class="add-word-form-group">
@@ -122,6 +139,18 @@
             placeholder="Entrez ici la légende de votre image..."
             class="form-control" formControlName="legend" #legend>
         </textarea>
+        <div
+                *ngIf="wordForm.controls['legend'].invalid && (wordForm.controls['legend'].dirty || wordForm.controls['legend'].touched)"
+                class="authentication-form-alert">
+          <div *ngIf="wordForm.controls['legend'].errors.maxlength">
+            La légende ne doit pas dépasser 256 caractères.
+          </div>
+        </div>
+        <div
+                *ngIf="wordForm.controls['legend'].valid && (wordForm.controls['legend'].dirty || wordForm.controls['legend'].touched)"
+                class="authentication-form-valid">
+          Légende valide.
+        </div>
       </div>
 
     </div>
