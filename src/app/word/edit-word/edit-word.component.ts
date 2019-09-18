@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TimeagoIntl } from 'ngx-timeago';
 import { strings as FrenchStrings } from 'ngx-timeago/language-strings/fr';
+import { ToastrService } from 'ngx-toastr';
 import { Subject, Subscription } from 'rxjs';
 import { ImageInfos, ImageService } from '../../../services/image.service';
 import { ThemeService } from '../../../services/theme.service';
@@ -10,7 +11,6 @@ import { WordService } from '../../../services/word.service';
 import Theme from '../../models/theme.model';
 import Word from '../../models/word.model';
 import { imageValidator } from '../../validators/image-validator.directive';
-import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-edit-word',

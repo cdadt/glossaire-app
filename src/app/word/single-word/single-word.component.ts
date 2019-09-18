@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TimeagoIntl } from 'ngx-timeago';
 import { strings as FrenchStrings } from 'ngx-timeago/language-strings/fr';
+import { ToastrService } from 'ngx-toastr';
+import { AuthenticationService } from '../../../services/authentication.service';
+import { BookmarkService } from '../../../services/bookmark.service';
+import { UserService } from '../../../services/user.service';
 import { WordService } from '../../../services/word.service';
+import User from '../../models/user.model';
 import Word from '../../models/word.model';
 
 @Component({
@@ -17,10 +22,16 @@ export class SingleWordComponent implements OnInit {
   live: true;
   publishedOk: boolean;
   imageUrl: string;
+  user: User;
+  bookmark = false;
 
   constructor(private wordService: WordService,
               private route: ActivatedRoute,
-              intl: TimeagoIntl) {
+              intl: TimeagoIntl,
+              private bookmarkService: BookmarkService,
+              private authService: AuthenticationService,
+              private userService: UserService,
+              private toastr: ToastrService) {
     // Les fichiers de langue pour le module Ilya(Timeago)
     intl.strings = FrenchStrings;
     intl.changes.next();
@@ -35,7 +46,12 @@ export class SingleWordComponent implements OnInit {
         this.imageUrl = `data:${this.word.img.contentType};base64,${this.word.img.data}`;
       }
 
+      if (this.authService.isLoggedIn()) {
+        this.user = (await this.userService.getUserLikeByUsername(this.authService.getUserDetails().username))[0] as User;
+        this.isBookmark();
+      }
       this.testPublicationState();
+      console.log(this.publishedOk);
       this.open = false;
     });
   }
@@ -51,7 +67,7 @@ export class SingleWordComponent implements OnInit {
           countPublishedTheme ++;
         }
       });
-      if (countPublishedTheme > 0) {
+      if (countPublishedTheme > 0 && this.word.published && this.word.validated) {
         this.publishedOk = true;
       }
     }
@@ -62,5 +78,57 @@ export class SingleWordComponent implements OnInit {
    */
   onDisplayKnowMore(): void {
     this.open = !this.open;
+  }
+
+  /**
+   * Méthode permettant d'ajouter le mot dans les favoris
+   */
+  onAddBookmark(): void {
+    const bookmark = {
+      _id: this.word._id,
+      title: this.word.title,
+      definition: this.word.definition,
+      published: this.word.published,
+      validated: this.word.validated
+    };
+    this.bookmarkService.addBookmark(this.user._id, bookmark)
+        .then(success => {
+          this.toastr.success('Le mot a été ajouté à vos favoris');
+          this.bookmark = true;
+        })
+        .catch(err => {
+          this.bookmarkService.errorActions(err);
+        });
+  }
+
+  /**
+   * Méthode permettant de supprimer le mot des favoris
+   */
+  onDeleteBookmark(): void {
+    this.bookmarkService.deleteBookmark(this.user._id, this.word._id)
+        .then(success => {
+          this.toastr.success('Le mot a été supprimé de vos favoris');
+          this.bookmark = false;
+        })
+        .catch(err => {
+          this.bookmarkService.errorActions(err);
+        });
+  }
+
+  /**
+   * méthode permettant de vérifier si le mot fait partie des favoris de l'utilisateur actuellement connecté
+   */
+  isBookmark(): any {
+    this.bookmarkService.verifyBookmarkPresence(this.user._id, this.word._id)
+        .then(success => {
+          this.bookmark = success;
+        });
+  }
+
+  /**
+   * Méthode permettant de savoir si l'utilisateur est connecté ou non
+   */
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 }

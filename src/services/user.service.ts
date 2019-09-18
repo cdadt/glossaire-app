@@ -65,12 +65,11 @@ export class UserService {
 
     /**
      * Récupère une liste de user pour la recherche
-     * @param title Le user à rechercher
-     * @param pubOption L'option de publication. Aucune si laissé vide
+     * @param username Le user à rechercher
      */
-  getUserLikeByUsername(username: string, pubOption = ''): Promise<object> {
+  getUserLikeByUsername(username: string): Promise<object> {
     return this.http.get(`${environment.apiUrl}/users/search`, {
-        params: { username, pubOption },
+        params: { username },
         headers:
           {
             Authorization: `Bearer ${ this.authenticationService.getToken() }`

@@ -10,7 +10,10 @@
 
     <section *ngIf="publishedOk">
       <header class="single-word-definition-header">
-        <h1>{{ word.title }}</h1>
+        <h1>{{ word.title }}
+          <i *ngIf="isLoggedIn() && !bookmark" (click)="onAddBookmark()" class="far fa-star"></i>
+          <i *ngIf="isLoggedIn() && bookmark" (click)="onDeleteBookmark()" class="fas fa-star"></i>
+        </h1>
         <p>Thèmes : <a [routerLink]="['/themes/', theme._id, 'words']" *ngFor="let theme of word.themes; let isLast=last"><span *ngIf="theme.published">{{ theme.title }}{{isLast ? '' : ', ' }}</span></a></p>
       </header>
       <div class="single-word-definition-principal">

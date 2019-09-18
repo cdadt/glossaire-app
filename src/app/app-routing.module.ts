@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { ImportComponent } from './import/import.component';
@@ -92,6 +93,11 @@ const routes: Routes = [
   {
     path: 'import',
     component: ImportComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'favoris',
+    component: BookmarkComponent,
     canActivate: [AuthGuardService]
   }
 ];

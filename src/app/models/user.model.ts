@@ -7,4 +7,11 @@ export default class User {
     lastname: string;
     permissions: Array<Number>;
     activated = false;
+    bookmark: [{
+        _id: any;
+        title: string;
+        definition: string;
+        validated: boolean;
+        published: boolean
+    }];
 }

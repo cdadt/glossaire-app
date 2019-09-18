@@ -1,0 +1,44 @@
+<app-header></app-header>
+<main class="main-content">
+
+  <header class="header">
+    <h1>Votre liste de favoris</h1>
+    <p class="bookmark-info">
+      Lorsqu'une définition est supprimé, invalidée ou dépubliée, votre liste de favoris est mise à jour en conséquence.
+    </p>
+  </header>
+  <div *ngIf="user && user.bookmark[0]">
+    <section class="bookmark-item" *ngFor="let word of user.bookmark">
+      <header>
+        <div class="bookmark-header-left">
+          <div *ngIf="word.validated && word.published" class="bookmark-show-content" (click)="showContent(word._id)">
+            <i class="fas fa-angle-right" id="ar-{{ word._id }}"></i>
+            <i class="fas fa-angle-down" id="ad-{{ word._id }}" hidden></i>
+          </div>
+          <a *ngIf="word.validated && word.published" class="bookmark-header-middle" [routerLink]="['/definitions', word._id]">
+            <h1>{{ word.title }}</h1>
+          </a>
+          <div *ngIf="!word.validated || !word.published" class="bookmark-header-middle">
+            <h1>{{ word.title }}</h1>
+            <div class="etiquette-container">
+              <span class="etiquette orange">Temporairement indisponible</span>
+            </div>
+          </div>
+        </div>
+        <div class="bookmark-header-right">
+          <div class="bookmark-btn" id="mb-{{ word._id }}">
+            <button class="bookmark-delete btn-bookmark" (click)="onDeleteWordBookmark(word)"><i class="fas fa-times"></i></button>
+          </div>
+        </div>
+      </header>
+      <div *ngIf="word.validated && word.published" class="bookmark-content" id="c-{{ word._id }}" hidden>
+        {{ word.definition }}
+      </div>
+    </section>
+  </div>
+  <p *ngIf="user && !user.bookmark[0]">Vous n'avez pas de favoris.</p>
+</main>
+<!-- Bouton page d'accueil -->
+<app-menu-admin></app-menu-admin>
+<!-- Bouton page d'accueil -->
+

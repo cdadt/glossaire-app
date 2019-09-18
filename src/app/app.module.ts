@@ -39,6 +39,8 @@ import { SingleWordComponent } from './word/single-word/single-word.component';
 import { LookForUserComponent } from './user/look-for-user/look-for-user.component';
 import { SingleUserComponent } from './user/single-user/single-user.component';
 import { ValidationWordComponent } from './word/validation-word/validation-word.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
+import {BookmarkService} from "../services/bookmark.service";
 
 export class MyIntl extends TimeagoIntl {
 // do extra stuff here...
@@ -67,7 +69,8 @@ export class MyIntl extends TimeagoIntl {
     ManageWordComponent,
     LookForUserComponent,
     SingleUserComponent,
-    ValidationWordComponent
+    ValidationWordComponent,
+    BookmarkComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +98,8 @@ export class MyIntl extends TimeagoIntl {
     IndexedDbService,
     SearchService,
     OcrService,
-    ImportService
+    ImportService,
+    BookmarkService
   ],
   bootstrap: [AppComponent]
 })

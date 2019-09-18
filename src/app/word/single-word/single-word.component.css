@@ -1,3 +1,8 @@
+.main-content > p {
+  width: 70%;
+  margin: auto;
+}
+
 .single-word-page-header{
   display: flex;
   justify-content: center;
@@ -9,7 +14,17 @@
   font-size: 1.5em;
   font-weight:600;
   padding-left: 0;
-  margin-left : 1rem;
+  margin : 0 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.single-word-definition-header h1 i.fas {
+  color: orange;
+}
+
+.single-word-definition-header h1 i {
+  cursor: pointer;
 }
 
 .single-word-definition-header p{
