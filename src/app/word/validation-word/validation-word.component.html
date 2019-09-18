@@ -15,16 +15,16 @@
         <div class="manage-word-header-middle">
           <h1>{{ word.title }}</h1>
           <div class="etiquette-container" id="etiquette-container">
-            <span *ngIf="word.validated == false" class="etiquette white" id="et-inval-{{ word._id}}">Invalide</span>
-            <span *ngIf="word.validated == true && word.published == false" class="etiquette orange" id="et-unpub-{{ word._id}}">Dépublié</span>
+            <span *ngIf="!word.validated" class="etiquette white">Invalide</span>
+            <span *ngIf="word.validated && !word.published" class="etiquette orange">Dépublié</span>
           </div>
         </div>
       </div>
       <div class="manage-word-header-right">
         <i class="fas fa-ellipsis-v" id="mmb-{{ word._id }}" (click)="showManageBtn(word._id)"></i>
         <div class="manage-word-btn" id="mb-{{ word._id }}" hidden>
-          <button class="manage-word-validate btn-manage-word" id="btn-val-{{ word._id }}" (click)="onValidateWord(word)" *ngIf="word.validated == false"><i class="fas fa-check"></i></button>
-          <button class="manage-word-publish btn-manage-word" id="btn-pub-{{ word._id }}" (click)="onPublishWord(word)" *ngIf="word.validated == true && word.published == false"><i class="fas fa-eye"></i></button>
+          <button class="manage-word-validate btn-manage-word" (click)="onValidateWord(word)" *ngIf="!word.validated"><i class="fas fa-check"></i></button>
+          <button class="manage-word-publish btn-manage-word" (click)="onPublishWord(word)" *ngIf="word.validated && !word.published"><i class="fas fa-eye"></i></button>
           <button class="manage-word-edit btn-manage-word" [routerLink]="['/definitions/edition', word._id]"><i class="fas fa-pencil-alt"></i></button>
           <button class="manage-word-delete btn-manage-word" (click)="onDeleteWord(word)"><i class="fas fa-times"></i></button>
         </div>

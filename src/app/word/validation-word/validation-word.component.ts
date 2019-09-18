@@ -7,8 +7,7 @@ import Word from '../../models/word.model';
 @Component({
   selector: 'app-validation-word',
   templateUrl: './validation-word.component.html',
-  styleUrls: ['./validation-word.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./validation-word.component.css']
 })
 export class ValidationWordComponent implements OnInit {
 
@@ -56,17 +55,6 @@ export class ValidationWordComponent implements OnInit {
   }
 
   /**
-   * Cache les boutons de gestion
-   * @param _id
-   */
-  hideManageBtn(_id): void {
-    const menuManageBtn = document.getElementById(`mmb-${_id}`);
-    const manageBtn = document.getElementById(`mb-${_id}`);
-
-    this.utilitaryService.toggleAttributeOnElements([menuManageBtn, manageBtn], 'hidden');
-  }
-
-  /**
    * Affiche le contenu de la défintion.
    * @param _id
    */
@@ -93,8 +81,7 @@ export class ValidationWordComponent implements OnInit {
    * @param word
    */
   async onPublishWord(word): Promise<void> {
-    console.log('ici');
-    const updatePublishState = await this.wordService.publishedOneWord(word._id, true);
+    await this.wordService.publishedOneWord(word._id, true);
     this.words.splice(this.words.indexOf(word), 1);
     this.emitWords();
   }
@@ -104,42 +91,14 @@ export class ValidationWordComponent implements OnInit {
    * @param word
    */
   onValidateWord(word): void {
-   this.wordService.validateOneWord(word._id, true);
-   if (word.published) {
-     this.words.splice(this.words.indexOf(word), 1);
+   this.wordService.validateOneWord(word._id, true)
+       .then(success => {
+     this.words[this.words.indexOf(word)].validated = true;
+     if (word.published) {
+       this.words.splice(this.words.indexOf(word), 1);
+     }
      this.emitWords();
-   } else {
-     const validBtn = document.getElementById(`btn-val-${word._id}`);
-     this.utilitaryService.toggleAttributeOnElements([validBtn], 'hidden');
-
-     this.createPublishBtn(word);
-     this.createEtiquette(word._id);
-   }
-  }
-
-  /**
-   * Méthode permettant de créer le bouton de publication d'un mot.
-   * @param _id
-   */
-  private createPublishBtn(word): void {
-    const publishBtn = this.utilitaryService.createHtmlElement('button', `btn-pub-${word._id}`, ['manage-word-publish', 'btn-manage-word']);
-    const iconPublishBtn = this.utilitaryService.createHtmlElement('i', `btn-pub-${word._id}`, ['fas', 'fa-eye']);
-    publishBtn.append(iconPublishBtn);
-    document.getElementById(`mb-${word._id}`).prepend(publishBtn);
-  }
-
-  /**
-   * Méthode permettant de créer l'étiquette "Dépublié"
-   * @param _id
-   */
-  private createEtiquette(_id): void {
-    // On cache l'étiquette "Invalide"
-    const etiquetteInvalide = document.getElementById(`et-inval-${_id}`);
-    this.utilitaryService.toggleAttributeOnElements([etiquetteInvalide], 'hidden');
-
-    // Création de l'étiquette "Dépublié"
-    const etiquetteUnpublished = this.utilitaryService.createHtmlElement('span', `et-unpub-${_id}`, ['etiquette', 'orange'], 'Dépublié');
-    document.getElementById('etiquette-container').append(etiquetteUnpublished);
+   });
   }
 
 }
