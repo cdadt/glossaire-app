@@ -81,6 +81,14 @@
     border-radius: 3px;
 }
 
+.manage-word-publish {
+    border: none;
+    background: orange;
+    color: white;
+    padding: 0.25em 0.45em;
+    border-radius: 3px;
+}
+
 .manage-word-delete .fa-times {
     width: 16px;
 }

@@ -5,7 +5,7 @@ export default class User {
     password: string;
     firstname: string;
     lastname: string;
-    permissions: Array<Number>;
+    permissions: Number;
     activated = false;
     bookmark: [{
         _id: any;

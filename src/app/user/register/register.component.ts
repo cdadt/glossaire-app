@@ -18,8 +18,10 @@ export class RegisterComponent implements OnInit {
     password: '',
     firstname: '',
     lastname: '',
-    activated: false
+    activated: false,
+    permissions: 0
   };
+  selectedRight: any;
 
   constructor(private formBuilder: FormBuilder,
               private userService: UserService,
@@ -40,7 +42,8 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]/), Validators.minLength(8), Validators.maxLength(30)]],
       firstname: [''],
       lastname: [''],
-      activated: [false]
+      activated: [false],
+      selectedRight: ['', Validators.required]
     });
   }
 
@@ -57,6 +60,7 @@ export class RegisterComponent implements OnInit {
       const firstname = this.authForm.get('firstname').value;
       const lastname = this.authForm.get('lastname').value;
       const activated = this.authForm.get('activated').value;
+      const permissions = this.authForm.get('selectedRight').value;
 
       this.credentials.username = username;
       this.credentials.email = email;
@@ -64,6 +68,7 @@ export class RegisterComponent implements OnInit {
       this.credentials.firstname = firstname;
       this.credentials.lastname = lastname;
       this.credentials.activated = activated;
+      this.credentials.permissions = permissions;
 
       await this.userService.register(this.credentials)
           .then(success => {

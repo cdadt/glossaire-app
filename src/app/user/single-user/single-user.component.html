@@ -44,12 +44,24 @@
       <h1>Droits :</h1>
       <div class="register-rights">
         <div>
-          <mdb-checkbox [default]="true">Utilisateur</mdb-checkbox>
-          <mdb-checkbox [default]="true">Modérateur</mdb-checkbox>
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" id="right-user" value="0" formControlName="permissions" disabled>
+            <label class="custom-control-label" for="right-user">Utilisateur</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" id="right-mod" value="1" formControlName="permissions" disabled>
+            <label class="custom-control-label" for="right-mod">Modérateur</label>
+          </div>
         </div>
         <div>
-          <mdb-checkbox [default]="true">Editeur</mdb-checkbox>
-          <mdb-checkbox [default]="true">Administrateur</mdb-checkbox>
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" id="right-edit" value="2" formControlName="permissions" disabled>
+            <label class="custom-control-label" for="right-edit">Editeur</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" id="right-admin" value="3" formControlName="permissions" disabled>
+            <label class="custom-control-label" for="right-admin">Administrateur</label>
+          </div>
         </div>
       </div>
     </section>

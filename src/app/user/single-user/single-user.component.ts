@@ -26,6 +26,7 @@ export class SingleUserComponent implements OnInit {
     this.route.params.subscribe(async params => {
       this.user = await this.userService.getUserById(params.id) as User;
       this.editForm.patchValue(this.user);
+      this.editForm.patchValue({ permissions: this.user.permissions.toString() });
     });
   }
 
@@ -39,7 +40,8 @@ export class SingleUserComponent implements OnInit {
       password: [''],
       firstname: [''],
       lastname: [''],
-      activated: ['']
+      activated: [''],
+      permissions: ['', Validators.required]
     });
   }
 
@@ -68,6 +70,9 @@ export class SingleUserComponent implements OnInit {
     for (let i = 0; i < this.inputs.length; i++) {
       this.inputs[i].removeAttribute('disabled');
     }
+
+    document.getElementById('right-mod').setAttribute('disabled', 'disabled');
+    document.getElementById('right-edit').setAttribute('disabled', 'disabled');
   }
 
   /**
@@ -97,6 +102,7 @@ export class SingleUserComponent implements OnInit {
       if (this.editForm.get('password').value && this.editForm.get('password').value !== '') {
         this.user.password = this.editForm.get('password').value;
       }
+      this.user.permissions = this.editForm.get('permissions').value;
       this.userService.update(this.user);
       this.cancelEdit();
     }

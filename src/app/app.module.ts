@@ -11,6 +11,7 @@ import { AutoFocusDirective } from '../directives/auto-focus.directive';
 import { environment } from '../environments/environment';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthenticationService } from '../services/authentication.service';
+import { BookmarkService } from '../services/bookmark.service';
 import { ImportService } from '../services/import.service';
 import { IndexedDbService } from '../services/indexed-db.service';
 import { NotificationService } from '../services/notification.service';
@@ -18,29 +19,29 @@ import { OcrService } from '../services/ocr.service';
 import { OnlineOfflineService } from '../services/online-offline.service';
 import { SearchService } from '../services/search.service';
 import { SyncService } from '../services/sync.service';
+import { UtilitaryService } from '../services/utilitary.service';
 import { WordService } from '../services/word.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { ImportComponent } from './import/import.component';
 import { MenuAdminComponent } from './menu-admin/menu-admin.component';
-import { RegisterComponent } from './user/register/register.component';
 import { AddEditThemeComponent } from './theme/add-edit-theme/add-edit-theme.component';
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
 import { ManageThemeComponent } from './theme/manage-theme/manage-theme.component';
+import { LookForUserComponent } from './user/look-for-user/look-for-user.component';
+import { RegisterComponent } from './user/register/register.component';
+import { SingleUserComponent } from './user/single-user/single-user.component';
 import { AddWordComponent } from './word/add-word/add-word.component';
 import { EditWordComponent } from './word/edit-word/edit-word.component';
 import { ManageWordComponent } from './word/manage-word/manage-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
-import { LookForUserComponent } from './user/look-for-user/look-for-user.component';
-import { SingleUserComponent } from './user/single-user/single-user.component';
 import { ValidationWordComponent } from './word/validation-word/validation-word.component';
-import { BookmarkComponent } from './bookmark/bookmark.component';
-import {BookmarkService} from "../services/bookmark.service";
 
 export class MyIntl extends TimeagoIntl {
 // do extra stuff here...
@@ -99,7 +100,8 @@ export class MyIntl extends TimeagoIntl {
     SearchService,
     OcrService,
     ImportService,
-    BookmarkService
+    BookmarkService,
+    UtilitaryService
   ],
   bootstrap: [AppComponent]
 })
