@@ -24,6 +24,7 @@ export class SingleWordComponent implements OnInit {
   imageUrl: string;
   user: User;
   bookmark = false;
+  loader: boolean;
 
   constructor(private wordService: WordService,
               private route: ActivatedRoute,
@@ -39,20 +40,25 @@ export class SingleWordComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loader = true;
     this.route.params.subscribe(async params => {
-      this.word = await this.wordService.getWordById(params.id) as Word;
-      this.imageUrl = undefined;
-      if (this.word.img) {
-        this.imageUrl = `data:${this.word.img.contentType};base64,${this.word.img.data}`;
-      }
+        try {
+            this.word = await this.wordService.getWordById(params.id) as Word;
+            this.imageUrl = undefined;
+            if (this.word.img) {
+                this.imageUrl = `data:${this.word.img.contentType};base64,${this.word.img.data}`;
+            }
 
-      if (this.authService.isLoggedIn()) {
-        this.user = (await this.userService.getUserLikeByUsername(this.authService.getUserDetails().username))[0] as User;
-        this.isBookmark();
-      }
-      this.testPublicationState();
-      console.log(this.publishedOk);
-      this.open = false;
+            if (this.authService.isLoggedIn()) {
+                this.user = (await this.userService.getUserLikeByUsername(this.authService.getUserDetails().username))[0] as User;
+                this.isBookmark();
+            }
+            this.testPublicationState();
+            this.open = false;
+            this.loader = false;
+        } catch (error) {
+            this.loader = false;
+        }
     });
   }
 

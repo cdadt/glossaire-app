@@ -51,9 +51,12 @@
       <a class="authentication-form-fgt-psw disabled" [routerLink]="['']"> Mot de passe oublié ?</a>
     </div>
     <div class="authentication-form-submit">
-      <button type="submit"
+      <button *ngIf="!loader" type="submit"
               [disabled]="authForm.invalid"
               class="btn">Connexion
+      </button>
+      <button *ngIf="loader" class="btn loader" disabled>
+        <img class="spinner" id="spinner" src="assets/icons/spinner_auth.svg" >
       </button>
     </div>
   </form>

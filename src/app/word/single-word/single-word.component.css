@@ -1,6 +1,5 @@
 .main-content > p {
-  width: 70%;
-  margin: auto;
+  text-align: center;
 }
 
 .single-word-page-header{
@@ -96,11 +95,20 @@
 .display-none{
   display:none;
 }
+
+.spinner {
+  width: 8em;
+}
 /******************************* MEDIA QUERIES *******************************/
 /* start of desktop styles */
 
 @media screen and (min-width: 992px) {
   /* start of large tablet styles */
+  .main-content > p {
+    width: 70%;
+    margin: auto;
+  }
+
   .single-word {
     width: 70%;
     margin: auto;

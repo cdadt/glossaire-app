@@ -46,12 +46,16 @@
   <!-- Définition -->
 
   <!-- Mot inconnu -->
-  <p *ngIf="word === undefined">Le mot recherché n'existe pas.</p>
+  <p *ngIf="word === undefined && !loader">Le mot recherché n'existe pas.</p>
   <!-- Mot inconnu -->
 
   <!-- Mot dépublié -->
-  <p *ngIf="!publishedOk">Le mot recherché n'est pas disponible.</p>
+  <p *ngIf="word && !publishedOk && !loader">Le mot recherché n'est pas disponible.</p>
   <!-- Mot dépublié -->
+
+  <!-- Mot en attente -->
+  <p *ngIf="loader"><img class="spinner" id="spinner" src="assets/icons/spinner_import.svg" *ngIf="loader"></p>
+  <!-- Mot en attente -->
 
 </main>
 

@@ -80,6 +80,9 @@
   color: rgb(0, 86, 179);
 }
 
+.loader img {
+  width: 1.6em;
+}
 /******************************* MEDIA QUERIES *******************************/
 /* start of desktop styles */
 

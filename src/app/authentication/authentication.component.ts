@@ -16,6 +16,7 @@ export class AuthenticationComponent implements OnInit {
     username: '',
     password: ''
   };
+  loader: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthenticationService,
@@ -24,6 +25,7 @@ export class AuthenticationComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.loader = false;
   }
 
   /**
@@ -42,6 +44,7 @@ export class AuthenticationComponent implements OnInit {
    * Sinon on affiche l'erreur
    */
   async onSubmitForm(): Promise<any> {
+    this.loader = true;
     const username = this.authForm.get('username').value;
     const password = this.authForm.get('password').value;
     this.credentials.username = username;
@@ -52,6 +55,7 @@ export class AuthenticationComponent implements OnInit {
       this.router.navigateByUrl('/dashboard');
     } else {
       this.errorMessage = 'L\'identifiant ou le mot est incorrect';
+      this.loader = false;
     }
   }
 }
