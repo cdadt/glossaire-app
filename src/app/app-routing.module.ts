@@ -17,6 +17,7 @@ import { EditWordComponent } from './word/edit-word/edit-word.component';
 import { ManageWordComponent } from './word/manage-word/manage-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
 import { ValidationWordComponent } from './word/validation-word/validation-word.component';
+import { FourohfourComponent } from './fourohfour/fourohfour.component';
 
 const routes: Routes = [
   {
@@ -99,6 +100,10 @@ const routes: Routes = [
     path: 'favoris',
     component: BookmarkComponent,
     canActivate: [AuthGuardService]
+  },
+  {
+    path: '**',
+    component: FourohfourComponent
   }
 ];
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ImageInfos, ImageService } from '../../../services/image.service';
@@ -25,7 +25,8 @@ export class AddEditThemeComponent implements OnInit {
               private themeService: ThemeService,
               private route: ActivatedRoute,
               private toastr: ToastrService,
-              private imageService: ImageService) {
+              private imageService: ImageService,
+              private router: Router) {
   }
 
   async ngOnInit(): Promise<any> {
@@ -33,13 +34,17 @@ export class AddEditThemeComponent implements OnInit {
     this.onResetImage();
 
     this.route.params.subscribe(async params => {
-      // Dans le cas d'une édition
-      if (params.id !== undefined) {
-        this.themeToEdit = await this.themeService.getThemeById(params.id) as Theme;
-        this.initThemeForm(this.themeToEdit.title);
-        this.imageService.image.imageUrl = `data:${this.themeToEdit.img.contentType};base64,${this.themeToEdit.img.data}`;
-        this.imageService.image.imageSize = Math.round(parseInt(this.themeToEdit.img.size, 10) / 10000) / 100;
-        this.imageService.emitImage();
+      try {
+        // Dans le cas d'une édition
+        if (params.id !== undefined) {
+          this.themeToEdit = await this.themeService.getThemeById(params.id) as Theme;
+          this.initThemeForm(this.themeToEdit.title);
+          this.imageService.image.imageUrl = `data:${this.themeToEdit.img.contentType};base64,${this.themeToEdit.img.data}`;
+          this.imageService.image.imageSize = Math.round(parseInt(this.themeToEdit.img.size, 10) / 10000) / 100;
+          this.imageService.emitImage();
+        }
+      } catch (error) {
+        this.router.navigateByUrl('/404');
       }
     });
 

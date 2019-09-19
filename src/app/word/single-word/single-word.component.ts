@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { TimeagoIntl } from 'ngx-timeago';
 import { strings as FrenchStrings } from 'ngx-timeago/language-strings/fr';
 import { ToastrService } from 'ngx-toastr';
@@ -32,7 +32,8 @@ export class SingleWordComponent implements OnInit {
               private bookmarkService: BookmarkService,
               private authService: AuthenticationService,
               private userService: UserService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private router: Router) {
     // Les fichiers de langue pour le module Ilya(Timeago)
     intl.strings = FrenchStrings;
     intl.changes.next();
@@ -57,7 +58,7 @@ export class SingleWordComponent implements OnInit {
             this.open = false;
             this.loader = false;
         } catch (error) {
-            this.loader = false;
+            this.router.navigateByUrl('/404');
         }
     });
   }

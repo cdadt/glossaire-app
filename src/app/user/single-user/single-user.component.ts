@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import User from '../../models/user.model';
 
@@ -19,14 +19,19 @@ export class SingleUserComponent implements OnInit {
 
   constructor(private userService: UserService,
               private formBuilder: FormBuilder,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.initForm();
     this.route.params.subscribe(async params => {
-      this.user = await this.userService.getUserById(params.id) as User;
-      this.editForm.patchValue(this.user);
-      this.editForm.patchValue({ permissions: this.user.permissions.toString() });
+      try {
+        this.user = await this.userService.getUserById(params.id) as User;
+        this.editForm.patchValue(this.user);
+        this.editForm.patchValue({ permissions: this.user.permissions.toString() });
+      } catch (error) {
+        this.router.navigateByUrl('/404');
+      }
     });
   }
 

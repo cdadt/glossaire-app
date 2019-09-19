@@ -42,6 +42,7 @@ import { EditWordComponent } from './word/edit-word/edit-word.component';
 import { ManageWordComponent } from './word/manage-word/manage-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
 import { ValidationWordComponent } from './word/validation-word/validation-word.component';
+import { FourohfourComponent } from './fourohfour/fourohfour.component';
 
 export class MyIntl extends TimeagoIntl {
 // do extra stuff here...
@@ -71,7 +72,8 @@ export class MyIntl extends TimeagoIntl {
     LookForUserComponent,
     SingleUserComponent,
     ValidationWordComponent,
-    BookmarkComponent
+    BookmarkComponent,
+    FourohfourComponent
   ],
   imports: [
     BrowserModule,
