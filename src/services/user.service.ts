@@ -78,6 +78,21 @@ export class UserService {
         .toPromise();
   }
 
+  sendReinitiatePswEmail(email): Promise<object> {
+      return this.http.patch(`${environment.apiUrl}/users/forgotten-psw`, { params : { email } })
+          .toPromise();
+  }
+
+  changePassword(code, psw): Promise<object> {
+      return this.http.patch(`${environment.apiUrl}/users/change-psw`, { params : { code, psw } })
+          .toPromise();
+  }
+
+  verifResetPswCodeExists(code): Promise<object> {
+      return this.http.get(`${environment.apiUrl}/users/verif-reset-psw-code/${code}`)
+          .toPromise();
+  }
+
   errorActions(error): void {
         let errorMess = error.error;
 

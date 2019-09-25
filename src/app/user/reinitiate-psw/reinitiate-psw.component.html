@@ -1,0 +1,45 @@
+<main class="main-content">
+
+  <!-- Header avec logo -->
+  <header class="forgotten-psw-header">
+    <img src="assets/img/logo_v4.png">
+    <h1>Changer votre mot de passe</h1>
+    <p *ngIf="!modificationOk">Veuillez entrer un nouveau mot de passe.</p>
+    <p *ngIf="modificationOk" >Votre mot de passe a été modifié. Veuillez retourner à la page de connexion pour vous authentifier.</p>
+  </header>
+  <!-- Header avec logo -->
+
+  <!--Formulaire de connexion -->
+  <form *ngIf="!modificationOk" (ngSubmit)="onSubmitForm()" [formGroup]="pswForm" novalidate>
+
+    <div class="forgotten-psw-form-group">
+      <label>Mot de passe</label>
+      <input
+              [ngClass]="{ 'valid-control': pswForm.controls['password'].valid, 'invalid-control': pswForm.controls['password'].invalid && (pswForm.controls['password'].dirty || pswForm.controls['password'].touched)}"
+              type="password" class="form-control" formControlName="password" #password/>
+      <div
+              *ngIf="pswForm.controls['password'].invalid && (pswForm.controls['password'].dirty || pswForm.controls['password'].touched)"
+              class="forgotten-psw-form-alert">
+        Vous devez saisir un mot de passe.
+      </div>
+      <div
+              *ngIf="pswForm.controls['password'].valid && (pswForm.controls['password'].dirty || pswForm.controls['password'].touched)"
+              class="forgotten-psw-form-valid">
+        Mot de passe invalide
+      </div>
+    </div>
+    <div class="forgotten-psw-form-submit">
+      <button type="submit"
+              [disabled]="pswForm.invalid"
+              class="btn">Envoyer
+      </button>
+<!--      <button *ngIf="loader" class="btn loader" disabled>-->
+<!--        <img class="spinner" id="spinner" src="assets/icons/spinner_auth.svg" >-->
+<!--      </button>-->
+    </div>
+  </form>
+  <!--Formulaire de connexion -->
+  <!-- Bouton page d'accueil -->
+  <a class="forgotten-psw-button-home text-center py-3" [routerLink]="['/connexion']">Retourner à la connexion</a>
+  <!-- Bouton page d'accueil -->
+</main>

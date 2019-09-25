@@ -4,20 +4,22 @@ import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { FourohfourComponent } from './fourohfour/fourohfour.component';
 import { HomeComponent } from './home/home.component';
 import { ImportComponent } from './import/import.component';
 import { AddEditThemeComponent } from './theme/add-edit-theme/add-edit-theme.component';
 import { ListWordByThemeComponent } from './theme/list-word-by-theme/list-word-by-theme.component';
 import { ManageThemeComponent } from './theme/manage-theme/manage-theme.component';
+import { ForgottenPswComponent } from './user/forgotten-psw/forgotten-psw.component';
 import { LookForUserComponent } from './user/look-for-user/look-for-user.component';
 import { RegisterComponent } from './user/register/register.component';
+import { ReinitiatePswComponent } from './user/reinitiate-psw/reinitiate-psw.component';
 import { SingleUserComponent } from './user/single-user/single-user.component';
 import { AddWordComponent } from './word/add-word/add-word.component';
 import { EditWordComponent } from './word/edit-word/edit-word.component';
 import { ManageWordComponent } from './word/manage-word/manage-word.component';
 import { SingleWordComponent } from './word/single-word/single-word.component';
 import { ValidationWordComponent } from './word/validation-word/validation-word.component';
-import { FourohfourComponent } from './fourohfour/fourohfour.component';
 
 const routes: Routes = [
   {
@@ -40,6 +42,14 @@ const routes: Routes = [
   {
     path: 'connexion',
     component: AuthenticationComponent
+  },
+  {
+    path: 'mot-de-passe-oublie',
+    component: ForgottenPswComponent
+  },
+  {
+    path: 'reinitialiser-mot-de-passe/:code',
+    component: ReinitiatePswComponent
   },
   {
     path: 'utilisateur/ajouter',

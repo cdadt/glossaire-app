@@ -1,0 +1,134 @@
+.forgotten-psw-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3em 0 1em 0;
+    width: 50%;
+    margin: auto;
+}
+
+.forgotten-psw-header img {
+    width : 100%;
+}
+
+.forgotten-psw-header h1{
+    margin: 2em 0;
+    color: lightslategray;
+    font-size: 1em;
+}
+
+.forgotten-psw-header p {
+    text-align: justify;
+}
+
+.forgotten-psw-button-home {
+    position: absolute;
+    z-index:9999;
+    bottom:0;
+    width:100vw;
+    background: #29a255;
+    color: white;
+    box-shadow: inset 0 0 0 100px #2db25d;
+    transition: all 0.3s;
+
+}
+
+.forgotten-psw-button-home:hover {
+    text-decoration: none;
+    box-shadow: inset 0 0 0 0 #2db25d;
+}
+
+
+.forgotten-psw-form-group {
+    padding: 0.5rem;
+}
+
+.forgotten-psw-form-submit {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.forgotten-psw-form-submit button{
+    border:solid 1px rgb(0, 86, 179);
+    color: rgb(0, 86, 179);
+    background: rgb(0, 86, 179);
+    box-shadow: inset 0 0 0 100px white;
+    transition: all 0.2s ease-in-out;
+    border-radius: 10px;
+    width: 50%;
+}
+
+
+.forgotten-psw-form-submit button:hover{
+    color: white;
+    box-shadow: inset 0 0 0 0 white;
+}
+
+.valid-control{
+    border: solid 1px #2db25d;
+}
+
+.invalid-control{
+    border: solid 1px #ff6949;
+}
+
+.forgotten-psw-form-alert{
+    color:#ff6949;
+    font-size:0.7em;
+}
+
+.forgotten-psw-form-valid{
+    color:#2db25d;
+    font-size:0.7em;
+}
+
+.forgotten-psw-form-fgt-psw {
+    color: rgb(0, 86, 179);
+}
+
+.loader img {
+    width: 1.6em;
+}
+/******************************* MEDIA QUERIES *******************************/
+/* start of desktop styles */
+
+@media screen and (min-width: 992px) {
+    /* start of large tablet styles */
+    .main-content {
+        width: 40%;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .forgotten-psw-button-home {
+        border: solid 1px #29a255;
+        color: white;
+        background: #29a255;
+        transition: all 0.2s;
+        border-radius: 10px;
+        position: relative;
+        width: 50%;
+        align-self: center;
+    }
+
+    .forgotten-psw-button-home:hover {
+        color: white;
+    }
+}
+
+/******************************* MEDIA QUERIES *******************************/
+
+@media screen and (min-width: 992px) {
+    form {
+        width: 50%;
+        margin: auto;
+    }
+
+    .forgotten-psw-form-submit button {
+        width: 100%;
+    }
+}
+

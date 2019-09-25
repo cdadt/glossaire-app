@@ -1,0 +1,47 @@
+<main class="main-content">
+
+  <!-- Header avec logo -->
+  <header class="forgotten-psw-header">
+    <img src="assets/img/logo_v4.png">
+    <h1>Mot de passe oublié</h1>
+    <p>Veuillez entrer l'adresse mail liée au compte. Une demande de réinitialisation de mot de passe vous sera envoyée.</p>
+  </header>
+  <!-- Header avec logo -->
+
+  <!--Formulaire de connexion -->
+  <form *ngIf="!emailSent" (ngSubmit)="onSubmitForm()" [formGroup]="forgottenPswForm" novalidate>
+    <p class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+    <div class="forgotten-psw-form-group">
+      <label>Adresse mail</label>
+      <input
+              [ngClass]="{ 'valid-control': forgottenPswForm.controls['email'].valid, 'invalid-control': forgottenPswForm.controls['email'].invalid && (forgottenPswForm.controls['email'].dirty || forgottenPswForm.controls['email'].touched)}"
+              type="text" class="form-control" formControlName="email" #email/>
+      <div
+              *ngIf="forgottenPswForm.controls['email'].invalid && (forgottenPswForm.controls['email'].dirty || forgottenPswForm.controls['email'].touched)"
+              class="forgotten-psw-form-alert">
+        Vous devez saisir une adresse mail
+      </div>
+      <div
+              *ngIf="forgottenPswForm.controls['email'].valid && (forgottenPswForm.controls['email'].dirty || forgottenPswForm.controls['email'].touched)"
+              class="forgotten-psw-form-valid">
+        Adresse mail valide
+      </div>
+    </div>
+    <div class="forgotten-psw-form-submit">
+      <button *ngIf="!loader" type="submit"
+              [disabled]="forgottenPswForm.invalid"
+              class="btn">Envoyer
+      </button>
+      <button *ngIf="loader" class="btn loader" disabled>
+        <img class="spinner" id="spinner" src="assets/icons/spinner_auth.svg" >
+      </button>
+    </div>
+  </form>
+  <!--Formulaire de connexion -->
+
+  <p class="forgotten-psw-info" *ngIf="emailSent">Un email vient de vous être envoyé.</p>
+
+  <!-- Bouton page d'accueil -->
+  <a class="forgotten-psw-button-home text-center py-3" [routerLink]="['/connexion']">Se connecter</a>
+  <!-- Bouton page d'accueil -->
+</main>
