@@ -28,7 +28,7 @@ export class ListWordByThemeComponent implements OnInit {
 
       this.imageUrl = undefined;
       if (this.theme.img) {
-        this.imageUrl = `data:${this.theme.img.contentType};base64,${this.theme.img.data}`;
+        this.imageUrl = `${this.theme.img.data}`;
       }
 
       const imgElement = (document.getElementById('list-word-image') as HTMLInputElement);

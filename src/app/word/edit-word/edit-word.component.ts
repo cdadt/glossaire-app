@@ -155,31 +155,60 @@ export class EditWordComponent implements OnInit {
      */
   updateWord(elemToEdit, elemToEditValue, required = false): void {
       if (elemToEditValue !== '' && required || elemToEditValue === '' && !required || elemToEditValue !== '' && !required) {
-          const formData = new FormData();
-          const test = JSON.stringify(elemToEditValue);
+          // On crée l'objet à envoyer
+          const wordInfo = this.createWordInfo(elemToEdit, elemToEditValue);
 
+          // S'il y a une image on l'ajoute
           if (elemToEdit === 'image' && elemToEditValue === 'newImage') {
-              formData.append('image', this.illustration.image);
-              formData.append('imageSize', this.illustration.image.size);
-          }
-          formData.append('elemToEdit', elemToEdit);
-          formData.append('elemToEditValue', test);
-          formData.append('wordId', this.word._id);
+              const reader = new FileReader();
+              reader.readAsDataURL(this.illustration.image);
 
-          this.wordService.editWordElements(formData)
-              .then(
-                  async success => {
-                      this.edit = undefined;
-                      this.getWord(this.word._id);
-                  },
-                  err => {
-                      this.wordService.errorActions(err);
-                  }
-              );
+              reader.onload = async () => {
+                  // On ajoute l'image
+                  wordInfo.image = reader.result;
+                  wordInfo.imageSize = this.illustration.image.size;
+
+                  // On envoie le tout
+                  this.sendWordInfo(wordInfo);
+              };
+          } else {
+              this.sendWordInfo(wordInfo);
+          }
       } else {
           this.edit = undefined;
       }
   }
+
+    /**
+     * Méthodepermettant de créer un objet wordInfo à envoyer en BDD
+     * @param elemToEdit l'élément à éditer
+     * @param elemToEditValue le contenu de l'élément à éditer
+     */
+  createWordInfo(elemToEdit, elemToEditValue): any {
+      return {
+          elemToEdit,
+          elemToEditValue,
+          wordId: this.word._id,
+          image: undefined,
+          imageSize: undefined
+      };
+  }
+    /**
+     * Méthode permettant d'envoyer les informations du mot en BDD
+     * @param wordInfo L'objet mot
+     */
+  sendWordInfo(wordInfo): void {
+    this.wordService.editWordElements(wordInfo)
+        .then(
+            async success => {
+                this.edit = undefined;
+                this.getWord(this.word._id);
+            },
+            err => {
+                this.wordService.errorActions(err);
+            }
+        );
+    }
 
     /**
      * Méthode permettant de récupérer un mot et de mettre à jour les donées de ce mot
@@ -214,7 +243,7 @@ export class EditWordComponent implements OnInit {
      .reset();
 
     if (this.word.img) {
-        this.imageService.image.imageUrl = `data:${this.word.img.contentType};base64,${this.word.img.data}`;
+        this.imageService.image.imageUrl = `${this.word.img.data}`;
         this.imageService.image.imageSize = Math.round(parseInt(this.word.img.size, 10) / 10000) / 100;
         this.imageService.emitImage();
     } else {

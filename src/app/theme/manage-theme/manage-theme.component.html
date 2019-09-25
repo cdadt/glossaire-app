@@ -18,7 +18,7 @@
   <div class="manage-theme-list">
     <section class="manage-theme-item" *ngFor="let theme of themes">
       <header [ngClass]="{'no-published': !theme.published}">
-        <img *ngIf="theme.img" [src]="'data:'+theme.img.contentType+';base64,'+theme.img.data">
+        <img *ngIf="theme.img" [src]="theme.img.data">
 <!--        <div class="manage-theme-image-{{ theme._id }}"></div>-->
         <h1>{{ theme.title }}</h1>
       </header>

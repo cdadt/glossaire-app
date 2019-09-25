@@ -39,7 +39,7 @@ export class AddEditThemeComponent implements OnInit {
         if (params.id !== undefined) {
           this.themeToEdit = await this.themeService.getThemeById(params.id) as Theme;
           this.initThemeForm(this.themeToEdit.title);
-          this.imageService.image.imageUrl = `data:${this.themeToEdit.img.contentType};base64,${this.themeToEdit.img.data}`;
+          this.imageService.image.imageUrl = `${this.themeToEdit.img.data}`;
           this.imageService.image.imageSize = Math.round(parseInt(this.themeToEdit.img.size, 10) / 10000) / 100;
           this.imageService.emitImage();
         }
@@ -73,28 +73,57 @@ export class AddEditThemeComponent implements OnInit {
   onSubmitForm(): void {
     if (this.themeForm.valid && this.illustration.imageSize < 1000000) {
       const theme = this.themeForm.get('theme').value;
+      const themeInfo = this.createThemeInfo(theme);
 
-      const formData = new FormData();
       if (this.illustration.image) {
-        formData.append('image', this.illustration.image);
-        formData.append('imageSize', this.illustration.image.size);
-      }
-      formData.append('title', theme);
+        const reader = new FileReader();
+        reader.readAsDataURL(this.illustration.image);
 
-      // On réinitialise les champs et on envoie
-      if (this.themeToEdit) {
-        formData.append('_id', this.themeToEdit._id);
-        formData.append('published', JSON.stringify(this.themeToEdit.published));
-        this.themeService.editOneTheme(formData);
+        reader.onload = async () => {
+          // On ajoute l'image
+          themeInfo.image = reader.result;
+          themeInfo.imageSize = this.illustration.image.size;
+
+          // On envoie le tout
+          this.sendThemeInfo(themeInfo);
+        };
       } else {
-        formData.append('published', JSON.stringify(true));
-        this.themeForm.get('theme')
-            .reset();
-        this.onResetImage();
-        this.themeService.addTheme(formData);
+        this.sendThemeInfo(themeInfo);
       }
     } else {
       this.toastr.error('Le formulaire n\'est pas valide.');
+    }
+  }
+
+  /**
+   * Méthode permettant de créer l'objet thème
+   * @param title Le titre tu thème
+   */
+  createThemeInfo(title): any {
+    return {
+      _id: undefined,
+      title,
+      image: undefined,
+      imageSize: undefined,
+      published: undefined
+    };
+  }
+
+  /**
+   * Méthode permettant d'envoyer les informations du thème ajoute ou modifié en BDD
+   * @param themeInfo L'objet Thème
+   */
+  sendThemeInfo(themeInfo): void {
+    if (this.themeToEdit) {
+      themeInfo._id = this.themeToEdit._id;
+      themeInfo.published = this.themeToEdit.published;
+      this.themeService.editOneTheme(themeInfo);
+    } else {
+      themeInfo.published = true;
+      this.themeForm.get('theme')
+          .reset();
+      this.onResetImage();
+      this.themeService.addTheme(themeInfo);
     }
   }
 

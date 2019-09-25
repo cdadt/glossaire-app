@@ -47,7 +47,7 @@ export class SingleWordComponent implements OnInit {
             this.word = await this.wordService.getWordById(params.id) as Word;
             this.imageUrl = undefined;
             if (this.word.img) {
-                this.imageUrl = `data:${this.word.img.contentType};base64,${this.word.img.data}`;
+                this.imageUrl = `${this.word.img.data}`;
             }
 
             if (this.authService.isLoggedIn()) {

@@ -23,6 +23,7 @@ export class AddWordComponent implements OnInit {
   readImageLoadingKnowMore: boolean;
   illustration: any;
   imageSubscription: Subscription;
+  base64ImageString: string | ArrayBuffer;
 
   constructor(private formBuilder: FormBuilder,
               private themeService: ThemeService,
@@ -65,33 +66,49 @@ export class AddWordComponent implements OnInit {
       for (const theme of this.wordForm.get('theme').value) {
         themesObj.push(this.themes.find(element => element._id === theme));
       }
-
-      // On contruit l'objet à envoyer en BDD
-      const wordInfo =  JSON.stringify({
-        title: this.wordForm.get('word').value,
-        definition: this.wordForm.get('definition').value,
-        know_more: this.wordForm.get('knowMore').value,
-        themes: themesObj,
-        last_edit : new Date().getTime(),
-        published: true,
-        validated: true,
-        legend: this.wordForm.get('legend').value
-      }, undefined, 2);
-
-      const formData = new FormData();
+      // On crée l'objet word à envoyer
+      const wordInfo = this.createWordInfo(themesObj);
 
       if (this.illustration.image) {
-        formData.append('image', this.illustration.image);
-        formData.append('imageSize', this.illustration.image.size);
-      }
-      formData.append('wordInfo', wordInfo);
+        const reader = new FileReader();
+        reader.readAsDataURL(this.illustration.image);
 
-      this.onResetImage();
-      this.wordForm.reset();
-      this.wordService.addWord(formData);
+        reader.onload = async () => {
+          // On ajoute l'image
+          wordInfo.image = reader.result;
+          wordInfo.imageSize = this.illustration.image.size;
+          wordInfo.legend = this.wordForm.get('legend').value;
+
+          // On envoie le tout
+          this.sendWordInfo(wordInfo);
+        };
+      } else {
+        this.sendWordInfo(wordInfo);
+      }
     } else {
       this.toastr.error('Veuillez vérifier les informations renseignées.', 'Le formulaire n\'est pas valide.');
     }
+  }
+
+  sendWordInfo(wordInfo): void {
+    this.onResetImage();
+    this.wordForm.reset();
+    this.wordService.addWord(wordInfo);
+  }
+
+  createWordInfo(themesObj): any {
+    return {
+      title: this.wordForm.get('word').value,
+      definition: this.wordForm.get('definition').value,
+      know_more: this.wordForm.get('knowMore').value,
+      themes: themesObj,
+      last_edit : new Date().getTime(),
+      published: true,
+      validated: true,
+      image: undefined,
+      imageSize: undefined,
+      legend: undefined
+    };
   }
 
   /**
