@@ -25,7 +25,7 @@
                (focusin)="onDisplayResult()"
                [formControl]="queryField"
                type="search"
-               placeholder="Rechercher un mot, un thème..."><i class="fas fa-search"></i>
+               placeholder="Rechercher un mot, un thème...">
         <div id="home-search-results" class="home-search-results"
              [ngClass]="{'d-block': displayResults === true, 'd-none': displayResults === false}">
           <div *ngFor="let word of searchResults.words">

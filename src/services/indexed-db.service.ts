@@ -66,10 +66,7 @@ export class IndexedDbService {
    * @param query: la requête à supprimer.
    */
   private deleteItemFromIndexedDb(query: any): void {
-    this.db.queries.delete(query.id)
-        .then(() => {
-      console.log('Requête supprimé de l\'indexedDb');
-    });
+    this.db.queries.delete(query.id);
   }
 
   /**

@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
       firstname: [''],
       lastname: [''],
       activated: [false],
-      selectedRight: ['', Validators.required]
+      permissions: ['', Validators.required]
     });
   }
 
@@ -60,7 +60,7 @@ export class RegisterComponent implements OnInit {
       const firstname = this.authForm.get('firstname').value;
       const lastname = this.authForm.get('lastname').value;
       const activated = this.authForm.get('activated').value;
-      const permissions = this.authForm.get('selectedRight').value;
+      const permissions = this.authForm.get('permissions').value;
 
       this.credentials.username = username;
       this.credentials.email = email;
@@ -73,7 +73,6 @@ export class RegisterComponent implements OnInit {
       await this.userService.register(this.credentials)
           .then(success => {
             this.authForm.reset();
-            this.toastr.success('L\'utilisateur vient d\'être ajouté');
           },
               err => {
             this.userService.errorActions(err);

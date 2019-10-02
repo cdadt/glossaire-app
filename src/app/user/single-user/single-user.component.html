@@ -43,26 +43,11 @@
     <section class="authentication-form-group">
       <h1>Droits :</h1>
       <div class="register-rights">
-        <div>
-          <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="right-user" value="0" formControlName="permissions" disabled>
-            <label class="custom-control-label" for="right-user">Utilisateur</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="right-mod" value="1" formControlName="permissions" disabled>
-            <label class="custom-control-label" for="right-mod">Modérateur</label>
-          </div>
-        </div>
-        <div>
-          <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="right-edit" value="2" formControlName="permissions" disabled>
-            <label class="custom-control-label" for="right-edit">Editeur</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input type="radio" class="custom-control-input" id="right-admin" value="3" formControlName="permissions" disabled>
-            <label class="custom-control-label" for="right-admin">Administrateur</label>
-          </div>
-        </div>
+        <select id="selectPermission" class="browser-default custom-select" formControlName="permissions" disabled>
+          <option value="1">Utilisateur</option>
+          <option value="2">Editeur</option>
+          <option value="3">Administrateur</option>
+        </select>
       </div>
     </section>
 

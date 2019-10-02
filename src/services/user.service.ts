@@ -21,14 +21,17 @@ export class UserService {
    * Elle utilise la fonction request pour l'appel au backend et effectuer les actions
    * @param user l'utilisateur à enregistrer
    */
-  register(user: TokenPayload): Promise<any> {
-    return this.http.post(`${environment.apiUrl}/users`, user, {
-      headers:
-          {
-            Authorization: `Bearer ${ this.authenticationService.getToken() }`
+  async register(user: TokenPayload): Promise<void> {
+      this.syncService.howToAdd({
+          url: `${environment.apiUrl}/users`,
+          params: user,
+          option: {
+              headers:
+                  {
+                      Authorization: `Bearer ${ this.authenticationService.getToken() }`
+                  }
           }
-    })
-        .toPromise();
+      });
   }
 
   /**

@@ -7,37 +7,42 @@
 
   <div class="dashboard-table">
 
-    <a class="dashboard-button blue-button" [ngClass]="{ 'disabled': nbWaintingDef < 1 }" [routerLink]="['/mot/valider']">
+    <a class="dashboard-button blue-button" [ngClass]="{ 'disabled': nbWaintingDef < 1 }" [routerLink]="['/mot/valider']" *ngIf="user.permissions >= 2">
       <p class="icon-num">{{ nbWaintingDef }}</p>
       <h1>Définitions en attente</h1>
     </a>
 
-    <a class="dashboard-button orange-button" [routerLink]="['/mot/ajouter']">
+    <a class="dashboard-button orange-button" [routerLink]="['/mot/ajouter']" *ngIf="user.permissions >= 2">
       <i class="fas fa-plus"></i>
       <h1>Nouvelle définition</h1>
     </a>
 
-    <a class="dashboard-button red-button" [routerLink]="['/utilisateur/rechercher']">
+    <a class="dashboard-button red-button" [routerLink]="['/utilisateur/rechercher']" *ngIf="user.permissions >= 3">
       <i class="fas fa-user-edit"></i>
       <h1>Gérer un utilisateur</h1>
     </a>
 
-    <a class="dashboard-button green-button" [routerLink]="['/favoris']">
+    <a class="dashboard-button green-button" [routerLink]="['/favoris']" *ngIf="user.permissions >= 1">
       <i class="fas fa-star"></i>
       <h1>Gérer les favoris</h1>
     </a>
 
-    <a class="dashboard-button turquoise-button" [routerLink]="['/mot/gerer']">
+    <a class="dashboard-button turquoise-button" [routerLink]="['/mot/gerer']" *ngIf="user.permissions >= 2">
       <i class="fas fa-edit"></i>
       <h1>Gérer une définition</h1>
     </a>
 
-    <a class="dashboard-button pink-button" [routerLink]="['/theme/ajouter']">
+    <a class="dashboard-button brown-button" [routerLink]="['/import']" *ngIf="user.permissions >= 2">
+      <i class="fas fa-file-import"></i>
+      <h1>Importer plusieurs définitions</h1>
+    </a>
+
+    <a class="dashboard-button pink-button" [routerLink]="['/theme/ajouter']" *ngIf="user.permissions >= 2">
       <i class="fas fa-folder-plus"></i>
       <h1>Créer un thème</h1>
     </a>
 
-    <a class="dashboard-button oceanblue-button" [routerLink]="['/theme/gerer']">
+    <a class="dashboard-button oceanblue-button" [routerLink]="['/theme/gerer']" *ngIf="user.permissions >= 2">
       <i class="fas fa-folder-open"></i>
       <h1>Gérer un thème</h1>
     </a>

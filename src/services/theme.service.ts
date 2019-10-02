@@ -11,31 +11,18 @@ import { SyncService } from './sync.service';
   providedIn: 'root'
 })
 export class ThemeService {
-  themes: Array<Theme>;
-  themesSubject = new Subject<Array<Theme>>();
 
   constructor(private http: HttpClient,
               private syncService: SyncService,
               private authService: AuthenticationService,
               private toastr: ToastrService) {
-      this.getThemesOnOpen()
-          .then(
-          () => this.emitThemes()
-      );
   }
 
     /**
      * Permet de mettre à jour la liste complète des thèmes
      */
-  async getThemesOnOpen(): Promise<void> {
-      this.themes = await this.getThemes() as Array<Theme>;
-  }
-
-    /**
-     * Permet de mettre à jour l'abonnement à la liste des thèmes
-     */
-  emitThemes(): void {
-        this.themesSubject.next(this.themes);
+  async getThemesOnOpen(): Promise<any> {
+      return await this.getThemes() as Array<Theme>;
   }
 
   /**
@@ -81,21 +68,17 @@ export class ThemeService {
    * Ajoute un thème et ses informations dans la BDD
    * @param theme La liste des infos du mot
    */
-  addTheme(theme: object): void {
-    this.http.post(`${environment.apiUrl}/themes`, theme, { headers:
-      {
-          Authorization: `Bearer ${ this.authService.getToken() }`
-      }})
-          .subscribe(
-              success => {
-                  this.getThemesOnOpen()
-                      .then(
-                          () => this.emitThemes()
-                      );
-                  this.toastr.success('La requête à bien été envoyée');
-              },
-              error => this.errorActions(error)
-          );
+  async addTheme(theme): Promise<void> {
+      this.syncService.howToAdd({
+          url: `${environment.apiUrl}/themes`,
+          params: theme,
+          option: {
+              headers:
+                  {
+                      Authorization: `Bearer ${ this.authService.getToken() }`
+                  }
+          }
+      });
   }
 
     /**
@@ -107,15 +90,7 @@ export class ThemeService {
         headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
         params : { themeId: theme}
       })
-          .subscribe(
-              success => {
-                  const ele = this.themes.find(element => element._id === theme);
-                  const index = this.themes.indexOf(ele);
-                  this.themes.splice(index, 1);
-                  this.emitThemes();
-              },
-              error => this.errorActions(error)
-          );
+          .subscribe();
   }
 
     /**
@@ -128,15 +103,7 @@ export class ThemeService {
           headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
           params : { themeId, themePub }
       })
-          .subscribe(
-              success => {
-                  const ele = this.themes.find(element => element._id === themeId);
-                  const index = this.themes.indexOf(ele);
-                  this.themes[index].published = themePub;
-                  this.emitThemes();
-              },
-              error => this.errorActions(error)
-          );
+          .subscribe();
   }
 
     /**
@@ -148,14 +115,14 @@ export class ThemeService {
             headers: { Authorization: `Bearer ${ this.authService.getToken() }` }
         })
             .subscribe(
-                success => {
-                    this.getThemesOnOpen()
-                        .then(
-                            () => this.emitThemes()
-                        );
-                    this.toastr.success('La requête à bien été envoyée');
-                },
-                error => this.errorActions(error)
+                // success => {
+                //     this.getThemesOnOpen()
+                //         .then(
+                //             () => this.emitThemes()
+                //         );
+                //     this.toastr.success('La requête à bien été envoyée');
+                // },
+                // error => this.errorActions(error)
             );
     }
 

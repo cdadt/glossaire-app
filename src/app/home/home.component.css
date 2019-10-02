@@ -28,9 +28,8 @@
 .home-search-area input {
   width: 100%;
   border: solid 1px #a3a3a3;
-  border-right:0px;
   padding: 0.8em;
-  border-radius: 10px 0px 0px 10px;
+  border-radius: 10px;
   -moz-border-radius: 10px 0px 0px 10px;
   font-size: 0.8em;
 }

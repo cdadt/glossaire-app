@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthAdminGuardService } from '../services/auth-admin-guard.service';
+import { AuthEditorGuardService } from '../services/auth-editor-guard.service';
 import { AuthGuardService } from '../services/auth-guard.service';
+import { AuthUserGuardService } from '../services/auth-user-guard.service';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -33,7 +36,7 @@ const routes: Routes = [
   {
     path: 'definitions/edition/:id',
     component: EditWordComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthEditorGuardService]
   },
   {
     path: 'themes/:id/words',
@@ -54,62 +57,62 @@ const routes: Routes = [
   {
     path: 'utilisateur/ajouter',
     component: RegisterComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthAdminGuardService]
   },
   {
     path: 'utilisateur/rechercher',
     component: LookForUserComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthAdminGuardService]
   },
   {
     path: 'utilisateur/:id',
     component: SingleUserComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthAdminGuardService]
   },
   {
     path: 'mot/ajouter',
     component: AddWordComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthEditorGuardService]
   },
   {
     path: 'mot/gerer',
     component: ManageWordComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthEditorGuardService]
   },
   {
     path: 'mot/valider',
     component: ValidationWordComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthEditorGuardService]
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthUserGuardService]
   },
   {
     path: 'theme/ajouter',
     component: AddEditThemeComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthEditorGuardService]
   },
   {
     path: 'theme/modifier/:id',
     component: AddEditThemeComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthEditorGuardService]
   },
   {
     path: 'theme/gerer',
     component: ManageThemeComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthEditorGuardService]
   },
   {
     path: 'import',
     component: ImportComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthEditorGuardService]
   },
   {
     path: 'favoris',
     component: BookmarkComponent,
-    canActivate: [AuthGuardService]
+    canActivate: [AuthUserGuardService]
   },
   {
     path: '**',

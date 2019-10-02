@@ -75,9 +75,8 @@ export class SingleUserComponent implements OnInit {
     for (let i = 0; i < this.inputs.length; i++) {
       this.inputs[i].removeAttribute('disabled');
     }
-
-    document.getElementById('right-mod').setAttribute('disabled', 'disabled');
-    document.getElementById('right-edit').setAttribute('disabled', 'disabled');
+    const select = document.getElementById('selectPermission') as HTMLSelectElement;
+    select.toggleAttribute('disabled');
   }
 
   /**
@@ -89,6 +88,8 @@ export class SingleUserComponent implements OnInit {
     for (let i = 0; i < this.inputs.length; i++) {
       this.inputs[i].setAttribute('disabled', 'disabled');
     }
+    const select = document.getElementById('selectPermission') as HTMLSelectElement;
+    select.toggleAttribute('disabled');
 
     this.editForm.patchValue(this.user);
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { SearchService } from '../../../services/search.service';
 import { ThemeService } from '../../../services/theme.service';
@@ -14,6 +14,7 @@ import Theme from '../../models/theme.model';
 export class ManageThemeComponent implements OnInit {
 
   themes: Array<Theme>;
+  themesSubject = new Subject<Array<Theme>>();
   themesSubscription: Subscription;
   searchThemeForm;
   queryField: FormControl = new FormControl ();
@@ -25,13 +26,14 @@ export class ManageThemeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.initSearchForm();
 
+    this.themes = await this.themeService.getThemesOnOpen() as Array<Theme>;
+    this.emitThemes();
     // Permet de mettre à jour automatiquement la page si un thème est supprimé
-    this.themesSubscription = this.themeService.themesSubject.subscribe(
+    this.themesSubscription = this.themesSubject.subscribe(
       (themes: Array<Theme>) => {
           this.themes = themes;
       }
     );
-    this.themeService.emitThemes();
 
     /**
      * Détecte les changements dans le formulaire de recherche et effectue la recherche sur les mots et les thèmes
@@ -42,9 +44,13 @@ export class ManageThemeComponent implements OnInit {
         switchMap(query => this.searchOnChangedValue(query))
     )
         .subscribe (result => {
-            this.themeService.themes = result;
-            this.themeService.emitThemes();
+            this.themes = result;
+            this.emitThemes();
         });
+  }
+
+  emitThemes(): void {
+      this.themesSubject.next(this.themes);
   }
 
   searchOnChangedValue(query): Promise<Array<Theme>> {
@@ -69,8 +75,10 @@ export class ManageThemeComponent implements OnInit {
      * Méthode permettant de supprimer un thème
      * @param themeId L'id du thème à supprimer
      */
-  onDeleteTheme(themeId): void {
-    this.themeService.deleteOneTheme(themeId);
+  onDeleteTheme(theme): void {
+    this.themeService.deleteOneTheme(theme._id);
+    this.themes.splice(this.themes.indexOf(theme), 1);
+    this.emitThemes();
   }
 
   /**
@@ -78,8 +86,10 @@ export class ManageThemeComponent implements OnInit {
    * @param themeId L'id du thème à modifier
    * @param themePub L'état de publication souhaité
    */
-  onPublishedTheme(themeId, themePub): void {
-      this.themeService.publishedOneTheme(themeId, themePub);
+  onPublishedTheme(theme, themePub): void {
+      this.themeService.publishedOneTheme(theme._id, themePub);
+      this.themes[this.themes.indexOf(theme)].published = themePub;
+      this.emitThemes();
   }
 
     /**

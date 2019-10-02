@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../../services/authentication.service';
 import { WordService } from '../../services/word.service';
 
 @Component({
@@ -8,8 +9,10 @@ import { WordService } from '../../services/word.service';
 })
 export class DashboardComponent implements OnInit {
   nbWaintingDef: Number;
+  user = this.authService.getUserDetails();
 
-  constructor(private wordService: WordService) {
+  constructor(private wordService: WordService,
+              private authService: AuthenticationService) {
   }
 
   ngOnInit(): void {

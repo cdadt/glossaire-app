@@ -24,9 +24,9 @@
       </header>
       <div>
         <button [routerLink]="['/theme/modifier', theme._id]" class="manage-theme-edit"><i class="fas fa-pencil-alt"></i></button>
-        <button (click)="onPublishedTheme(theme._id, false)" *ngIf="theme.published" class="manage-theme-publication"><i class="fas fa-eye"></i></button>
-        <button (click)="onPublishedTheme(theme._id, true)" *ngIf="!theme.published" class="manage-theme-publication"><i class="fas fa-eye-slash"></i></button>
-        <button class="manage-theme-delete" (click)="onDeleteTheme(theme._id)"><i class="fas fa-trash-alt"></i></button>
+        <button (click)="onPublishedTheme(theme, false)" *ngIf="theme.published" class="manage-theme-publication"><i class="fas fa-eye"></i></button>
+        <button (click)="onPublishedTheme(theme, true)" *ngIf="!theme.published" class="manage-theme-publication"><i class="fas fa-eye-slash"></i></button>
+        <button class="manage-theme-delete" (click)="onDeleteTheme(theme)"><i class="fas fa-trash-alt"></i></button>
       </div>
     </section>
   </div>
