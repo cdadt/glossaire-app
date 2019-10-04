@@ -22,9 +22,10 @@ export class UserService {
    * @param user l'utilisateur à enregistrer
    */
   async register(user: TokenPayload): Promise<void> {
+      const queryType = 'post';
       this.syncService.howToAdd({
           url: `${environment.apiUrl}/users`,
-          params: user,
+          params: { user, queryType },
           option: {
               headers:
                   {
@@ -38,18 +39,17 @@ export class UserService {
    * Méthode pour mettre à jour un utilisateur modifié.
    */
   update(user: User): void {
-    this.http.post(`${environment.apiUrl}/users/update`, user, {
-      headers:
-          {
-            Authorization: `Bearer ${ this.authenticationService.getToken() }`
+      const queryType = 'post';
+      this.syncService.howToAdd({
+          url: `${environment.apiUrl}/users/update`,
+          params: { user, queryType },
+          option: {
+              headers:
+                  {
+                      Authorization: `Bearer ${ this.authenticationService.getToken() }`
+                  }
           }
-    })
-        .subscribe(
-            success => {
-                this.toastr.success('La modification a été effectuée');
-            },
-            error => this.errorActions(error)
-        );
+      });
   }
 
   /**
@@ -66,10 +66,10 @@ export class UserService {
         .toPromise();
   }
 
-    /**
-     * Récupère une liste de user pour la recherche
-     * @param username Le user à rechercher
-     */
+  /**
+   * Récupère une liste de user pour la recherche
+   * @param username Le user à rechercher
+   */
   getUserLikeByUsername(username: string): Promise<object> {
     return this.http.get(`${environment.apiUrl}/users/search`, {
         params: { username },

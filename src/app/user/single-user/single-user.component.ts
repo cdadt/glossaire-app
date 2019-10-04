@@ -40,13 +40,13 @@ export class SingleUserComponent implements OnInit {
    */
   initForm(): void {
     this.editForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.maxLength(30)]],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(60)]],
-      password: [''],
-      firstname: [''],
-      lastname: [''],
-      activated: [''],
-      permissions: ['', Validators.required]
+      username: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(30)]],
+      email: [{ value: '', disabled: true }, [Validators.required, Validators.email, Validators.maxLength(60)]],
+      password: [{ value: '', disabled: true }],
+      firstname: [{ value: '', disabled: true }],
+      lastname: [{ value: '', disabled: true }],
+      activated: [{ value: '', disabled: true }],
+      permissions: [{ value: '', disabled: true }, Validators.required]
     });
   }
 

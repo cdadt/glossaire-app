@@ -72,11 +72,13 @@ export class HomeComponent implements OnInit {
   async ngOnInit(): Promise<any> {
     this.word = (await this.wordService.getLastWord()) as Word;
     this.imageUrl = undefined;
-    if (this.word.img) {
-      this.imageUrl = `${this.word.img.data}`;
-      const imgElement = (document.getElementById('home-image') as HTMLInputElement);
-      imgElement.style.backgroundImage = `url('${this.imageUrl}')`;
-      imgElement.style.flex = '1';
+    if (this.word) {
+      if (this.word.img) {
+        this.imageUrl = `${this.word.img.data}`;
+        const imgElement = (document.getElementById('home-image') as HTMLInputElement);
+        imgElement.style.backgroundImage = `url('${this.imageUrl}')`;
+        imgElement.style.flex = '1';
+      }
     }
 
     /**

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthAdminGuardService } from '../services/auth-admin-guard.service';
 import { AuthEditorGuardService } from '../services/auth-editor-guard.service';
-import { AuthGuardService } from '../services/auth-guard.service';
 import { AuthUserGuardService } from '../services/auth-user-guard.service';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';

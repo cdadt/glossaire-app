@@ -55,20 +55,19 @@ export class SyncService {
    * @param query: la requête à envoyer.
    */
   private addOnline(query: any): void {
-    this.http.post(query.url, query.params, query.option)
-        .subscribe(
-            success => {
-                if (query.params.definition) {
-                    this.notificationService.send(JSON.parse(query.params.get('wordInfo')).title, this.authService.getUserDetails().username)
-                    .subscribe();
-                }
-
-                this.toastr.success('La requête à bien été envoyée');
-            },
-            error => {
-                this.toastr.error('La requête n\'a pas pu être envoyé');
-            }
-        );
+    switch (query.params.queryType) {
+        case 'post': {
+            this.sendPostQuery(query);
+            break;
+        }
+        case 'delete': {
+            this.sendDeleteQuery(query);
+            break;
+        }
+        default: {
+            break;
+        }
+    }
   }
 
   /**
@@ -86,6 +85,41 @@ export class SyncService {
             this.isOnline = false;
           }
     });
+  }
+
+  /**
+   * Méthode permettant d'envoyer une requête de type post.
+   * @param query - La requête à envoyer.
+   */
+  private sendPostQuery(query): void {
+      this.http.post(query.url, query.params, query.option)
+          .subscribe(
+              success => {
+                  if (query.params.wordInfo) {
+                      this.notificationService.send(query.params.wordInfo.title, this.authService.getUserDetails().username)
+                          .subscribe();
+                  }
+                  this.toastr.success('La requête à bien été envoyée');
+              },
+              error => {
+                  this.toastr.error('La requête n\'a pas pu être envoyé');
+              }
+          );
+  }
+
+  /**
+   * Méthode permettant d'envoyer une requête de type delete.
+   * @param query - La requête à envoyer.
+   */
+  private sendDeleteQuery(query): void {
+      this.http.delete(query.url, {
+          headers: query.option.headers,
+          params : query.params
+      })
+          .subscribe(
+              success => this.toastr.success('La requête à bien été envoyée'),
+              error => this.toastr.error('La requête n\'a pas pu être envoyé')
+          );
   }
 
 }

@@ -103,8 +103,8 @@ export class AddWordComponent implements OnInit {
       know_more: this.wordForm.get('knowMore').value,
       themes: themesObj,
       last_edit : new Date().getTime(),
-      published: true,
-      validated: true,
+      published: false,
+      validated: false,
       image: undefined,
       imageSize: undefined,
       legend: undefined

@@ -69,9 +69,10 @@ export class ThemeService {
    * @param theme La liste des infos du mot
    */
   async addTheme(theme): Promise<void> {
+      const queryType = 'post';
       this.syncService.howToAdd({
           url: `${environment.apiUrl}/themes`,
-          params: theme,
+          params: { theme, queryType },
           option: {
               headers:
                   {

@@ -79,10 +79,11 @@ export class WordService {
    * Ajoute une définition et ses informations dans la BDD
    * @param formData Le formData contenant l'image et les informations du mot
    */
-  addWord(formData): void {
+  addWord(wordInfo): void {
+    const queryType = 'post';
     this.syncService.howToAdd({
       url: `${environment.apiUrl}/words`,
-      params: formData,
+      params: { wordInfo, queryType },
       option: {
         headers:
             {
@@ -122,8 +123,8 @@ export class WordService {
    * Méthode permettant d'éditer un mot
    * @param formData Les données des formulaires
    */
-  editWordElements(formData): Promise<any> {
-    return this.http.put(`${environment.apiUrl}/words/edit`, formData, {
+  editWordElements(wordInfo): Promise<any> {
+    return this.http.put(`${environment.apiUrl}/words/edit`, wordInfo, {
       headers: { Authorization: `Bearer ${ this.authService.getToken() }` }
     })
         .toPromise();
@@ -134,16 +135,28 @@ export class WordService {
    * @param wordId L'id du mot à supprimer
    */
   deleteOneWord(wordId): void {
-    this.http.delete(`${environment.apiUrl}/words`, {
-      headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
-      params : { wordId }
-    })
-        .subscribe(
-            success => {
-              //
-            },
-            error => this.errorActions(error)
-        );
+    // this.http.delete(`${environment.apiUrl}/words`, {
+    //   headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
+    //   params : { wordId }
+    // })
+    //     .subscribe(
+    //         success => {
+    //           //
+    //         },
+    //         error => this.errorActions(error)
+    //     );
+
+    const queryType = 'delete';
+    this.syncService.howToAdd({
+      url: `${environment.apiUrl}/words`,
+      params: { wordId, queryType },
+      option: {
+        headers:
+            {
+              Authorization: `Bearer ${ this.authService.getToken() }`
+            }
+      }
+    });
   }
 
   /**

@@ -180,7 +180,7 @@ export class EditWordComponent implements OnInit {
   }
 
     /**
-     * Méthodepermettant de créer un objet wordInfo à envoyer en BDD
+     * Méthode permettant de créer un objet wordInfo à envoyer en BDD
      * @param elemToEdit l'élément à éditer
      * @param elemToEditValue le contenu de l'élément à éditer
      */

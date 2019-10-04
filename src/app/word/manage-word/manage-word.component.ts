@@ -75,7 +75,6 @@ export class ManageWordComponent implements OnInit {
    * Méthode qui permet d'afficher le résulats de la recherche au clic sur la barre de recherche si celle-ci n'est pas vide
    */
   async onDisplayResult(): Promise<void> {
-      console.log(this.queryField.value);
     if (this.queryField.value !== null && this.queryField.value !== '') {
         this.displayResults = true;
         // await this.searchService.search(this.queryField.value)

@@ -43,23 +43,19 @@ export class SingleWordComponent implements OnInit {
   ngOnInit(): void {
     this.loader = true;
     this.route.params.subscribe(async params => {
-        try {
-            this.word = await this.wordService.getWordById(params.id) as Word;
-            this.imageUrl = undefined;
-            if (this.word.img) {
-                this.imageUrl = `${this.word.img.data}`;
-            }
-
-            if (this.authService.isLoggedIn()) {
-                this.user = (await this.userService.getUserLikeByUsername(this.authService.getUserDetails().username))[0] as User;
-                this.isBookmark();
-            }
-            this.testPublicationState();
-            this.open = false;
-            this.loader = false;
-        } catch (error) {
-            this.router.navigateByUrl('/404');
+        this.word = await this.wordService.getWordById(params.id) as Word;
+        this.imageUrl = undefined;
+        if (this.word.img) {
+            this.imageUrl = `${this.word.img.data}`;
         }
+
+        if (this.authService.isLoggedIn()) {
+            this.user = (await this.userService.getUserLikeByUsername(this.authService.getUserDetails().username))[0] as User;
+            this.isBookmark();
+        }
+        this.testPublicationState();
+        this.open = false;
+        this.loader = false;
     });
   }
 

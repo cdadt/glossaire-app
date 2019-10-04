@@ -22,28 +22,28 @@
   <form (ngSubmit)="onSubmitForm()" [formGroup]="editForm" novalidate>
     <div class="authentication-form-group">
       <label>Nom d'utilisateur*</label>
-      <input  class="md-form" mdbInput type="text" class="form-control" formControlName="username" disabled/>
+      <input  class="md-form" mdbInput type="text" class="form-control" formControlName="username"/>
     </div>
 
     <div class="authentication-form-group">
       <label>Adresse mail*</label>
-      <input  class="md-form" mdbInput type="text" class="form-control" formControlName="email" disabled/>
+      <input  class="md-form" mdbInput type="text" class="form-control" formControlName="email"/>
     </div>
 
     <div class="authentication-form-group">
       <label>Nom</label>
-      <input  class="md-form" mdbInput type="text" class="form-control" formControlName="lastname" disabled/>
+      <input  class="md-form" mdbInput type="text" class="form-control" formControlName="lastname"/>
     </div>
 
     <div class="authentication-form-group">
       <label>Prénom</label>
-      <input  class="md-form" mdbInput type="text" class="form-control" formControlName="firstname" disabled/>
+      <input  class="md-form" mdbInput type="text" class="form-control" formControlName="firstname"/>
     </div>
 
     <section class="authentication-form-group">
       <h1>Droits :</h1>
       <div class="register-rights">
-        <select id="selectPermission" class="browser-default custom-select" formControlName="permissions" disabled>
+        <select id="selectPermission" class="browser-default custom-select" formControlName="permissions">
           <option value="1">Utilisateur</option>
           <option value="2">Editeur</option>
           <option value="3">Administrateur</option>
