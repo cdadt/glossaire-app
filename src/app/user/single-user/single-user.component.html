@@ -62,7 +62,7 @@
       <h1>Modification du mot de passe :</h1>
       <div class="authentication-form-group">
         <label>Nouveau mot de passe</label>
-        <input type="password" class="form-control" formControlName="password" (keyup)="setPasswordValidators($event)"/>
+        <input type="password" class="form-control" id="password" formControlName="password" (keyup)="setPasswordValidators($event)"/>
       </div>
       <div class="authentication-form-alert">
         <p *ngIf = "editForm.controls['password'].errors?.maxlength">

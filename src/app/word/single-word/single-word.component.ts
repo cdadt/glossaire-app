@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TimeagoIntl } from 'ngx-timeago';
 import { strings as FrenchStrings } from 'ngx-timeago/language-strings/fr';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { BookmarkService } from '../../../services/bookmark.service';
+import { SyncService } from '../../../services/sync.service';
 import { UserService } from '../../../services/user.service';
 import { WordService } from '../../../services/word.service';
 import User from '../../models/user.model';
@@ -33,7 +34,8 @@ export class SingleWordComponent implements OnInit {
               private authService: AuthenticationService,
               private userService: UserService,
               private toastr: ToastrService,
-              private router: Router) {
+              private router: Router,
+              private syncService: SyncService) {
     // Les fichiers de langue pour le module Ilya(Timeago)
     intl.strings = FrenchStrings;
     intl.changes.next();
@@ -41,7 +43,9 @@ export class SingleWordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loader = true;
+    if (this.syncService.getIsOnline()) {
+      this.loader = true;
+    }
     this.route.params.subscribe(async params => {
         this.word = await this.wordService.getWordById(params.id) as Word;
         this.imageUrl = undefined;

@@ -42,11 +42,11 @@ export class SingleUserComponent implements OnInit {
     this.editForm = this.formBuilder.group({
       username: [{ value: '', disabled: true }, [Validators.required, Validators.maxLength(30)]],
       email: [{ value: '', disabled: true }, [Validators.required, Validators.email, Validators.maxLength(60)]],
-      password: [{ value: '', disabled: true }],
       firstname: [{ value: '', disabled: true }],
       lastname: [{ value: '', disabled: true }],
-      activated: [{ value: '', disabled: true }],
-      permissions: [{ value: '', disabled: true }, Validators.required]
+      permissions: [{ value: '', disabled: true }, Validators.required],
+      activated: [''],
+      password: ['']
     });
   }
 
@@ -71,12 +71,7 @@ export class SingleUserComponent implements OnInit {
    */
   activeEdit(): void {
     this.edit = true;
-
-    for (let i = 0; i < this.inputs.length; i++) {
-      this.inputs[i].removeAttribute('disabled');
-    }
-    const select = document.getElementById('selectPermission') as HTMLSelectElement;
-    select.toggleAttribute('disabled');
+    this.editForm.enable();
   }
 
   /**
@@ -84,13 +79,7 @@ export class SingleUserComponent implements OnInit {
    */
   cancelEdit(): void {
     this.edit = false;
-
-    for (let i = 0; i < this.inputs.length; i++) {
-      this.inputs[i].setAttribute('disabled', 'disabled');
-    }
-    const select = document.getElementById('selectPermission') as HTMLSelectElement;
-    select.toggleAttribute('disabled');
-
+    this.editForm.disable();
     this.editForm.patchValue(this.user);
   }
 
