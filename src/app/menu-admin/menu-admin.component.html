@@ -1,5 +1,11 @@
 <nav class="menu-admin">
   <ul>
+    <li class="violet-button">
+      <a [routerLink]="['']">
+        <i class="fas fa-sign-out-alt"></i>
+        <p>Accueil</p>
+      </a>
+    </li>
     <li class="menu-admin-button blue-button" [ngClass]="{ 'disabled': nbWaintingDef < 1 }">
       <a [routerLink]="['/mot/valider']">
         {{ nbWaintingDef }}
@@ -28,12 +34,6 @@
       <a [routerLink]="['/dashboard']">
         <i class="fas fa-cog"></i>
         <p>Admin</p>
-      </a>
-    </li>
-    <li class="violet-button">
-      <a [routerLink]="['']">
-        <i class="fas fa-sign-out-alt"></i>
-        <p>Accueil</p>
       </a>
     </li>
   </ul>

@@ -9,7 +9,7 @@ import { AuthenticationService } from './authentication.service';
 export class NotificationService {
   readonly VAPID_PUBLIC_KEY = 'BNGmdT-zn-S0tocFwPP9Z6PG3pfouwebPHQ0lpAQg5Z5LLZJ4OdBXz8aN_ct19Bbvi56WeYosu94RCXS34D2NU0';
 
-  private isSubscriber: string;
+  private isSubscriber = 'false';
   private subscription: any | string;
   private errorWhenSubscribe = false;
   private notification: boolean;

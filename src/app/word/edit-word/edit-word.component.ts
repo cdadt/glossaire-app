@@ -260,21 +260,31 @@ export class EditWordComponent implements OnInit {
    */
   async onTogglePublishWord(): Promise<void> {
       if (this.word.published) {
-          const updatePublishState = await this.wordService.publishedOneWord(this.word._id, false);
+          this.wordService.publishedOneWord(this.word._id, false);
+          this.word.published = false;
+          this.emitWord();
+          // const updatePublishState = await this.wordService.publishedOneWord(this.word._id, false);
 
-          if (updatePublishState) {
-              this.word.published = false;
-              this.emitWord();
-          }
+          // if (updatePublishState) {
+          //     this.word.published = false;
+          //     this.emitWord();
+          // }
       } else {
-          const updatePublishState = await this.wordService.publishedOneWord(this.word._id, true);
-          const updateValidateState = await this.wordService.validateOneWord(this.word._id, true);
+          await this.wordService.publishedOneWord(this.word._id, true);
+          await this.wordService.validateOneWord(this.word._id, true);
 
-          if (updatePublishState && updateValidateState) {
-              this.word.validated = true;
-              this.word.published = true;
-              this.emitWord();
-          }
+          this.word.validated = true;
+          this.word.published = true;
+          this.emitWord();
+
+          // const updatePublishState = await this.wordService.publishedOneWord(this.word._id, true);
+          // const updateValidateState = await this.wordService.validateOneWord(this.word._id, true);
+
+          // if (updatePublishState && updateValidateState) {
+          //     this.word.validated = true;
+          //     this.word.published = true;
+          //     this.emitWord();
+          // }
       }
   }
 
@@ -283,21 +293,32 @@ export class EditWordComponent implements OnInit {
     */
   async onToggleValidateWord(): Promise<void> {
       if (this.word.validated) {
-          const updateValidateState = await this.wordService.validateOneWord(this.word._id, false);
-          const updatePublishState = await this.wordService.publishedOneWord(this.word._id, false);
+          await this.wordService.validateOneWord(this.word._id, false);
+          await this.wordService.publishedOneWord(this.word._id, false);
 
-          if (updatePublishState && updateValidateState) {
-              this.word.validated = false;
-              this.word.published = false;
-              this.emitWord();
-          }
+          this.word.validated = false;
+          this.word.published = false;
+          this.emitWord();
+
+          // const updateValidateState = await this.wordService.validateOneWord(this.word._id, false);
+          // const updatePublishState = await this.wordService.publishedOneWord(this.word._id, false);
+
+          // if (updatePublishState && updateValidateState) {
+          //     this.word.validated = false;
+          //     this.word.published = false;
+          //     this.emitWord();
+          // }
       } else {
-          const updateValidateState = await this.wordService.validateOneWord(this.word._id, true);
+          await this.wordService.validateOneWord(this.word._id, true);
+          this.word.validated = true;
+          this.emitWord();
 
-          if (updateValidateState) {
-              this.word.validated = true;
-              this.emitWord();
-          }
+          // const updateValidateState = await this.wordService.validateOneWord(this.word._id, true);
+          //
+          // if (updateValidateState) {
+          //     this.word.validated = true;
+          //     this.emitWord();
+          // }
       }
   }
 

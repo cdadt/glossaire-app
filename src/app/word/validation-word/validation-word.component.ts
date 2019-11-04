@@ -90,15 +90,13 @@ export class ValidationWordComponent implements OnInit {
    * Méthode permettant de valider un mot.
    * @param word
    */
-  onValidateWord(word): void {
-   this.wordService.validateOneWord(word._id, true)
-       .then(success => {
-     this.words[this.words.indexOf(word)].validated = true;
-     if (word.published) {
-       this.words.splice(this.words.indexOf(word), 1);
-     }
-     this.emitWords();
-   });
+  async onValidateWord(word): Promise<void> {
+    await this.wordService.validateOneWord(word._id, true);
+    this.words[this.words.indexOf(word)].validated = true;
+    if (word.published) {
+      this.words.splice(this.words.indexOf(word), 1);
+    }
+    this.emitWords();
   }
 
 }

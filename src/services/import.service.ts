@@ -116,7 +116,9 @@ export class ImportService {
       definition: thisLine[1].trim(),
       know_more: thisLine[2].trim(),
       themes: themesObj,
-      last_edit: new Date().getTime()
+      last_edit: new Date().getTime(),
+      published: true,
+      validated: true
     };
     this.rows.push(wordInfo);
   }

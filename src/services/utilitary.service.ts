@@ -1,11 +1,17 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthenticationService } from './authentication.service';
+import { NotificationService } from './notification.service';
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilitaryService {
 
-  constructor() { }
+  constructor(private http: HttpClient,
+              private authService: AuthenticationService,
+              private notificationService: NotificationService) { }
 
   /**
    * Méthode qui permet de créer un élement HTML.
@@ -40,5 +46,65 @@ export class UtilitaryService {
     for (const elt of elts) {
       elt.toggleAttribute(attributeToggle);
     }
+  }
+
+  /**
+   * Lance la requête au serveur.
+   * @param query: la requête à envoyer.
+   */
+  async sendQuery(query: any): Promise<void> {
+    switch (query.params.queryType) {
+      case 'post': {
+        await this.sendPostQuery(query);
+        break;
+      }
+      case 'delete': {
+        await this.sendDeleteQuery(query);
+        break;
+      }
+      case 'patch': {
+        await this.sendPatchQuery(query);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
+  /**
+   * Méthode permettant d'envoyer une requête de type post.
+   * @param query - La requête à envoyer.
+   */
+  private async sendPostQuery(query): Promise<void> {
+    this.http.post(query.url, query.params, query.option)
+        .subscribe(
+            success => {
+              if (query.params.wordInfo) {
+                this.notificationService.send(query.params.wordInfo.title, this.authService.getUserDetails().username)
+                    .subscribe();
+              }
+            }
+        );
+  }
+
+  /**
+   * Méthode permettant d'envoyer une requête de type delete.
+   * @param query - La requête à envoyer.
+   */
+  private async sendDeleteQuery(query): Promise<void> {
+    this.http.delete(query.url, {
+      headers: query.option.headers,
+      params : query.params
+    })
+        .subscribe();
+  }
+
+  private async sendPatchQuery(query): Promise<void> {
+    this.http.patch(query.url, {
+      headers: query.option.headers,
+      params : query.params
+    })
+        .subscribe();
   }
 }

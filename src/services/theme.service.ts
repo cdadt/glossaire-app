@@ -86,12 +86,18 @@ export class ThemeService {
      * Méthode permettant de supprimer un thème
      * @param theme L'id du thème à supprimer
      */
-  deleteOneTheme(theme): void {
-      this.http.delete(`${environment.apiUrl}/themes`, {
-        headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
-        params : { themeId: theme}
-      })
-          .subscribe();
+  deleteOneTheme(themeId): void {
+    const queryType = 'delete';
+    this.syncService.howToAdd({
+        url: `${environment.apiUrl}/themes`,
+        params: { themeId, queryType },
+        option: {
+            headers:
+                {
+                    Authorization: `Bearer ${ this.authService.getToken() }`
+                }
+        }
+    });
   }
 
     /**

@@ -98,12 +98,18 @@ export class WordService {
    * @param wordId L'id du mot à modifier
    * @param wordPub L'état de publication à appliquer
    */
-  publishedOneWord(wordId, wordPub): Promise<any> {
-    return this.http.patch(`${environment.apiUrl}/words/published`, {
-      headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
-      params : { wordId, wordPub }
-    })
-        .toPromise();
+  publishedOneWord(wordId, wordPub): void {
+    const queryType = 'patch';
+    this.syncService.howToAdd({
+      url: `${environment.apiUrl}/words/published`,
+      params: { wordId, wordPub, queryType },
+      option: {
+        headers:
+            {
+              Authorization: `Bearer ${ this.authService.getToken() }`
+            }
+      }
+    });
   }
 
   /**
@@ -111,12 +117,18 @@ export class WordService {
    * @param wordId L'id du mot à modifier
    * @param wordVali L'état de validation à appliquer
    */
-  validateOneWord(wordId, wordVali): Promise<any> {
-    return this.http.patch(`${environment.apiUrl}/words/validate`, {
-      headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
-      params : { wordId, wordVali }
-    })
-        .toPromise();
+  async validateOneWord(wordId, wordVali): Promise<void> {
+    const queryType = 'patch';
+    this.syncService.howToAdd({
+      url: `${environment.apiUrl}/words/validate`,
+      params: { wordId, wordVali, queryType },
+      option: {
+        headers:
+            {
+              Authorization: `Bearer ${ this.authService.getToken() }`
+            }
+      }
+    });
   }
 
   /**
@@ -135,17 +147,6 @@ export class WordService {
    * @param wordId L'id du mot à supprimer
    */
   deleteOneWord(wordId): void {
-    // this.http.delete(`${environment.apiUrl}/words`, {
-    //   headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
-    //   params : { wordId }
-    // })
-    //     .subscribe(
-    //         success => {
-    //           //
-    //         },
-    //         error => this.errorActions(error)
-    //     );
-
     const queryType = 'delete';
     this.syncService.howToAdd({
       url: `${environment.apiUrl}/words`,

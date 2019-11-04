@@ -5,6 +5,7 @@ import { AuthenticationService } from './authentication.service';
 import { IndexedDbService } from './indexed-db.service';
 import { NotificationService } from './notification.service';
 import { OnlineOfflineService } from './online-offline.service';
+import { UtilitaryService } from './utilitary.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,7 @@ export class SyncService {
               private readonly onlineOfflineService: OnlineOfflineService,
               private indexedDBService: IndexedDbService,
               private toastr: ToastrService,
-              private authService: AuthenticationService,
-              private notificationService: NotificationService) {
+              private utilitaryService: UtilitaryService) {
     if (this.isOnline) {
       this.indexedDBService.sendStockedQueries();
     }
@@ -29,7 +29,7 @@ export class SyncService {
    * Détermine le type de traitement de la requête selon si l'on est connecté ou non.
    * @param query: la requête à ajouter.
    */
-  howToAdd(query: any): void {
+  async howToAdd(query: any): Promise<void> {
     if (this.isOnline) {
       this.addOnline(query);
     } else {
@@ -54,20 +54,12 @@ export class SyncService {
    * Lance la requête au serveur.
    * @param query: la requête à envoyer.
    */
-  private addOnline(query: any): void {
-    switch (query.params.queryType) {
-        case 'post': {
-            this.sendPostQuery(query);
-            break;
-        }
-        case 'delete': {
-            this.sendDeleteQuery(query);
-            break;
-        }
-        default: {
-            break;
-        }
-    }
+  private async addOnline(query: any): Promise<void> {
+    this.utilitaryService.sendQuery(query)
+        .then(
+            success => this.toastr.success('La requête à bien été envoyée'),
+            error => this.toastr.error('La requête n\'a pas pu être envoyée')
+        );
   }
 
   /**
@@ -85,41 +77,6 @@ export class SyncService {
             this.isOnline = false;
           }
     });
-  }
-
-  /**
-   * Méthode permettant d'envoyer une requête de type post.
-   * @param query - La requête à envoyer.
-   */
-  private sendPostQuery(query): void {
-      this.http.post(query.url, query.params, query.option)
-          .subscribe(
-              success => {
-                  if (query.params.wordInfo) {
-                      this.notificationService.send(query.params.wordInfo.title, this.authService.getUserDetails().username)
-                          .subscribe();
-                  }
-                  this.toastr.success('La requête à bien été envoyée');
-              },
-              error => {
-                  this.toastr.error('La requête n\'a pas pu être envoyé');
-              }
-          );
-  }
-
-  /**
-   * Méthode permettant d'envoyer une requête de type delete.
-   * @param query - La requête à envoyer.
-   */
-  private sendDeleteQuery(query): void {
-      this.http.delete(query.url, {
-          headers: query.option.headers,
-          params : query.params
-      })
-          .subscribe(
-              success => this.toastr.success('La requête à bien été envoyée'),
-              error => this.toastr.error('La requête n\'a pas pu être envoyé')
-          );
   }
 
 }

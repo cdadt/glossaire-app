@@ -4,6 +4,7 @@ import Dexie from 'dexie';
 import { ToastrService } from 'ngx-toastr';
 import { AuthenticationService } from './authentication.service';
 import { NotificationService } from './notification.service';
+import { UtilitaryService } from './utilitary.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class IndexedDbService {
   constructor(private http: HttpClient,
               private toastr: ToastrService,
               private notificationService: NotificationService,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              private utilitaryService: UtilitaryService) {
     this.createDatabase();
   }
 
@@ -85,8 +87,7 @@ export class IndexedDbService {
    * @param query: la requête à envoyer.
    */
   private async sendQuery(query: any): Promise<any> {
-    this.http.post(query.url, query.params, query.option)
-        .subscribe();
+    this.utilitaryService.sendQuery(query);
   }
 
   /**

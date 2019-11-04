@@ -20,13 +20,20 @@ export class BookmarkService {
    * @param userID L'id de l'utilisateur souhaitant ajouter un favori
    * @param bookmark Le favori à ajouter au format JSON
    */
-  addBookmark(userID, bookmark): Promise<any> {
+  async addBookmark(userID, bookmark): Promise<void> {
     const params = { bookmark, userID };
 
-    return this.http.post(`${environment.apiUrl}/users/bookmark`, params, {
-      headers: { Authorization: `Bearer ${ this.authService.getToken() }` }
-    })
-        .toPromise();
+    const queryType = 'post';
+    this.syncService.howToAdd({
+      url: `${environment.apiUrl}/users/bookmark`,
+      params: { params, queryType },
+      option: {
+        headers:
+            {
+              Authorization: `Bearer ${ this.authService.getToken() }`
+            }
+      }
+    });
   }
 
   /**
@@ -34,12 +41,18 @@ export class BookmarkService {
    * @param userID L'id de l'utilisateur souhaitant supprimer le favori
    * @param wordID L'id du mot à supprimer
    */
-  deleteBookmark(userID, wordID): Promise<any> {
-    return this.http.delete(`${environment.apiUrl}/users/bookmark`, {
-      headers: { Authorization: `Bearer ${ this.authService.getToken() }` },
-      params : { wordID, userID }
-    })
-        .toPromise();
+  async deleteBookmark(userID, wordID): Promise<void> {
+    const queryType = 'delete';
+    this.syncService.howToAdd({
+      url: `${environment.apiUrl}/users/bookmark`,
+      params: { wordID, userID, queryType },
+      option: {
+        headers:
+            {
+              Authorization: `Bearer ${ this.authService.getToken() }`
+            }
+      }
+    });
   }
 
   verifyBookmarkPresence(userID, wordID): Promise<any> {
