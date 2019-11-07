@@ -8,5 +8,6 @@ if (environment.production) {
   enableProdMode();
 }
 
+// tslint:disable-next-line:newline-per-chained-call
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));

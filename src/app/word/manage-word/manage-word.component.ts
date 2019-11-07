@@ -56,7 +56,7 @@ export class ManageWordComponent implements OnInit {
   }
 
   /**
-   * Méthode permettant d'initaliser le forulaire de recherche de thème
+   * Méthode permettant d'initaliser le formulaire de recherche de thème
    */
   initSearchForm(): void {
     this.searchWordForm = this.formBuilder.group({

@@ -11,7 +11,7 @@ export class AuthAdminGuardService {
 
   /**
    * Si l'authentification n'est pas effectuée, on redirige l'utilisateur vers la page de connexion
-   * Si l'utilisateur connecté n'as pas les droits nécéssaires, on le redirige sur la page d'accueil
+   * Si l'utilisateur connecté n'as pas les droits nécessaires, on le redirige sur la page d'accueil
    */
   canActivate(): boolean {
     if (!this.authService.isLoggedIn()) {

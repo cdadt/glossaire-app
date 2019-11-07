@@ -60,12 +60,24 @@
       </div>
     </div>
 
-    <div class="add-theme-form-submit">
+
+       <div class="add-theme-form-submit">
+
+
+         <button type="reset"
+                 class="btn btn-warning"  [routerLink]="['/dashboard']">
+           <i class="fal fa-times-circle"></i>
+           Annuler
+
+         </button>
+
       <button type="submit"
               [disabled]="themeForm.invalid || illustration.invalidSize"
-              class="btn"><i class="fas fa-check"></i> Enregistrer
+              class="btn btn-success"><i class="fas fa-check"></i> Enregistrer
       </button>
-    </div>
+          </div>
+
+
   </form>
   <!--Formulaire d'ajout d'une définition -->
 </main>

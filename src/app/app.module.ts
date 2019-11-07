@@ -46,6 +46,7 @@ import { FourohfourComponent } from './fourohfour/fourohfour.component';
 import { ForgottenPswComponent } from './user/forgotten-psw/forgotten-psw.component';
 import { ReinitiatePswComponent } from './user/reinitiate-psw/reinitiate-psw.component';
 
+
 export class MyIntl extends TimeagoIntl {
 // do extra stuff here...
 }

@@ -122,9 +122,18 @@
     </section>
 
     <div class="register-form-submit">
+
+
+      <button type="reset"
+              class="btn btn-warning"  [routerLink]="['/dashboard']">
+        <i class="fal fa-times-circle"></i>
+        Annuler
+
+      </button>
+
       <button type="submit"
               [disabled]="authForm.invalid"
-              class="btn"><i class="fas fa-check"></i>Ajouter
+              class="btn btn-success"><i class="fas fa-check"></i>Ajouter
       </button>
     </div>
   </form>

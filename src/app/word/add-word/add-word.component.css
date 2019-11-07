@@ -25,12 +25,18 @@
 .register-form-submit button {
   box-shadow: none;
   color: white;
-  background: #2db25d;
-  border: solid 1px #2db25d;
   padding: 0.375em 0.75em;
   font-size: 1em;
-  margin:0;
+  margin:10px;
   text-transform: initial;
+}
+.cancel{
+  background: #b2190f;
+  border: solid 1px #b2190f;
+}
+.submit{
+  background: #2db25d;
+  border: solid 1px #2db25d;
 }
 
 .authentication-form-submit button:hover {

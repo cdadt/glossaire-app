@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { ImageInfos, ImageService } from '../../../services/image.service';
 import { ThemeService } from '../../../services/theme.service';
+// tslint:disable-next-line:no-default-import
 import Theme from '../../models/theme.model';
 import { imageValidator } from '../../validators/image-validator.directive';
 
