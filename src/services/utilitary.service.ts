@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { NotificationService } from './notification.service';
 import {environment} from "../environments/environment";
+import {tap} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -52,18 +53,18 @@ export class UtilitaryService {
    * Lance la requête au serveur.
    * @param query: la requête à envoyer.
    */
-  async sendQuery(query: any): Promise<void> {
+  async sendQuery(query: any): Promise<any> {
     switch (query.params.queryType) {
       case 'post': {
-        await this.sendPostQuery(query);
+        return this.sendPostQuery(query);
         break;
       }
       case 'delete': {
-        await this.sendDeleteQuery(query);
+        return this.sendDeleteQuery(query);
         break;
       }
       case 'patch': {
-        await this.sendPatchQuery(query);
+        return this.sendPatchQuery(query);
         break;
       }
       default: {
@@ -76,35 +77,36 @@ export class UtilitaryService {
    * Méthode permettant d'envoyer une requête de type post.
    * @param query - La requête à envoyer.
    */
-  private async sendPostQuery(query): Promise<void> {
-    this.http.post(query.url, query.params, query.option)
-        .subscribe(
-            success => {
-              if (query.params.wordInfo) {
-                this.notificationService.send(query.params.wordInfo.title, this.authService.getUserDetails().username)
-                    .subscribe();
-              }
+  private async sendPostQuery(query): Promise<any> {
+    return this.http.post(query.url, query.params, query.option)
+        .pipe(
+          tap(val => {
+            if (query.params.wordInfo) {
+              this.notificationService.send(query.params.wordInfo.title, this.authService.getUserDetails().username)
+                  .subscribe();
             }
-        );
+          })
+    )
+        .toPromise();
   }
 
   /**
    * Méthode permettant d'envoyer une requête de type delete.
    * @param query - La requête à envoyer.
    */
-  private async sendDeleteQuery(query): Promise<void> {
-    this.http.delete(query.url, {
+  private async sendDeleteQuery(query): Promise<any> {
+    return this.http.delete(query.url, {
       headers: query.option.headers,
       params : query.params
     })
-        .subscribe();
+        .toPromise();
   }
 
-  private async sendPatchQuery(query): Promise<void> {
-    this.http.patch(query.url, {
+  private async sendPatchQuery(query): Promise<any> {
+    return this.http.patch(query.url, {
       headers: query.option.headers,
       params : query.params
     })
-        .subscribe();
+        .toPromise();
   }
 }

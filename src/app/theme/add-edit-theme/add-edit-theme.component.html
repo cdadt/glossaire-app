@@ -61,21 +61,14 @@
     </div>
 
 
-       <div class="add-theme-form-submit">
-
-
-         <button type="reset"
-                 class="btn btn-warning"  [routerLink]="['/dashboard']">
-           <i class="fal fa-times-circle"></i>
-           Annuler
-
+     <div class="add-theme-form-submit">
+         <button type="reset" class="btn btn-warning"  [routerLink]="['/dashboard']">
+           <i class="fas fa-times-circle"></i>Annuler
          </button>
-
-      <button type="submit"
-              [disabled]="themeForm.invalid || illustration.invalidSize"
-              class="btn btn-success"><i class="fas fa-check"></i> Enregistrer
-      </button>
-          </div>
+        <button type="submit" [disabled]="themeForm.invalid || illustration.invalidSize" class="btn btn-success">
+          <i class="fas fa-check"></i> Enregistrer
+        </button>
+      </div>
 
 
   </form>

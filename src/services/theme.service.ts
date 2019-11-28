@@ -117,20 +117,11 @@ export class ThemeService {
      * Méthode permettant de modifier un thème
      * @param theme Le thème à éditer avec ses informations
      */
-  editOneTheme(theme): void {
-        this.http.put(`${environment.apiUrl}/themes`, theme, {
+  async editOneTheme(theme): Promise<any> {
+        return this.http.put(`${environment.apiUrl}/themes`, theme, {
             headers: { Authorization: `Bearer ${ this.authService.getToken() }` }
         })
-            .subscribe(
-                // success => {
-                //     this.getThemesOnOpen()
-                //         .then(
-                //             () => this.emitThemes()
-                //         );
-                //     this.toastr.success('La requête à bien été envoyée');
-                // },
-                // error => this.errorActions(error)
-            );
+            .toPromise();
     }
 
   errorActions(error): void {

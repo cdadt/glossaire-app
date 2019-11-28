@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { AuthenticationService } from './authentication.service';
 import { IndexedDbService } from './indexed-db.service';
-import { NotificationService } from './notification.service';
 import { OnlineOfflineService } from './online-offline.service';
 import { UtilitaryService } from './utilitary.service';
 
@@ -57,8 +55,8 @@ export class SyncService {
   private async addOnline(query: any): Promise<void> {
     this.utilitaryService.sendQuery(query)
         .then(
-            success => this.toastr.success('La requête à bien été envoyée'),
-            error => this.toastr.error('La requête n\'a pas pu être envoyée')
+            success => this.toastr.success('La requête a bien été envoyée.'),
+            error => this.toastr.error(error.error)
         );
   }
 

@@ -40,9 +40,11 @@ export class AddEditThemeComponent implements OnInit {
         if (params.id !== undefined) {
           this.themeToEdit = await this.themeService.getThemeById(params.id) as Theme;
           this.initThemeForm(this.themeToEdit.title);
-          this.imageService.image.imageUrl = `${this.themeToEdit.img.data}`;
-          this.imageService.image.imageSize = Math.round(parseInt(this.themeToEdit.img.size, 10) / 10000) / 100;
-          this.imageService.emitImage();
+          if (this.themeToEdit.img) {
+            this.imageService.image.imageUrl = `${this.themeToEdit.img.data}`;
+            this.imageService.image.imageSize = Math.round(parseInt(this.themeToEdit.img.size, 10) / 10000) / 100;
+            this.imageService.emitImage();
+          }
         }
       } catch (error) {
         this.router.navigateByUrl('/404');
@@ -114,11 +116,12 @@ export class AddEditThemeComponent implements OnInit {
    * Méthode permettant d'envoyer les informations du thème ajoute ou modifié en BDD
    * @param themeInfo L'objet Thème
    */
-  sendThemeInfo(themeInfo): void {
+  async sendThemeInfo(themeInfo): Promise<void> {
     if (this.themeToEdit) {
       themeInfo._id = this.themeToEdit._id;
       themeInfo.published = this.themeToEdit.published;
-      this.themeService.editOneTheme(themeInfo);
+      await this.themeService.editOneTheme(themeInfo);
+      this.router.navigateByUrl('/theme/gerer');
     } else {
       themeInfo.published = true;
       this.themeForm.get('theme')
