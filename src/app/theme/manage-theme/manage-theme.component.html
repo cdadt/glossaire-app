@@ -26,9 +26,23 @@
         <button [routerLink]="['/theme/modifier', theme._id]" class="manage-theme-edit"><i class="fas fa-pencil-alt"></i></button>
         <button (click)="onPublishedTheme(theme, false)" *ngIf="theme.published" class="manage-theme-publication"><i class="fas fa-eye"></i></button>
         <button (click)="onPublishedTheme(theme, true)" *ngIf="!theme.published" class="manage-theme-publication"><i class="fas fa-eye-slash"></i></button>
-        <button class="manage-theme-delete" (click)="onDeleteTheme(theme)"><i class="fas fa-trash-alt"></i></button>
+        <button class="manage-theme-delete" (click)="onDisplayDeleteWindow(theme)"><i class="fas fa-trash-alt"></i></button>
       </div>
     </section>
+
+    <!-- Fenêtre de confirmation de suppression -->
+    <div class="overlay" *ngIf="displayDeleteWindow"></div>
+    <section class="modal-delete-theme" *ngIf="displayDeleteWindow">
+      <header>
+        <h1>Supprimer</h1>
+      </header>
+      <p>Souhaitez-vous supprimer cette définition ?</p>
+      <div>
+        <button class="btn btn-danger" (click)="onDeleteTheme()">Oui</button>
+        <button class="btn" (click)="onCancelDelete()">Non</button>
+      </div>
+    </section>
+    <!-- Fenêtre de confirmation de suppression -->
   </div>
   <!-- Liste des thèmes -->
 </main>

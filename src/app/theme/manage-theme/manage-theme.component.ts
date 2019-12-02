@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import {Subject, Subscription} from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { SearchService } from '../../../services/search.service';
 import { ThemeService } from '../../../services/theme.service';
@@ -18,6 +18,8 @@ export class ManageThemeComponent implements OnInit {
   themesSubscription: Subscription;
   searchThemeForm;
   queryField: FormControl = new FormControl ();
+  displayDeleteWindow: boolean;
+  themeToDelete;
 
   constructor(private themeService: ThemeService,
               private formBuilder: FormBuilder,
@@ -75,10 +77,12 @@ export class ManageThemeComponent implements OnInit {
      * Méthode permettant de supprimer un thème
      * @param themeId L'id du thème à supprimer
      */
-  onDeleteTheme(theme): void {
-    this.themeService.deleteOneTheme(theme._id);
-    this.themes.splice(this.themes.indexOf(theme), 1);
+  onDeleteTheme(): void {
+    this.themeService.deleteOneTheme(this.themeToDelete._id);
+    this.themes.splice(this.themes.indexOf(this.themeToDelete), 1);
     this.emitThemes();
+    this.themeToDelete = undefined;
+    this.displayDeleteWindow = false;
   }
 
   /**
@@ -97,5 +101,21 @@ export class ManageThemeComponent implements OnInit {
      */
   onCancel(): void {
       this.queryField.reset();
+  }
+
+    /**
+     * Méthode permettant d'annuler la suppression d'un mot
+     */
+  onCancelDelete(): void {
+      this.themeToDelete = undefined;
+      this.displayDeleteWindow = false;
+  }
+
+    /**
+     * Méthode permettant d'afficher la fenêtre de suppression d'un mot
+     */
+  onDisplayDeleteWindow(theme): void {
+      this.themeToDelete = theme;
+      this.displayDeleteWindow = true;
   }
 }
