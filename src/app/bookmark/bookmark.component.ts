@@ -47,7 +47,6 @@ export class BookmarkComponent implements OnInit {
   onDeleteWordBookmark(word): void {
   this.bookmarkService.deleteBookmark(this.user._id, word._id)
       .then(success => {
-    this.toastr.success('Favoris supprimé avec succès');
     this.user.bookmark.splice(this.user.bookmark.indexOf(word), 1);
     this.emitUser();
   })

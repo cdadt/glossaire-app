@@ -100,7 +100,6 @@ export class SingleWordComponent implements OnInit {
     };
     this.bookmarkService.addBookmark(this.user._id, bookmark)
         .then(success => {
-          this.toastr.success('Le mot a été ajouté à vos favoris');
           this.bookmark = true;
         })
         .catch(err => {
@@ -114,7 +113,6 @@ export class SingleWordComponent implements OnInit {
   onDeleteBookmark(): void {
     this.bookmarkService.deleteBookmark(this.user._id, this.word._id)
         .then(success => {
-          this.toastr.success('Le mot a été supprimé de vos favoris');
           this.bookmark = false;
         })
         .catch(err => {
